@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Rock（蕭啟漢）會計家教，財報商業思維課程。會計實務10年+、大學助教6年，結合AI學習技術，幫助職場人士提升專業技能。LINE @365poxew">
+<meta property="og:title" content="Rock 會計家教 · 看懂數字，看透商業">
+<meta property="og:description" content="不是死板的會計課。用真實企業案例，把財報規則翻譯成你能直接用的商業語言。">
+<title>Rock 會計家教 · 財報商業思維</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0c0c0c;--paper:#f4efe6;--gold:#c9a84c;--gold2:#e8c96a;
+  --red:#b83225;--muted:#6b6357;--border:rgba(201,168,76,.22);
+  --green:#06C755;--purple:#6c5ce7;--yt:#FF0000;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--ink);color:var(--paper);overflow-x:hidden}
+
+/* TICKER */
+.ticker{background:var(--gold);color:var(--ink);font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:7px 0;overflow:hidden;white-space:nowrap;position:sticky;top:0;z-index:100}
+.ticker-inner{display:inline-block;animation:tick 34s linear infinite}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* NAV */
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 48px;border-bottom:1px solid var(--border);gap:12px;flex-wrap:wrap}
+.nav-brand{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--gold)}
+.nav-brand span{font-weight:400;font-style:italic;font-size:13px;color:var(--muted);margin-left:6px}
+.nav-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.nav-yt{background:#1a1a1a;color:#fff;font-size:11px;font-weight:500;padding:8px 14px;border:1px solid rgba(255,0,0,.3);display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:border-color .2s,background .2s}
+.nav-yt:hover{border-color:var(--yt);background:#200000}
+.nav-line{background:var(--green);color:#fff;font-size:12px;font-weight:500;padding:9px 18px;border:none;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:background .2s}
+.nav-line:hover{background:#05b34c}
+.ico{width:14px;height:14px;fill:#fff;flex-shrink:0}
+
+/* HERO */
+.hero{min-height:90vh;display:grid;grid-template-rows:1fr auto;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 65% 35%,rgba(201,168,76,.08) 0%,transparent 65%),radial-gradient(ellipse 45% 70% at 5% 85%,rgba(184,50,37,.06) 0%,transparent 60%)}
+.grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.03) 1px,transparent 1px);background-size:56px 56px}
+.hero-inner{display:flex;flex-direction:column;justify-content:center;padding:60px 48px 32px;position:relative;z-index:5;max-width:860px}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--gold)}
+h1{font-family:'Playfair Display',serif;font-size:clamp(42px,7vw,86px);font-weight:900;line-height:.97;letter-spacing:-.025em;color:var(--paper)}
+h1 em{font-style:italic;color:var(--gold)}
+h1 .sub{font-size:.44em;font-weight:400;font-style:italic;color:#7a7060;display:block;margin-top:12px;letter-spacing:0;line-height:1.4}
+.hero-desc{font-size:16px;color:#a09080;font-weight:300;line-height:1.75;max-width:500px;margin:26px 0 38px}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn-line-lg{background:var(--green);color:#fff;font-size:14px;font-weight:500;padding:14px 28px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:background .2s,transform .15s}
+.btn-line-lg:hover{background:#05b34c;transform:translateY(-1px)}
+.btn-yt-lg{background:#1a1a1a;color:#fff;font-size:13px;padding:14px 22px;border:1px solid rgba(255,0,0,.4);display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:border-color .2s,background .2s}
+.btn-yt-lg:hover{border-color:var(--yt);background:#200000}
+.btn-ghost{background:transparent;color:var(--paper);font-size:13px;padding:14px 20px;border:1px solid rgba(245,240,232,.15);cursor:pointer;transition:border-color .2s,color .2s}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border)}
+@media(max-width:520px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+.stat{padding:20px 24px;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'Playfair Display',serif;font-size:27px;font-weight:700;color:var(--paper);line-height:1}
+.stat-l{font-size:10px;color:var(--muted);margin-top:4px;letter-spacing:.09em;text-transform:uppercase}
+
+/* QUOTE */
+.quote-band{background:var(--paper);color:var(--ink);padding:52px 48px;position:relative;overflow:hidden}
+.quote-band::before{content:'"';font-family:'Playfair Display',serif;font-size:260px;color:rgba(0,0,0,.04);position:absolute;top:-45px;left:10px;line-height:1;pointer-events:none}
+.quote-text{font-family:'Playfair Display',serif;font-size:clamp(20px,3vw,34px);font-style:italic;line-height:1.45;max-width:660px;position:relative;z-index:1}
+.quote-text strong{font-style:normal;font-weight:900;color:var(--red)}
+.quote-by{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:14px;position:relative;z-index:1}
+
+/* SECTION BASE */
+section{padding:72px 48px}
+.sec-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;margin-bottom:13px}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,40px);font-weight:700;line-height:1.15;color:var(--paper);margin-bottom:10px}
+.sec-desc{font-size:15px;color:#9a9080;line-height:1.7;max-width:520px;margin-bottom:36px}
+
+/* PLATFORMS */
+.platforms{background:#0d0d0d}
+.platform-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+@media(max-width:580px){.platform-grid{grid-template-columns:1fr}}
+.platform-card{background:#111;padding:26px 24px;display:flex;flex-direction:column;gap:10px;transition:background .2s}
+.platform-card:hover{background:#181510}
+.platform-icon{font-size:22px}
+.platform-name{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase}
+.platform-desc{font-size:13px;color:#7a7060;line-height:1.65;flex:1}
+.platform-link{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-decoration:none;transition:color .2s}
+.platform-link:hover{color:var(--gold)}
+
+/* ANNUAL */
+.annual{background:#0f0f0f}
+.annual-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:28px}
+@media(max-width:560px){.annual-kpi{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:#141414;padding:22px 20px;text-align:center}
+.kpi-icon{font-size:20px;margin-bottom:7px}
+.kpi-n{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--paper);line-height:1}
+.kpi-n span{font-size:15px;font-weight:400;color:var(--muted)}
+.kpi-l{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.05em}
+.annual-bottom{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:620px){.annual-bottom{grid-template-columns:1fr}}
+.students-box{background:#181818;border:1px solid var(--border);padding:22px}
+.students-box h3{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--paper);margin-bottom:14px}
+.rank-item{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid rgba(201,168,76,.08)}
+.rank-item:last-child{border-bottom:none;padding-bottom:0}
+.rank-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid var(--border);width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.rank-title{font-size:13px;color:var(--paper);font-weight:500}
+.rank-desc{font-size:11px;color:var(--muted);margin-top:2px}
+.remo-box{background:linear-gradient(135deg,#1a1040 0%,#0d0820 100%);border:1px solid rgba(108,92,231,.3);padding:22px;position:relative;overflow:hidden}
+.remo-box::before{content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;background:radial-gradient(circle,rgba(108,92,231,.18),transparent 70%);pointer-events:none}
+.remo-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;color:#a29af0;text-transform:uppercase;margin-bottom:9px}
+.remo-box h3{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#fff;margin-bottom:10px}
+.remo-box p{font-size:13px;color:#b0a8d8;line-height:1.7}
+.remo-quote{font-size:12px;color:#8880c0;font-style:italic;margin-top:10px}
+.remo-heart{font-size:20px;margin-top:12px}
+
+/* PROFILE */
+.profile{background:#111}
+.profile-grid{display:grid;grid-template-columns:200px 1fr;gap:44px;align-items:start;max-width:900px}
+@media(max-width:640px){.profile-grid{grid-template-columns:1fr}}
+.profile-card{background:#1a1a1a;border:1px solid var(--border);padding:24px;text-align:center}
+.avatar-ring{width:86px;height:86px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#7a4a10);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:var(--ink)}
+.profile-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--paper)}
+.profile-title{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;letter-spacing:.08em;margin-top:4px}
+.profile-badges{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:11px}
+.badge{background:rgba(201,168,76,.1);border:1px solid var(--border);color:var(--gold);font-size:10px;font-family:'DM Mono',monospace;padding:3px 8px;letter-spacing:.03em}
+.profile-bio h2{font-family:'Playfair Display',serif;font-size:25px;font-weight:700;color:var(--paper);margin-bottom:13px;line-height:1.2}
+.profile-bio p{font-size:14px;color:#9a9080;line-height:1.8;margin-bottom:11px}
+.hl{color:var(--gold);font-weight:500}
+.exp-row{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+.exp-chip{background:#1a1a1a;border:1px solid var(--border);padding:7px 12px;font-size:12px;color:var(--paper);display:flex;align-items:center;gap:5px}
+.exp-chip strong{color:var(--gold);font-family:'DM Mono',monospace}
+
+/* AUDIENCE */
+.audience{background:#0a0a0a}
+.aud-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.aud-card{background:#0a0a0a;padding:22px 19px;transition:background .2s}
+.aud-card:hover{background:#181410}
+.aud-icon{font-size:22px;margin-bottom:8px}
+.aud-card h3{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--paper);margin-bottom:6px}
+.aud-card p{font-size:12px;color:#706860;line-height:1.65}
+
+/* CURRICULUM */
+.curriculum{background:#090909}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:24px;overflow-x:auto}
+.tab{background:none;border:none;color:#6b6357;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:12px 15px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s}
+.tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.tab:hover{color:var(--paper)}
+.panel{display:none}.panel.on{display:block}
+.lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.lsn{background:#0d0d0d;padding:16px 18px;display:flex;gap:11px;align-items:flex-start;transition:background .15s}
+.lsn:hover{background:#181410}
+.lsn-n{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);opacity:.5;min-width:20px;padding-top:1px}
+.lsn-title{font-size:13px;color:var(--paper);line-height:1.4}
+.lsn-tag{display:block;font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);margin-top:3px;letter-spacing:.04em}
+
+/* REVIEWS */
+.reviews{background:#111}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:13px}
+.rv{background:#181818;border:1px solid var(--border);padding:19px;transition:transform .15s}
+.rv:hover{transform:translateY(-2px)}
+.stars{color:var(--gold);font-size:11px;margin-bottom:8px;letter-spacing:2px}
+.rv-text{font-size:13px;color:#a09080;line-height:1.7;font-style:italic}
+.rv-by{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:9px}
+
+/* YT */
+.yt-section{background:#0d0d0d}
+.yt-banner{background:#111;border:1px solid rgba(255,0,0,.2);padding:32px;display:flex;align-items:center;gap:28px;flex-wrap:wrap;transition:border-color .2s;text-decoration:none}
+.yt-banner:hover{border-color:rgba(255,0,0,.5)}
+.yt-icon-wrap{width:60px;height:60px;background:var(--yt);display:flex;align-items:center;justify-content:center;flex-shrink:0;border-radius:4px}
+.yt-icon-wrap svg{width:28px;height:28px;fill:#fff}
+.yt-info{flex:1}
+.yt-info h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--paper);margin-bottom:6px}
+.yt-info p{font-size:13px;color:#7a7060;line-height:1.6;max-width:500px}
+.btn-yt-red{background:var(--yt);color:#fff;font-size:13px;font-weight:500;padding:12px 24px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:background .2s;white-space:nowrap;border-radius:2px}
+.btn-yt-red:hover{background:#cc0000}
+.yt-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.yt-chip{background:rgba(255,0,0,.08);border:1px solid rgba(255,0,0,.2);color:#ff6666;font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px}
+
+/* DIFF */
+.diff{background:#0a0a0a}
+.diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:36px}
+@media(max-width:540px){.diff-grid{grid-template-columns:1fr}}
+.diff-item{border-left:2px solid var(--gold);padding-left:16px}
+.diff-item h3{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--paper);margin-bottom:6px}
+.diff-item p{font-size:13px;color:#706860;line-height:1.75}
+
+/* CASES */
+.cases{background:var(--paper);color:var(--ink)}
+.cases .sec-title{color:var(--ink)}.cases .sec-label{color:var(--red)}.cases .sec-desc{color:#5a5048}
+.case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:11px}
+.case-card{background:#fff;border:1px solid #e0d5c5;padding:17px;transition:transform .15s,box-shadow .15s}
+.case-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.09)}
+.case-tag{font-family:'DM Mono',monospace;font-size:10px;color:var(--red);letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}
+.case-card h3{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:5px}
+.case-card p{font-size:12px;color:#7a7060;line-height:1.6}
+
+/* CTA */
+.cta{background:var(--gold);color:var(--ink);padding:72px 48px;text-align:center;position:relative;overflow:hidden}
+.cta::before{content:'Rock';font-family:'Playfair Display',serif;font-size:200px;font-weight:900;color:rgba(0,0,0,.05);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none}
+.cta h2{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,48px);font-weight:900;line-height:1.1;position:relative;z-index:1;margin-bottom:12px}
+.cta p{font-size:15px;color:rgba(14,14,14,.65);position:relative;z-index:1;margin-bottom:28px;max-width:420px;margin-left:auto;margin-right:auto}
+.cta-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.btn-dark{background:var(--ink);color:var(--gold);font-size:14px;font-weight:500;padding:14px 30px;border:none;cursor:pointer;transition:background .2s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn-dark:hover{background:#1c1c1c}
+.btn-dark-yt{background:#1a0000;color:#ff8888;font-size:13px;padding:14px 24px;border:1px solid rgba(255,0,0,.4);text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background .2s}
+.btn-dark-yt:hover{background:#2a0000}
+.cta-note{font-size:11px;color:rgba(14,14,14,.4);margin-top:12px;font-family:'DM Mono',monospace;position:relative;z-index:1}
+
+/* FOOTER */
+footer{background:#060606;padding:24px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border)}
+.ft-brand{font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);font-weight:700}
+.ft-links{display:flex;gap:16px;flex-wrap:wrap}
+.ft-link{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-decoration:none;transition:color .2s}
+.ft-link:hover{color:var(--gold)}
+
+@media(max-width:768px){
+  nav,section,.cta,footer{padding-left:24px;padding-right:24px}
+  .hero-inner{padding:40px 24px 24px}
+  .quote-band{padding:40px 24px}
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero-inner>*{animation:fadeUp .6s ease both}
+.eyebrow{animation-delay:.1s}h1{animation-delay:.2s}.hero-desc{animation-delay:.3s}.hero-btns{animation-delay:.4s}
+
+/* LINE SVG */
+.line-svg{width:16px;height:16px;fill:#fff;flex-shrink:0}
+.yt-svg{width:16px;height:16px;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <span class="ticker-inner">
+    🔥 蕭啟漢老師 &nbsp;·&nbsp; 會計實務10年+ &nbsp;·&nbsp; 大學助教6年 &nbsp;·&nbsp; 結合AI學習技術 &nbsp;·&nbsp; 430堂2025完課 &nbsp;·&nbsp; 週末分享40場 &nbsp;·&nbsp; 現金流才是血液 &nbsp;·&nbsp; 獲利是意見，現金是事實 &nbsp;·&nbsp; 輸出的人，收獲最多 &nbsp;·&nbsp; 🔥 蕭啟漢老師 &nbsp;·&nbsp; 會計實務10年+ &nbsp;·&nbsp; 大學助教6年 &nbsp;·&nbsp; 結合AI學習技術 &nbsp;·&nbsp; 430堂2025完課 &nbsp;·&nbsp; 週末分享40場 &nbsp;·&nbsp; 現金流才是血液 &nbsp;·&nbsp; 獲利是意見，現金是事實 &nbsp;·&nbsp; 輸出的人，收獲最多 &nbsp;·&nbsp;
+  </span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Rock <span>會計家教</span></div>
+  <div class="nav-right">
+    <a class="nav-yt" href="https://www.youtube.com/@Brothergo99" target="_blank">
+      <svg class="ico" viewBox="0 0 24 24"><path fill="#FF0000" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      YouTube
+    </a>
+    <a class="nav-line" href="https://line.me/R/ti/p/@365poxew" target="_blank">
+      <svg class="line-svg" viewBox="0 0 24 24"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+      加 LINE 免費諮詢
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="grid-lines"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">會計家教 Rock · 蕭啟漢老師</div>
+    <h1>看懂數字，<br><em>看透商業</em><span class="sub">實務10年 × 教學6年 × 結合AI學習技術</span></h1>
+    <p class="hero-desc">不是死板的會計課。Rock 老師把財報規則翻譯成你能直接用的商業語言，幫助職場人士、備考學生與投資人真正學會看懂數字。</p>
+    <div class="hero-btns">
+      <a class="btn-line-lg" href="https://line.me/R/ti/p/@365poxew" target="_blank">
+        <svg class="line-svg" viewBox="0 0 24 24"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+        加 LINE 免費諮詢
+      </a>
+      <a class="btn-yt-lg" href="https://www.youtube.com/@Brothergo99" target="_blank">
+        <svg class="yt-svg" fill="#FF0000" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        免費看週末分享
+      </a>
+      <button class="btn-ghost" onclick="document.querySelector('.curriculum').scrollIntoView({behavior:'smooth'})">課程內容 →</button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-n">10+</div><div class="stat-l">年實務經驗</div></div>
+    <div class="stat"><div class="stat-n">430</div><div class="stat-l">2025完課堂數</div></div>
+    <div class="stat"><div class="stat-n">80</div><div class="stat-l">五星好評</div></div>
+    <div class="stat"><div class="stat-n">40</div><div class="stat-l">週末分享場次</div></div>
+  </div>
+</div>
+
+<!-- QUOTE -->
+<div class="quote-band">
+  <div class="quote-text">財報不是帳本，是企業<strong>試圖隱藏的故事</strong>。<br>我教你怎麼把它找出來。</div>
+  <div class="quote-by">— Rock（蕭啟漢）｜會計實務10年 · 大學助教6年 · AmazingTalker 五星講師</div>
+</div>
+
+<!-- PLATFORMS -->
+<section class="platforms">
+  <div class="sec-label">找到 Rock 老師</div>
+  <div class="sec-title">三個平台，一個目標</div>
+  <p class="sec-desc">從免費短影音到一對一深度教學，透過不同管道接觸適合你的學習內容。</p>
+  <div class="platform-grid">
+    <div class="platform-card">
+      <div class="platform-icon">📺</div>
+      <div class="platform-name">YouTube</div>
+      <div class="platform-desc">每週週末知識分享剪輯，一分鐘學會看財務報表、三個關鍵財務指標，26部短影音免費公開。</div>
+      <a class="platform-link" href="https://www.youtube.com/@Brothergo99" target="_blank">@Brothergo99 →</a>
+    </div>
+    <div class="platform-card">
+      <div class="platform-icon">💬</div>
+      <div class="platform-name">LINE 一對一</div>
+      <div class="platform-desc">免費諮詢了解你的學習目標，Rock 老師量身規劃課程方向，不論備考、投資或職場需求。</div>
+      <a class="platform-link" href="https://line.me/R/ti/p/@365poxew" target="_blank">@365poxew →</a>
+    </div>
+    <div class="platform-card">
+      <div class="platform-icon">🎓</div>
+      <div class="platform-name">AmazingTalker</div>
+      <div class="platform-desc">平台上346堂完課紀錄，五星評價可直接查閱，從高中到大學會計、ACCA備考皆有。</div>
+      <a class="platform-link" href="https://tw.amazingtalker.com/teachers-and-tutors/364fc2c3-f93f-4701-9b96-72f9ba4c9bfe" target="_blank">查看評價紀錄 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ANNUAL -->
+<section class="annual">
+  <div class="sec-label">2025 年度教學成就報告</div>
+  <div class="sec-title">數字說話，故事更說話</div>
+  <p class="sec-desc">2025 年是 Rock 老師跨出線上、走進現場的一年。數字背後，是一個個真實的學習轉變。</p>
+  <div class="annual-kpi">
+    <div class="kpi"><div class="kpi-icon">📖</div><div class="kpi-n">430<span> 堂</span></div><div class="kpi-l">個人家教課程</div></div>
+    <div class="kpi"><div class="kpi-icon">📢</div><div class="kpi-n">40<span> 場</span></div><div class="kpi-l">週末知識分享</div></div>
+    <div class="kpi"><div class="kpi-icon">🎬</div><div class="kpi-n">26<span> 部</span></div><div class="kpi-l">短影音產出</div></div>
+    <div class="kpi"><div class="kpi-icon">🤖</div><div class="kpi-n" style="font-size:18px;padding-top:8px">AI 輔助</div><div class="kpi-l">課後簡報自動化</div></div>
+  </div>
+  <div class="annual-bottom">
+    <div class="students-box">
+      <h3>🏆 年度影響力學生 TOP 3</h3>
+      <div class="rank-item"><div class="rank-num">1</div><div><div class="rank-title">外交特考挑戰者</div><div class="rank-desc">應屆畢業生，準備應對國家考試需求</div></div></div>
+      <div class="rank-item"><div class="rank-num">2</div><div><div class="rank-title">準主辦會計的姊姊</div><div class="rank-desc">從記帳升級，深化實務邏輯</div></div></div>
+      <div class="rank-item"><div class="rank-num">3</div><div><div class="rank-title">溜冰教練</div><div class="rank-desc">跨領域財報閱讀與商業應用</div></div></div>
+    </div>
+    <div class="remo-box">
+      <div class="remo-tag">年度最大改變</div>
+      <h3>REMO 瑞摩智能：走進現場</h3>
+      <p>從線上課程跨越到實體現場，真切體會教學的溫度。雙向互動確認了自己對教育事業最純粹的熱愛。</p>
+      <div class="remo-quote">「輸出的人，收獲最多。」</div>
+      <div class="remo-heart">❤️ 真心熱愛教學 · 莫忘初衷</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section class="profile">
+  <div class="profile-grid">
+    <div>
+      <div class="profile-card">
+        <div class="avatar-ring">R</div>
+        <div class="profile-name">蕭啟漢 Rock</div>
+        <div class="profile-title">會計家教 · 財報思維講師</div>
+        <div class="profile-badges">
+          <span class="badge">實務10年+</span><span class="badge">大學助教6年</span>
+          <span class="badge">ACCA備考</span><span class="badge">初/中/高會</span>
+          <span class="badge">成管會</span><span class="badge">AI學習技術</span>
+        </div>
+      </div>
+    </div>
+    <div class="profile-bio">
+      <h2>實務 × 教學 × AI，<br>幫職場人士真正學會數字</h2>
+      <p>你好，我是 Rock（蕭啟漢）。<span class="hl">會計實務10年以上經驗</span>讓我清楚財報在真實職場的意義；<span class="hl">大學六年助教資歷</span>讓我熟悉不同程度學生的學習障礙。</p>
+      <p>我的教學核心：<span class="hl">結合AI學習技術，把死板的會計規則翻譯成你能直接用的商業語言</span>。無論備考、看財報、還是釐清職場數字，我會在第一堂課深入了解你的需求，量身設計。</p>
+      <p>2025年完成430堂家教課，40場週末知識分享，26部短影音。走進 REMO 瑞摩智能實體現場那天，確認了：<span class="hl">教學是我最純粹的熱愛</span>。</p>
+      <div class="exp-row">
+        <div class="exp-chip"><strong>10yr+</strong> 會計實務</div>
+        <div class="exp-chip"><strong>6yr</strong> 大學助教</div>
+        <div class="exp-chip"><strong>AI</strong> 輔助教學</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIENCE -->
+<section class="audience">
+  <div class="sec-label">這堂課適合你嗎？</div>
+  <div class="sec-title">你不需要任何背景，<br>你需要的是對的老師</div>
+  <div class="aud-grid">
+    <div class="aud-card"><div class="aud-icon">📈</div><h3>投資人 / 散戶</h3><p>看懂財報選股，不再只靠消息和感覺。</p></div>
+    <div class="aud-card"><div class="aud-icon">💼</div><h3>職場工作者</h3><p>在會議室看懂數字，提出財務見解。</p></div>
+    <div class="aud-card"><div class="aud-icon">🎓</div><h3>備考學生</h3><p>初會、中會、高會、ACCA——搞懂邏輯。</p></div>
+    <div class="aud-card"><div class="aud-icon">🚀</div><h3>創業者 / 接班人</h3><p>看懂自家財報，做好資金決策。</p></div>
+    <div class="aud-card"><div class="aud-icon">🏢</div><h3>會計從業人員</h3><p>從記帳思維升級到財務分析視野。</p></div>
+    <div class="aud-card"><div class="aud-icon">⛸️</div><h3>跨領域學習者</h3><p>像溜冰教練一樣，任何人都能學財報。</p></div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="curriculum">
+  <div class="sec-label">課程內容</div>
+  <div class="sec-title">16 堂，四個學習層次</div>
+  <p class="sec-desc">每一堂對應真實企業情境，循序漸進從基礎建立到案例實戰。</p>
+  <div class="tabs">
+    <button class="tab on" onclick="sw(this,'p1')">入門基礎</button>
+    <button class="tab" onclick="sw(this,'p2')">財報核心</button>
+    <button class="tab" onclick="sw(this,'p3')">商業模式</button>
+    <button class="tab" onclick="sw(this,'p4')">估值與股市</button>
+  </div>
+  <div id="p1" class="panel on"><div class="lessons">
+    <div class="lsn"><div class="lsn-n">01</div><div><div class="lsn-title">財商基礎思維</div><span class="lsn-tag">總經 · 商業模式 · 個人財商</span></div></div>
+    <div class="lsn"><div class="lsn-n">02</div><div><div class="lsn-title">三大財務報表入門</div><span class="lsn-tag">損益表 · 資產負債表 · 現金流量表</span></div></div>
+    <div class="lsn"><div class="lsn-n">03</div><div><div class="lsn-title">401報表 vs. 會計師簽證財報</div><span class="lsn-tag">以摩斯漢堡為例</span></div></div>
+  </div></div>
+  <div id="p2" class="panel"><div class="lessons">
+    <div class="lsn"><div class="lsn-n">04</div><div><div class="lsn-title">成本結構拆解</div><span class="lsn-tag">直接材料 · 人工 · 製造費用 · 折舊</span></div></div>
+    <div class="lsn"><div class="lsn-n">05</div><div><div class="lsn-title">現金流照妖鏡</div><span class="lsn-tag">瓦城 · 八方雲集 · 摩斯漢堡</span></div></div>
+    <div class="lsn"><div class="lsn-n">06</div><div><div class="lsn-title">邊際貢獻與損益兩平</div><span class="lsn-tag">接單決策 · 特殊訂單 · 沉沒成本</span></div></div>
+    <div class="lsn"><div class="lsn-n">07</div><div><div class="lsn-title">財報鑑識：找地雷</div><span class="lsn-tag">現金流 · 應收帳款 · 存貨異常</span></div></div>
+    <div class="lsn"><div class="lsn-n">08</div><div><div class="lsn-title">損益表八大準則</div><span class="lsn-tag">LVMH · 台積電 · 龍巖 · 雲報能源</span></div></div>
+    <div class="lsn"><div class="lsn-n">09</div><div><div class="lsn-title">財務分析語言</div><span class="lsn-tag">調整後指標 · 保時捷 · 資生堂</span></div></div>
+    <div class="lsn"><div class="lsn-n">10</div><div><div class="lsn-title">IFRS 9 金融資產</div><span class="lsn-tag">FVTPL · FVOCI · AC 分類邏輯</span></div></div>
+  </div></div>
+  <div id="p3" class="panel"><div class="lessons">
+    <div class="lsn"><div class="lsn-n">11</div><div><div class="lsn-title">LINE Pay 高成長悖論</div><span class="lsn-tag">電支轉型 · 護城河 · 估值</span></div></div>
+    <div class="lsn"><div class="lsn-n">12</div><div><div class="lsn-title">HYROX 商業飛輪</div><span class="lsn-tag">情緒變現 · 動態定價 · LTV</span></div></div>
+    <div class="lsn"><div class="lsn-n">13</div><div><div class="lsn-title">皮克敏 O2O 藍海策略</div><span class="lsn-tag">零獲客成本 · 虛實融合</span></div></div>
+    <div class="lsn"><div class="lsn-n">14</div><div><div class="lsn-title">資本支出與 O2O 引流</div><span class="lsn-tag">NPV · 機會成本 · CAC vs. LTV</span></div></div>
+    <div class="lsn"><div class="lsn-n">15</div><div><div class="lsn-title">中租 vs. 華固</div><span class="lsn-tag">用別人的錢賺錢 · 槓桿結構</span></div></div>
+  </div></div>
+  <div id="p4" class="panel"><div class="lessons">
+    <div class="lsn"><div class="lsn-n">16</div><div><div class="lsn-title">財報與估值的關係</div><span class="lsn-tag">微軟案例 · PE · 市場預期</span></div></div>
+    <div class="lsn"><div class="lsn-n">17</div><div><div class="lsn-title">穩懋 vs. 微軟：平庸逆襲</div><span class="lsn-tag">折舊 · 隱藏現金流 · 估值校正</span></div></div>
+    <div class="lsn"><div class="lsn-n">18</div><div><div class="lsn-title">股票分割與流動性</div><span class="lsn-tag">0050 · Tesla · 價格 vs. 價值</span></div></div>
+    <div class="lsn"><div class="lsn-n">19</div><div><div class="lsn-title">富喬 AI 題材財報深掘</div><span class="lsn-tag">現金流背離 · 以短支長</span></div></div>
+  </div></div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews">
+  <div class="sec-label">學生怎麼說</div>
+  <div class="sec-title">80 則真實評價</div>
+  <div class="review-grid">
+    <div class="rv"><div class="stars">★★★★★</div><div class="rv-text">財報沒有人教真的不行，看書只能知道最表淺的內容，這真是 AmazingTalker 上最有價值的一堂課。</div><div class="rv-by">Hsiao Yin Hsu · 2024</div></div>
+    <div class="rv"><div class="stars">★★★★★</div><div class="rv-text">老師直接就學生想了解的公司財報來看，體驗課後直接買了20堂。看過很多財報書都看不懂，非常需要老師一步一步帶。</div><div class="rv-by">匿名學生 · 2024</div></div>
+    <div class="rv"><div class="stars">★★★★★</div><div class="rv-text">看了張明輝會計師的兩本書兩次，都不如老師的一堂課。老師講解的親民、淺顯易懂，推推。</div><div class="rv-by">匿名學生 · 2024</div></div>
+    <div class="rv"><div class="stars">★★★★★</div><div class="rv-text">因老師待過業界和學術界，課堂中結合實務，以淺顯易懂的方式讓我快速理解，值得推薦的好老師。</div><div class="rv-by">Erin · 2024</div></div>
+    <div class="rv"><div class="stars">★★★★★</div><div class="rv-text">老師背景專業，教學深入淺出，專注考試教學。</div><div class="rv-by">Andy Chuang · 2025</div></div>
+    <div class="rv"><div class="stars">★★★★★</div><div class="rv-text">第一次遇到這麼有趣的會計，也會盡可能把財務報表變得容易理解！</div><div class="rv-by">匿名學生 · 2024</div></div>
+  </div>
+</section>
+
+<!-- YT -->
+<section class="yt-section">
+  <div class="sec-label">免費學習資源</div>
+  <div class="sec-title">先免費看看，<br>再決定要不要上課</div>
+  <p class="sec-desc">每週週末知識分享，26部短影音全部公開在 YouTube。</p>
+  <a class="yt-banner" href="https://www.youtube.com/@Brothergo99" target="_blank">
+    <div class="yt-icon-wrap"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></div>
+    <div class="yt-info">
+      <h3>Rock 的週末財報分享</h3>
+      <p>一分鐘學會看財務報表、從車行經營者出發的財報概念、三個關鍵財務指標——26部短影音，涵蓋各種商業與財報主題。</p>
+      <div class="yt-chips">
+        <span class="yt-chip">一分鐘財報</span><span class="yt-chip">商業案例</span>
+        <span class="yt-chip">AI應用</span><span class="yt-chip">職場財商</span><span class="yt-chip">週末分享剪輯</span>
+      </div>
+    </div>
+    <span class="btn-yt-red"><svg style="width:16px;height:16px;fill:#fff" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>前往 YouTube →</span>
+  </a>
+</section>
+
+<!-- DIFF -->
+<section class="diff">
+  <div class="sec-label">Rock 老師的教學特色</div>
+  <div class="sec-title">不只教你考試，<br>教你看懂世界</div>
+  <div class="diff-grid">
+    <div class="diff-item"><h3>個人化設計課程</h3><p>第一堂課深入了解需求，量身安排進度與教材，不套模板。</p></div>
+    <div class="diff-item"><h3>真實案例驅動</h3><p>台積電、摩斯、微軟、LINE Pay——每個概念用你聽過的公司說明。</p></div>
+    <div class="diff-item"><h3>實務10年 × 教學6年</h3><p>業界實務讓你學到「財報在職場的真正用途」；學術基礎讓你紮實理解每個規則。</p></div>
+    <div class="diff-item"><h3>AI 輔助 · 課後筆記</h3><p>Rock 老師導入AI分析課程錄影，自動產出結構化課後簡報，讓每次學習都有完整複習素材。</p></div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="cases">
+  <div class="sec-label">課程亮點案例</div>
+  <div class="sec-title">你會分析這些真實故事</div>
+  <p class="sec-desc">你生活中接觸過的品牌，背後的財務邏輯。</p>
+  <div class="case-grid">
+    <div class="case-card"><div class="case-tag">餐飲業</div><h3>摩斯漢堡「假虧損」解密</h3><p>帳面虧損但現金源源不絕，折舊如何合法創造紙面損失？</p></div>
+    <div class="case-card"><div class="case-tag">科技股</div><h3>微軟財報新高，股價跌25%</h3><p>PE收縮與AI敘事轉換——好公司為什麼股價會跌？</p></div>
+    <div class="case-card"><div class="case-tag">支付 FinTech</div><h3>LINE Pay 從$934跌到$300</h3><p>營收第一、市佔最大，市場為什麼用腳投票？</p></div>
+    <div class="case-card"><div class="case-tag">運動商業</div><h3>HYROX 讓你甘願花$11,500</h3><p>從門票到完整生態系的情緒變現飛輪完整拆解。</p></div>
+    <div class="case-card"><div class="case-tag">電動車</div><h3>電動車「越賠越做」的秘密</h3><p>邊際貢獻、沉沒成本與政府補貼的真實博弈。</p></div>
+    <div class="case-card"><div class="case-tag">手遊 O2O</div><h3>皮克敏用「走路」賺破億美金</h3><p>零廣告費的藍海策略與虛實整合變現邏輯。</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta">
+  <h2>準備好了嗎？<br>跟 Rock 老師一起開始</h2>
+  <p>加 LINE 免費諮詢，說說你的目標，Rock 老師幫你規劃最適合的學習路徑。</p>
+  <div class="cta-btns">
+    <a class="btn-dark" href="https://line.me/R/ti/p/@365poxew" target="_blank">
+      <svg class="line-svg" viewBox="0 0 24 24"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+      加 LINE 免費諮詢
+    </a>
+    <a class="btn-dark-yt" href="https://www.youtube.com/@Brothergo99" target="_blank">
+      <svg class="yt-svg" fill="#ff8888" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      先看免費影片
+    </a>
+  </div>
+  <div class="cta-note">LINE @365poxew &nbsp;·&nbsp; YouTube @Brothergo99 &nbsp;·&nbsp; AmazingTalker 五星講師 &nbsp;·&nbsp; Threads @brothergo99</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-brand">Rock 會計家教 · 蕭啟漢</div>
+  <div class="ft-links">
+    <a class="ft-link" href="https://line.me/R/ti/p/@365poxew" target="_blank">LINE @365poxew</a>
+    <a class="ft-link" href="https://www.youtube.com/@Brothergo99" target="_blank">YouTube @Brothergo99</a>
+    <a class="ft-link" href="https://www.threads.com/@brothergo99" target="_blank">Threads @brothergo99</a>
+    <a class="ft-link" href="https://tw.amazingtalker.com/teachers-and-tutors/364fc2c3-f93f-4701-9b96-72f9ba4c9bfe" target="_blank">AmazingTalker</a>
+  </div>
+</footer>
+
+<script>
+function sw(btn,id){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');document.getElementById(id).classList.add('on');
+}
+</script>
+</body>
+</html>
