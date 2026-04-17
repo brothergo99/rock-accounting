@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SEN5194YPE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-SEN5194YPE');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Rock（蕭啟漢）會計家教，財報商業思維課程。會計實務10年以上、大學助教6年，結合AI學習技術幫助職場人士提升專業技能。初會、中會、高會、成管會、財報閱讀。LINE @365poxew，每週日晚上9點 Ekkorn 直播。">
@@ -500,6 +508,51 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
 </footer>
 
 <script>
+</script>
+<script>
+// Google Analytics 事件追蹤
+document.addEventListener('DOMContentLoaded', function(){
+  // LINE 連結
+  document.querySelectorAll('a[href*="line.me"]').forEach(function(el){
+    el.addEventListener('click', function(){
+      if (typeof gtag === 'function') {
+        gtag('event', 'click_line', { event_category: 'contact', event_label: 'LINE_365poxew' });
+      }
+    });
+  });
+  // Ekkorn 直播連結
+  document.querySelectorAll('a[href*="ekkorn.com"]').forEach(function(el){
+    el.addEventListener('click', function(){
+      if (typeof gtag === 'function') {
+        gtag('event', 'click_ekkorn_live', { event_category: 'engagement', event_label: 'Ekkorn_Sunday_21' });
+      }
+    });
+  });
+  // YouTube 連結
+  document.querySelectorAll('a[href*="youtube.com"]').forEach(function(el){
+    el.addEventListener('click', function(){
+      if (typeof gtag === 'function') {
+        gtag('event', 'click_youtube', { event_category: 'engagement', event_label: 'YouTube_Brothergo99' });
+      }
+    });
+  });
+  // AmazingTalker 連結
+  document.querySelectorAll('a[href*="amazingtalker.com"]').forEach(function(el){
+    el.addEventListener('click', function(){
+      if (typeof gtag === 'function') {
+        gtag('event', 'click_amazingtalker', { event_category: 'conversion', event_label: 'AmazingTalker_Profile' });
+      }
+    });
+  });
+  // Threads 連結
+  document.querySelectorAll('a[href*="threads.com"], a[href*="threads.net"]').forEach(function(el){
+    el.addEventListener('click', function(){
+      if (typeof gtag === 'function') {
+        gtag('event', 'click_threads', { event_category: 'engagement', event_label: 'Threads_brothergo99' });
+      }
+    });
+  });
+});
 </script>
 </body>
 </html>
