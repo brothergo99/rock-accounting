@@ -225,6 +225,14 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
   nav,section,.remo-section,.cta,footer{padding-left:24px;padding-right:24px}
   .hero{padding:48px 24px 0}
 }
+/* ===== Platform Buttons (明顯可點擊按鈕) ===== */
+.platform-btn{display:block;width:100%;padding:13px 18px;margin-top:8px;border-radius:9px;font-size:13px;font-weight:700;text-decoration:none;text-align:center;letter-spacing:.02em;transition:transform .15s ease,filter .15s ease,box-shadow .15s ease;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.platform-btn:hover{transform:translateY(-3px);filter:brightness(1.08);box-shadow:0 10px 24px rgba(0,0,0,.28)}
+.platform-btn:active{transform:translateY(0) scale(.98)}
+.btn-ekkorn{background:linear-gradient(135deg,#FF6B1A,#E8500A);color:#fff}
+.btn-youtube{background:#cc0000;color:#fff}
+.btn-line{background:#06C755;color:#fff}
+.btn-at{background:#F4A426;color:#fff}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .hero-inner>*{animation:fadeUp .6s ease both}
 .eyebrow{animation-delay:.1s}h1{animation-delay:.2s}.hero-desc{animation-delay:.3s}.hero-btns{animation-delay:.4s}
@@ -309,25 +317,25 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
       <div class="platform-icon">🔴</div>
       <div class="platform-name" style="color:#E8500A">Ekkorn 直播</div>
       <div class="platform-desc">每週日晚上 9:00 即時直播，財報商業思維互動教學，歡迎即時提問。</div>
-      <a class="platform-link" style="color:#E8500A;font-weight:700" href="https://share.ekkorn.com/share/share.html#/profile/jFwLDXvG" target="_blank">立即追蹤 → 每週日 21:00</a>
+      <a class="platform-btn btn-ekkorn" href="https://share.ekkorn.com/share/share.html#/profile/jFwLDXvG" target="_blank">🔴 立即追蹤 · 每週日 21:00</a>
     </div>
     <div class="platform-card">
       <div class="platform-icon">📺</div>
       <div class="platform-name">YouTube</div>
       <div class="platform-desc">直播課程錄影分享，26部短影音免費公開，一分鐘學會看財務報表。</div>
-      <a class="platform-link" href="https://www.youtube.com/@Brothergo99" target="_blank">@Brothergo99 →</a>
+      <a class="platform-btn btn-youtube" href="https://www.youtube.com/@Brothergo99" target="_blank">▶ 前往 YouTube 頻道</a>
     </div>
     <div class="platform-card">
       <div class="platform-icon">💬</div>
       <div class="platform-name">LINE 一對一</div>
       <div class="platform-desc">免費諮詢了解你的學習目標，Rock 老師量身規劃課程方向。</div>
-      <a class="platform-link" href="https://line.me/R/ti/p/@365poxew" target="_blank">@365poxew →</a>
+      <a class="platform-btn btn-line" href="https://line.me/R/ti/p/@365poxew" target="_blank">💬 加 LINE 免費諮詢</a>
     </div>
     <div class="platform-card">
       <div class="platform-icon">🎓</div>
       <div class="platform-name">AmazingTalker</div>
       <div class="platform-desc">平台上346堂完課紀錄，五星評價可直接查閱，從高中到大學會計皆有。</div>
-      <a class="platform-link" href="https://tw.amazingtalker.com/teachers-and-tutors/364fc2c3-f93f-4701-9b96-72f9ba4c9bfe" target="_blank">查看評價紀錄 →</a>
+      <a class="platform-btn btn-at" href="https://tw.amazingtalker.com/teachers-and-tutors/364fc2c3-f93f-4701-9b96-72f9ba4c9bfe" target="_blank">⭐ 查看五星評價紀錄</a>
     </div>
   </div>
 </section>
