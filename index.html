@@ -234,6 +234,36 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
 .btn-line{background:#06C755;color:#fff}
 .btn-at{background:#F4A426;color:#fff}
 
+/* ===== Course Map Entry ===== */
+.coursemap-section{background:var(--cream2);padding:72px 48px}
+.coursemap-banner{display:grid;grid-template-columns:1fr auto;align-items:center;gap:32px;background:linear-gradient(135deg,#1A0A00 0%,#2E1200 50%,#1A0A00 100%);border-radius:16px;padding:40px 44px;text-decoration:none;transition:.2s;position:relative;overflow:hidden}
+.coursemap-banner::before{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(245,129,42,.2),transparent 70%);pointer-events:none}
+.coursemap-banner::after{content:'';position:absolute;bottom:-40px;left:40px;width:180px;height:180px;background:radial-gradient(circle,rgba(245,129,42,.08),transparent 70%);pointer-events:none}
+.coursemap-banner:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.35)}
+.cm-left{position:relative;z-index:1}
+.cm-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.25em;color:var(--orange3);text-transform:uppercase;margin-bottom:10px}
+.cm-title{font-family:'Playfair Display',serif;font-size:clamp(22px,3.5vw,36px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:10px}
+.cm-title em{color:var(--orange2);font-style:italic}
+.cm-desc{font-size:13px;color:rgba(255,255,255,.65);line-height:1.75;max-width:520px}
+.cm-stats{display:flex;gap:28px;margin-top:18px;flex-wrap:wrap}
+.cm-stat{text-align:center}
+.cm-stat-n{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--orange2);line-height:1}
+.cm-stat-l{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.08em;margin-top:3px}
+.cm-right{flex-shrink:0;position:relative;z-index:1}
+.cm-cta-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#FF6B1A,#E8500A);color:#fff;font-size:14px;font-weight:700;padding:14px 26px;border-radius:10px;text-decoration:none;white-space:nowrap;box-shadow:0 4px 16px rgba(245,129,42,.4);transition:.2s}
+.cm-cta-btn:hover{filter:brightness(1.1);box-shadow:0 8px 24px rgba(245,129,42,.5)}
+.cm-levels{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.cm-level{font-family:'DM Mono',monospace;font-size:9px;padding:4px 10px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.lvl1{background:rgba(59,130,246,.25);color:#93C5FD}
+.lvl2{background:rgba(20,160,133,.25);color:#6EE7D0}
+.lvl3{background:rgba(139,92,246,.25);color:#C4B5FD}
+.lvl4{background:rgba(249,115,22,.25);color:#FDBA74}
+@media(max-width:680px){
+  .coursemap-section{padding-left:24px;padding-right:24px}
+  .coursemap-banner{grid-template-columns:1fr;gap:20px;padding:28px 24px}
+  .cm-right{display:flex;justify-content:flex-start}
+}
+
 /* ===== Weekly Shares Section ===== */
 .weekly-section{background:var(--white);padding:72px 48px}
 .weekly-featured{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;background:linear-gradient(135deg,#FFF4E6,#FFE8CC);border:2px solid var(--orange);border-radius:14px;padding:22px 26px;text-decoration:none;margin-bottom:20px;transition:.2s}
@@ -293,6 +323,7 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
 <nav>
   <div class="nav-brand">Rock <span>會計家教</span></div>
   <div class="nav-right">
+    <a style="background:transparent;color:var(--brown2);font-size:12px;font-weight:500;padding:8px 14px;border:1.5px solid var(--orange3);display:inline-flex;align-items:center;gap:5px;text-decoration:none;border-radius:4px;transition:.2s" href="https://brothergo99.github.io/rock-accounting-students/goodbook/%E8%AA%B2%E7%A8%8B%E5%85%A8%E8%B2%8C_16%E5%A0%82.html" target="_blank" onmouseover="this.style.borderColor='var(--orange)';this.style.color='var(--orange)'" onmouseout="this.style.borderColor='var(--orange3)';this.style.color='var(--brown2)'">📚 課程地圖</a>
     <a class="nav-ekkorn" href="https://share.ekkorn.com/share/share.html#/profile/jFwLDXvG" target="_blank">
       <span class="live-dot"></span>
       每週日 21:00 直播
@@ -301,7 +332,7 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
       <svg width="14" height="14" viewBox="0 0 24 24"><path fill="#cc0000" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
       YouTube
     </a>
-    <a class="nav-line" href="https://line.me/R/ti/p/@365poxew" onclick="gtag('event', 'click_line', {'event_category': 'conversion', 'event_label': 'line_contact'})" target="_blank">
+    <a class="nav-line" href="https://line.me/R/ti/p/@365poxew" target="_blank">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
       加 LINE 免費諮詢
     </a>
@@ -315,7 +346,7 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
     <h1>看懂數字，<br><em>看透商業</em><span class="sub">實務10年 × 教學6年 × 結合AI學習技術</span></h1>
     <p class="hero-desc">不是死板的會計課。Rock 老師把財報規則翻譯成你能直接用的商業語言，幫助職場人士、備考學生與投資人真正學會看懂數字。</p>
     <div class="hero-btns">
-      <a class="btn-line-lg" href="https://line.me/R/ti/p/@365poxew" onclick="gtag('event', 'click_line', {'event_category': 'conversion', 'event_label': 'line_contact'})" target="_blank">
+      <a class="btn-line-lg" href="https://line.me/R/ti/p/@365poxew" target="_blank">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
         加 LINE 免費諮詢
       </a>
@@ -364,7 +395,7 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
       <div class="platform-icon">💬</div>
       <div class="platform-name">LINE 一對一</div>
       <div class="platform-desc">免費諮詢了解你的學習目標，Rock 老師量身規劃課程方向。</div>
-      <a class="platform-btn btn-line" href="https://line.me/R/ti/p/@365poxew" onclick="gtag('event', 'click_line', {'event_category': 'conversion', 'event_label': 'line_contact'})" target="_blank">💬 加 LINE 免費諮詢</a>
+      <a class="platform-btn btn-line" href="https://line.me/R/ti/p/@365poxew" target="_blank">💬 加 LINE 免費諮詢</a>
     </div>
     <div class="platform-card">
       <div class="platform-icon">🎓</div>
@@ -380,8 +411,7 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
 <!-- ════════════════════════════════════════════
      每週更新 SOP（2分鐘）：
      1. 改本週標題與日期
-     2. 上週卡加進 weekly-grid，連結用：
-        https://brothergo99.github.io/rock-accounting-students/goodbook/MMDD_好書分享_一頁式.html
+     2. 上週卡加進 weekly-grid
      3. 超過 7 筆時移除最舊一筆
      ════════════════════════════════════════════ -->
 <section class="weekly-section">
@@ -401,7 +431,6 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
 
   <div class="weekly-archive-title">· 往期回顧 ·</div>
   <div class="weekly-grid">
-
     <div class="wc">
       <div class="wc-date">2026 / 04 / 19</div>
       <div class="wc-title">好書分享《極限銷售》謝文憲（憲哥）</div>
@@ -410,7 +439,6 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
         <span class="wc-btn soon">▶ YT 上傳中</span>
       </div>
     </div>
-
     <div class="wc">
       <div class="wc-date">2026 / 04 / 12</div>
       <div class="wc-title">《大會計師帶你看財報》統一超商財報透視</div>
@@ -419,7 +447,6 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
         <span class="wc-btn soon">▶ YT 上傳中</span>
       </div>
     </div>
-
     <div class="wc">
       <div class="wc-date">2026 / 03 / 29</div>
       <div class="wc-title">好書分享《誘因設計》讓行為自動導航</div>
@@ -428,7 +455,6 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
         <span class="wc-btn soon">▶ YT 上傳中</span>
       </div>
     </div>
-
     <div class="wc">
       <div class="wc-date">2026 / 03 / 22</div>
       <div class="wc-title">皮克敏商業模式 — 披著計步器的空間廣告網路</div>
@@ -437,7 +463,6 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
         <span class="wc-btn soon">▶ YT 上傳中</span>
       </div>
     </div>
-
     <div class="wc">
       <div class="wc-date">2026 / 03 / 15</div>
       <div class="wc-title">郝旭烈《18堂孩子的財商金頭腦養成課》</div>
@@ -446,7 +471,6 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
         <span class="wc-btn soon">▶ YT 上傳中</span>
       </div>
     </div>
-
     <div class="wc">
       <div class="wc-date">2026 / 03 / 08</div>
       <div class="wc-title">HYROX 商業飛輪 — 將完賽感動變現的百億商機</div>
@@ -455,7 +479,6 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
         <span class="wc-btn soon">▶ YT 上傳中</span>
       </div>
     </div>
-
     <div class="wc">
       <div class="wc-date">2026 / 02 / 08</div>
       <div class="wc-title">SAP 2025 財報試讀</div>
@@ -463,7 +486,6 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
         <a class="wc-btn yt" href="https://youtube.com/shorts/Whe6WjpsU-4?feature=share" target="_blank">▶ 看影片</a>
       </div>
     </div>
-
   </div>
 
   <div class="weekly-cta-bar">
@@ -518,49 +540,34 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
   </div>
 </section>
 
-<!-- COURSES -->
-<section class="courses">
-  <div class="sec-label">我的教學內容</div>
-  <div class="sec-title">四大方向，對應你的需求</div>
-  <p class="sec-desc">不論你是考生、社會新鮮人、資深從業者，還是想看懂財報的投資人，都有對應的學習路徑。</p>
-  <div class="course-grid">
-    <div class="course-card">
-      <div class="course-num">1</div>
-      <h3>考試準備</h3>
-      <p>幫助高職、大學及銀行等考生，應對各類會計考試。從初會、中會、高會到成管會，系統性建立應試能力。</p>
-      <div class="course-tags">
-        <span class="ctag">高職會計</span><span class="ctag">大學初會</span>
-        <span class="ctag">中會/高會</span><span class="ctag">成管會</span><span class="ctag">銀行考試</span>
+<!-- COURSES → 課程地圖入口 -->
+<section class="coursemap-section">
+  <div class="sec-label">完整課程體系</div>
+  <div class="sec-title">財報商業思維<br>16堂課程地圖</div>
+  <p class="sec-desc" style="margin-bottom:28px">從財商基礎到商業模式實戰，從財報拆解到估值邏輯，系統化建立你的財務分析能力。</p>
+
+  <a class="coursemap-banner" href="https://brothergo99.github.io/rock-accounting-students/goodbook/%E8%AA%B2%E7%A8%8B%E5%85%A8%E8%B2%8C_16%E5%A0%82.html" target="_blank">
+    <div class="cm-left">
+      <div class="cm-tag">課程全貌 · Rock Accounting</div>
+      <div class="cm-title">財報商業思維<br><em>16堂完整課程地圖</em></div>
+      <div class="cm-desc">每一堂都有真實企業案例，讓你學完就能用。從零基礎到看懂財報、分析商業模式、做出投資判斷，一條清晰的學習路徑。</div>
+      <div class="cm-stats">
+        <div class="cm-stat"><div class="cm-stat-n">16</div><div class="cm-stat-l">堂課程</div></div>
+        <div class="cm-stat"><div class="cm-stat-n">4</div><div class="cm-stat-l">學習層次</div></div>
+        <div class="cm-stat"><div class="cm-stat-n">15+</div><div class="cm-stat-l">企業案例</div></div>
+        <div class="cm-stat"><div class="cm-stat-n">0</div><div class="cm-stat-l">基礎需求</div></div>
+      </div>
+      <div class="cm-levels">
+        <span class="cm-level lvl1">LEVEL 01 基礎入門</span>
+        <span class="cm-level lvl2">LEVEL 02 財報核心折解</span>
+        <span class="cm-level lvl3">LEVEL 03 商業模式實戰</span>
+        <span class="cm-level lvl4">LEVEL 04 估值與股市</span>
       </div>
     </div>
-    <div class="course-card">
-      <div class="course-num">2</div>
-      <h3>入門指導</h3>
-      <p>為無經驗的社會人士提供會計結帳及管理報表製作的實戰培訓。從零開始，學會職場必備的財務基礎。</p>
-      <div class="course-tags">
-        <span class="ctag">結帳流程</span><span class="ctag">管理報表</span>
-        <span class="ctag">零基礎入門</span><span class="ctag">職場實務</span>
-      </div>
+    <div class="cm-right">
+      <div class="cm-cta-btn">查看完整課程地圖 →</div>
     </div>
-    <div class="course-card">
-      <div class="course-num">3</div>
-      <h3>能力提升</h3>
-      <p>協助有經驗的會計從業人士提升專業知識及技能。從記帳思維升級到管理會計，結合AI工具提升效率。</p>
-      <div class="course-tags">
-        <span class="ctag">管理會計</span><span class="ctag">AI工具應用</span>
-        <span class="ctag">財務分析</span><span class="ctag">從業人員進階</span>
-      </div>
-    </div>
-    <div class="course-card">
-      <div class="course-num">4</div>
-      <h3>財報閱讀</h3>
-      <p>帶領無經驗的社會人士輕鬆掌握財務報表閱讀技巧。用真實企業案例（台積電、摩斯、微軟），提升財務素養。</p>
-      <div class="course-tags">
-        <span class="ctag">損益表解讀</span><span class="ctag">現金流分析</span>
-        <span class="ctag">投資應用</span><span class="ctag">真實案例</span>
-      </div>
-    </div>
-  </div>
+  </a>
 </section>
 
 <!-- AUDIENCE -->
@@ -624,9 +631,12 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
   <h2>準備好了嗎？<br>跟 Rock 老師一起開始</h2>
   <p>加 LINE 免費諮詢，說說你的目標，Rock 老師幫你規劃最適合的學習路徑。</p>
   <div class="cta-btns">
-    <a class="btn-white" href="https://line.me/R/ti/p/@365poxew" onclick="gtag('event', 'click_line', {'event_category': 'conversion', 'event_label': 'line_contact'})" target="_blank">
+    <a class="btn-white" href="https://line.me/R/ti/p/@365poxew" target="_blank">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
       加 LINE 免費諮詢
+    </a>
+    <a class="btn-outline-white" href="https://brothergo99.github.io/rock-accounting-students/goodbook/%E8%AA%B2%E7%A8%8B%E5%85%A8%E8%B2%8C_16%E5%A0%82.html" target="_blank">
+      📚 課程地圖 →
     </a>
     <a class="btn-outline-white" href="https://www.youtube.com/@Brothergo99" target="_blank">
       先看免費影片 →
@@ -640,7 +650,7 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
   <div class="ft-brand">Rock 會計家教 · 蕭啟漢</div>
   <div class="ft-links">
     <a class="ft-link" href="https://share.ekkorn.com/share/share.html#/profile/jFwLDXvG" target="_blank">Ekkorn 直播</a>
-    <a class="ft-link" href="https://line.me/R/ti/p/@365poxew" onclick="gtag('event', 'click_line', {'event_category': 'conversion', 'event_label': 'line_contact'})" target="_blank">LINE @365poxew</a>
+    <a class="ft-link" href="https://line.me/R/ti/p/@365poxew" target="_blank">LINE @365poxew</a>
     <a class="ft-link" href="https://www.youtube.com/@Brothergo99" target="_blank">YouTube</a>
     <a class="ft-link" href="https://www.threads.com/@brothergo99" target="_blank">Threads</a>
     <a class="ft-link" href="https://tw.amazingtalker.com/teachers-and-tutors/364fc2c3-f93f-4701-9b96-72f9ba4c9bfe" target="_blank">AmazingTalker</a>
