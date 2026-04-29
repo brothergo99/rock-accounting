@@ -3,598 +3,537 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Rock（蕭啟漢）會計家教。想升職、轉行、接班、募資、投資——財報是那道牆。Rock 幫社會人士把它拆掉。每週日 21:00 Ekkorn 直播。LINE @365poxew">
-<title>Rock 會計家教 · 蕭啟漢 · 財報是那道牆</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<title>你是哪一種人？· Rock 會計家教</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --orange:#F5812A;--orange2:#FF9A4D;--orange3:#FFC285;--orange4:#FFE4C4;
   --cream:#FFF8F0;--cream2:#FFF0E0;--cream3:#FFE4C4;
-  --brown:#7A3B10;--brown2:#A05020;--brown3:#C07030;--muted:#A08060;
+  --brown:#7A3B10;--brown2:#A05020;--muted:#A08060;
   --ink:#2C1A0A;--white:#FFFFFF;--green:#06C755;
   --border:rgba(245,129,42,.18);
   --serif:'Noto Serif TC',serif;
-  --display:'Playfair Display',serif;
   --sans:'Noto Sans TC',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow-x:hidden;line-height:1.7}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);min-height:100vh}
 
-/* TICKER */
-.ticker{background:var(--orange);color:#fff;font-size:11px;font-weight:500;letter-spacing:.08em;padding:7px 0;overflow:hidden;white-space:nowrap;position:sticky;top:0;z-index:200}
-.ticker-inner{display:inline-block;animation:tick 32s linear infinite}
-.ticker-inner span{margin:0 2.5rem}
-@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+/* ── TOP BAR ── */
+.topbar{background:var(--orange);color:#fff;font-size:11px;letter-spacing:.08em;text-align:center;padding:6px;font-weight:500}
+.topbar a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.4)}
 
-/* NAV */
-nav{display:flex;justify-content:space-between;align-items:center;padding:0 clamp(1.5rem,5vw,4rem);height:62px;background:var(--white);border-bottom:2px solid var(--orange3);box-shadow:0 2px 16px rgba(245,129,42,.07);position:sticky;top:32px;z-index:100}
-.nav-logo{font-family:var(--display);font-size:1.15rem;font-weight:900;color:var(--orange);text-decoration:none}
-.nav-logo em{font-style:italic;font-weight:400;font-size:.78rem;color:var(--muted);margin-left:6px}
-.nav-links{display:flex;gap:1.8rem;list-style:none}
-.nav-links a{font-size:.8rem;letter-spacing:.05em;color:var(--brown2);text-decoration:none;padding-bottom:2px;border-bottom:1px solid transparent;transition:.2s}
-.nav-links a:hover{color:var(--orange);border-color:var(--orange)}
-.nav-line{background:var(--green);color:#fff;font-size:.78rem;font-weight:600;padding:9px 18px;text-decoration:none;border-radius:4px;display:inline-flex;align-items:center;gap:6px;transition:.2s}
-.nav-line:hover{background:#05b34c;transform:translateY(-1px)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:0 clamp(1.2rem,4vw,3rem);height:56px;background:var(--white);border-bottom:2px solid var(--orange3)}
+.nav-logo{font-family:var(--serif);font-size:1rem;font-weight:900;color:var(--orange);text-decoration:none}
+.nav-back{font-size:.75rem;color:var(--brown2);text-decoration:none;display:flex;align-items:center;gap:4px;transition:.2s}
+.nav-back:hover{color:var(--orange)}
 
-/* LIVE BADGE */
-.live-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(245,129,42,.1);border:1px solid rgba(245,129,42,.3);color:var(--orange);font-size:.68rem;letter-spacing:.14em;padding:4px 12px;margin-bottom:1.6rem;text-transform:uppercase}
-.live-dot{width:6px;height:6px;border-radius:50%;background:var(--orange);animation:pulse 1.5s ease infinite;flex-shrink:0}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.35)}}
+/* ── STAGE: SELECTOR ── */
+#stage-select{padding:clamp(2.5rem,6vh,5rem) clamp(1.2rem,4vw,3rem)}
+.select-eyebrow{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:.7rem;text-align:center}
+.select-title{font-family:var(--serif);font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;text-align:center;line-height:1.25;margin-bottom:.6rem}
+.select-title em{font-style:normal;color:var(--orange)}
+.select-sub{text-align:center;font-size:.9rem;color:var(--brown2);margin-bottom:3rem}
 
-/* HERO */
-.hero{display:grid;grid-template-columns:1fr 1fr;min-height:88vh;border-bottom:2px solid var(--orange3)}
-.hero-left{background:linear-gradient(145deg,var(--white) 0%,var(--cream2) 100%);padding:clamp(3rem,8vh,6rem) clamp(2rem,5vw,5rem);display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--border)}
-.hero-kicker{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--orange);margin-bottom:1.4rem;display:flex;align-items:center;gap:.8rem}
-.hero-kicker::before{content:'';width:28px;height:2px;background:var(--orange);flex-shrink:0}
-.hero-headline{font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.6rem);font-weight:900;line-height:1.2;letter-spacing:-.01em;margin-bottom:1.6rem;color:var(--ink)}
-.hero-headline em{font-style:normal;color:var(--orange)}
-.hero-sub{font-size:1rem;color:var(--brown2);line-height:1.85;max-width:480px;margin-bottom:2.2rem;border-left:3px solid var(--orange3);padding-left:1.1rem}
-.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
-.btn-primary{background:var(--orange);color:#fff;padding:14px 30px;font-size:.87rem;font-weight:600;letter-spacing:.06em;text-decoration:none;display:inline-block;border-radius:4px;transition:background .2s,transform .15s;box-shadow:0 4px 14px rgba(245,129,42,.3)}
-.btn-primary:hover{background:var(--brown2);transform:translateY(-2px)}
-.btn-ghost{border:1.5px solid var(--orange);color:var(--orange);padding:13px 26px;font-size:.87rem;letter-spacing:.06em;text-decoration:none;display:inline-block;border-radius:4px;transition:.2s}
-.btn-ghost:hover{background:var(--orange);color:#fff}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:960px;margin:0 auto}
 
-.hero-right{background:linear-gradient(160deg,#FFF0DC 0%,#FFE0B8 100%);padding:clamp(3rem,8vh,6rem) clamp(2rem,5vw,4rem);display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--border)}
-.cost-label{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--brown3);margin-bottom:1.8rem}
-.cost-list{list-style:none}
-.cost-item{padding:1.2rem 0;border-bottom:1px solid rgba(122,59,16,.12);display:grid;grid-template-columns:1.8rem 1fr;gap:0 .9rem;align-items:start;opacity:0;transform:translateY(10px);animation:fadeUp .5s forwards}
-.cost-item:nth-child(1){animation-delay:.1s}.cost-item:nth-child(2){animation-delay:.25s}
-.cost-item:nth-child(3){animation-delay:.4s}.cost-item:nth-child(4){animation-delay:.55s}
-.cost-item:nth-child(5){animation-delay:.7s}
-@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-.cost-icon{font-size:.95rem;padding-top:.1rem}
-.cost-title{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--brown);margin-bottom:.25rem}
-.cost-desc{font-size:.78rem;color:var(--brown2);line-height:1.65}
+.persona-btn{
+  background:var(--white);border:2px solid var(--border);border-radius:8px;
+  padding:1.8rem 1.5rem;cursor:pointer;text-align:left;
+  transition:border-color .2s,box-shadow .2s,transform .15s;
+  display:flex;flex-direction:column;gap:.6rem;
+  position:relative;overflow:hidden;
+}
+.persona-btn::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--orange);transform:scaleX(0);transform-origin:left;
+  transition:transform .25s;
+}
+.persona-btn:hover{border-color:var(--orange);box-shadow:0 4px 20px rgba(245,129,42,.15);transform:translateY(-3px)}
+.persona-btn:hover::before{transform:scaleX(1)}
+.persona-btn.active{border-color:var(--orange);box-shadow:0 4px 20px rgba(245,129,42,.2);background:linear-gradient(160deg,#FFFAF4,var(--white))}
+.persona-btn.active::before{transform:scaleX(1)}
+
+.pb-icon{font-size:1.8rem;line-height:1}
+.pb-type{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--orange)}
+.pb-title{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink);line-height:1.3}
+.pb-hint{font-size:.75rem;color:var(--muted);line-height:1.5}
+
+/* ── STAGE: DETAIL ── */
+#stage-detail{display:none;padding:clamp(2rem,5vh,4rem) clamp(1.2rem,4vw,3rem)}
+
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;color:var(--brown2);cursor:pointer;margin-bottom:2rem;background:none;border:none;padding:0;transition:.2s;font-family:var(--sans)}
+.back-btn:hover{color:var(--orange)}
+
+.detail-wrap{max-width:800px;margin:0 auto}
+
+.detail-header{margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:2px solid var(--orange3)}
+.detail-type{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:.5rem;display:flex;align-items:center;gap:.6rem}
+.detail-type::before{content:'';width:20px;height:2px;background:var(--orange)}
+.detail-title{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;line-height:1.2;margin-bottom:.8rem}
+.detail-title em{font-style:normal;color:var(--orange)}
+
+/* before/after */
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:2rem}
+.ba-card{border-radius:6px;padding:1.4rem}
+.ba-card.before{background:#fff5f2;border:1.5px solid rgba(200,80,40,.15)}
+.ba-card.after{background:linear-gradient(160deg,#FFF8EE,#FFF2DC);border:1.5px solid var(--border)}
+.ba-label{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.8rem;font-weight:600}
+.ba-card.before .ba-label{color:rgba(180,60,30,.6)}
+.ba-card.after .ba-label{color:var(--orange)}
+.ba-list{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.ba-list li{font-size:.83rem;line-height:1.6;display:flex;gap:.5rem;align-items:flex-start}
+.ba-card.before .ba-list li::before{content:'✕';color:rgba(200,80,40,.5);font-size:.7rem;flex-shrink:0;padding-top:.15rem}
+.ba-card.after .ba-list li::before{content:'✓';color:var(--orange);font-weight:700;font-size:.7rem;flex-shrink:0;padding-top:.15rem}
+
+/* cost list */
+.cost-section{margin-bottom:2rem}
+.cost-title-row{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+.cost-items{display:flex;flex-direction:column;gap:8px}
+.cost-row{display:grid;grid-template-columns:1.6rem 1fr;gap:0 .8rem;padding:.9rem 1rem;background:var(--white);border:1.5px solid var(--border);border-radius:6px;align-items:start}
+.cost-icon{font-size:.9rem;padding-top:.1rem}
+.cost-name{font-size:.78rem;font-weight:600;color:var(--brown);margin-bottom:.2rem}
+.cost-desc{font-size:.77rem;color:var(--brown2);line-height:1.6}
 .cost-desc strong{color:var(--brown);font-weight:600}
 
-/* SECTION RULE */
-.section-rule{display:flex;align-items:center;padding:0 clamp(2rem,5vw,4rem);gap:1.2rem;margin:4rem 0 0}
-.section-rule::before,.section-rule::after{content:'';flex:1;height:1px;background:var(--border)}
-.section-rule-text{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+/* outcomes */
+.outcome-section{margin-bottom:2rem}
+.outcome-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1.2rem}
+.otag{display:inline-block;background:var(--orange);color:#fff;font-size:.65rem;letter-spacing:.07em;padding:4px 11px;border-radius:3px}
 
-/* SECTION BASE */
-.section{padding:clamp(3.5rem,7vh,6rem) clamp(2rem,5vw,4rem)}
-.section-eyebrow{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:.7rem}
-.section-header{margin-bottom:3rem}
-.section-title{font-family:var(--serif);font-size:clamp(1.7rem,3.2vw,2.6rem);font-weight:900;line-height:1.25;color:var(--ink)}
-.section-title em{font-style:normal;color:var(--orange)}
-
-/* PERSONA */
-.persona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1.5px solid var(--border)}
-.persona-card{background:var(--white);padding:2.2rem 1.8rem;border-right:1px solid var(--border);transition:background .2s}
-.persona-card:last-child{border-right:none}
-.persona-card:hover{background:var(--cream2)}
-.persona-num{font-family:var(--display);font-size:3rem;font-weight:900;color:rgba(245,129,42,.07);line-height:1;margin-bottom:.8rem}
-.persona-type{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin-bottom:.5rem}
-.persona-name{font-family:var(--serif);font-size:1.25rem;font-weight:700;margin-bottom:.9rem;line-height:1.3;color:var(--ink)}
-.persona-before{font-size:.8rem;color:var(--brown2);border-left:2px solid var(--orange3);padding-left:.9rem;margin-bottom:1.2rem;line-height:1.72}
-.persona-after{font-size:.82rem;line-height:1.75}
-.outcome-tag{display:inline-block;background:var(--orange);color:#fff;font-size:.63rem;letter-spacing:.08em;padding:3px 10px;margin:0 4px 6px 0;border-radius:2px}
-
-/* DARK EVIDENCE */
-.evidence-section{background:linear-gradient(160deg,var(--cream2) 0%,var(--cream3) 100%);padding:clamp(3.5rem,7vh,6rem) clamp(2rem,5vw,4rem);border-top:2px solid var(--orange3);border-bottom:2px solid var(--orange3)}
-.evidence-section .section-eyebrow{color:var(--orange)}
-.evidence-section .section-title{color:var(--ink)}
-.evidence-section .section-title em{color:var(--orange)}
-
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);margin-bottom:3rem}
-.stat-cell{padding:2.2rem 1.8rem;background:var(--white);border:1px solid var(--border)}
-.stat-num{font-family:var(--display);font-size:clamp(2rem,3.8vw,3rem);font-weight:900;color:var(--orange);line-height:1;margin-bottom:.35rem}
-.stat-num span{color:var(--brown2);font-size:.5em;vertical-align:super}
-.stat-label{font-size:.75rem;color:var(--brown2);line-height:1.5;letter-spacing:.06em}
-
-.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border)}
-.testi-card{padding:1.8rem 1.6rem;background:var(--white);display:flex;flex-direction:column}
-.testi-stars{color:var(--orange);font-size:.68rem;letter-spacing:.1em;margin-bottom:.6rem}
-.testi-tag{display:inline-block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;padding:2px 9px;margin-bottom:.9rem;border:1px solid;align-self:flex-start;border-radius:2px}
-.tag-exam{color:var(--brown);border-color:rgba(122,59,16,.35)}
-.tag-work{color:#1a7a9a;border-color:rgba(26,122,154,.3)}
-.tag-invest{color:#2a7a4a;border-color:rgba(42,122,74,.3)}
-.testi-quote{font-family:var(--serif);font-size:.9rem;color:var(--ink);line-height:1.85;margin-bottom:1rem;flex:1}
-.testi-quote::before{content:'「';color:var(--orange)}
-.testi-quote::after{content:'」';color:var(--orange)}
-.testi-meta{font-size:.7rem;color:var(--muted);letter-spacing:.07em;border-top:1px solid var(--border);padding-top:.8rem;margin-top:auto}
-.testi-meta strong{color:var(--brown2);font-weight:600}
-
-/* ACTIVE STUDENTS */
-.students-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0;border:1.5px solid var(--border);background:var(--border)}
-.student-card{background:var(--white);padding:1.5rem 1.4rem;transition:background .2s}
-.student-card:hover{background:var(--cream2)}
-.student-card.gold{background:var(--cream2);border-left:3px solid var(--orange)}
-.student-card.gold:hover{background:var(--cream3)}
-.sc-role{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin-bottom:.4rem}
-.sc-role.gold-role{color:var(--brown)}
-.sc-title{font-family:var(--serif);font-size:.88rem;font-weight:700;margin-bottom:.35rem;line-height:1.35;color:var(--ink)}
-.sc-note{font-size:.73rem;color:var(--brown2);line-height:1.55}
-
-/* FORMAT GRID */
-.format-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1.5px solid var(--border)}
-.format-card{padding:2.2rem 1.7rem;border-right:1px solid var(--border);transition:background .2s;background:var(--white)}
-.format-card:last-child{border-right:none}
-.format-card:hover{background:var(--cream2)}
-.format-icon{font-size:1.4rem;margin-bottom:1rem;display:block}
-.format-name{font-family:var(--serif);font-size:1rem;font-weight:700;margin-bottom:.5rem;color:var(--ink)}
-.format-desc{font-size:.78rem;color:var(--brown2);line-height:1.65;margin-bottom:1.2rem}
-.format-link{font-size:.7rem;letter-spacing:.1em;text-decoration:none;color:var(--orange);border-bottom:1px solid var(--orange3);padding-bottom:1px;display:inline-block;transition:opacity .2s}
-.format-link:hover{opacity:.65}
-
-/* AI SECTION */
-.ai-section{background:var(--cream2);padding:clamp(3.5rem,7vh,6rem) clamp(2rem,5vw,4rem);border-top:1.5px solid var(--border);border-bottom:1.5px solid var(--border)}
-.ai-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1.5px solid var(--border);background:var(--border);margin-bottom:2.5rem}
-.ai-card{background:var(--white);padding:2rem 1.8rem;border-right:1px solid var(--border)}
-.ai-card:last-child{border-right:none}
-.ai-card.featured{background:linear-gradient(160deg,#FFF4E6,#FFE8CC);border-top:3px solid var(--orange)}
-.ai-card-step{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
-.ai-card-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:.8rem}
-.ai-card-desc{font-size:.8rem;color:var(--brown2);line-height:1.7;margin-bottom:1rem}
-.ai-card-tag{font-size:.68rem;color:var(--orange);letter-spacing:.08em}
-.ai-compare{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid var(--border);background:var(--border)}
-.ai-col{padding:1.6rem 1.8rem;background:var(--white)}
-.ai-col.bad{background:#fff8f5}
-.ai-col-label{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.7rem}
-.ai-col.bad .ai-col-label{color:rgba(180,60,40,.6)}
-.ai-col.good .ai-col-label{color:var(--orange)}
-.ai-col-text{font-size:.82rem;color:var(--brown2);line-height:1.75}
-.ai-col.good .ai-col-text{color:var(--ink)}
+/* testimonial */
+.testi-box{background:var(--cream2);border:1.5px solid var(--border);border-radius:6px;padding:1.4rem 1.5rem;margin-bottom:2rem}
+.testi-stars{color:var(--orange);font-size:.7rem;margin-bottom:.6rem}
+.testi-text{font-family:var(--serif);font-size:.92rem;color:var(--ink);line-height:1.85}
+.testi-text::before{content:'「';color:var(--orange)}
+.testi-text::after{content:'」';color:var(--orange)}
+.testi-who{font-size:.72rem;color:var(--muted);margin-top:.6rem}
 
 /* CTA */
-.cta-section{padding:clamp(4.5rem,9vh,7rem) clamp(2rem,5vw,4rem);background:linear-gradient(135deg,var(--white) 0%,var(--cream2) 100%);display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;border-top:2px solid var(--orange3)}
-.cta-headline{font-family:var(--serif);font-size:clamp(1.9rem,3.8vw,2.9rem);font-weight:900;line-height:1.2;color:var(--ink)}
-.cta-headline em{font-style:normal;color:var(--orange)}
-.cta-body{font-size:.93rem;color:var(--brown2);line-height:1.85;margin-bottom:1.8rem}
-.cta-choices{display:flex;flex-direction:column;gap:.9rem}
-.cta-option{display:flex;align-items:center;padding:1.1rem 1.4rem;border:1.5px solid var(--border);text-decoration:none;color:var(--ink);gap:1rem;transition:.2s;background:var(--white);border-radius:4px}
-.cta-option:hover{border-color:var(--orange);background:var(--cream2)}
-.cta-option-icon{font-size:1.1rem;flex-shrink:0}
-.cta-option-text{flex:1}
-.cta-option-title{font-weight:600;font-size:.88rem;margin-bottom:.1rem;color:var(--ink)}
-.cta-option-sub{font-size:.74rem;color:var(--muted)}
-.cta-option-arrow{font-size:.88rem;color:var(--orange);flex-shrink:0;transition:transform .2s}
-.cta-option:hover .cta-option-arrow{transform:translateX(4px)}
+.cta-box{background:linear-gradient(135deg,var(--white),var(--cream2));border:2px solid var(--orange3);border-radius:8px;padding:2rem;text-align:center}
+.cta-box h3{font-family:var(--serif);font-size:1.15rem;font-weight:900;margin-bottom:.6rem;color:var(--ink)}
+.cta-box h3 em{font-style:normal;color:var(--orange)}
+.cta-box p{font-size:.83rem;color:var(--brown2);line-height:1.75;margin-bottom:1.4rem}
+.cta-line{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;font-size:.88rem;font-weight:600;padding:13px 28px;border-radius:5px;text-decoration:none;transition:.2s;margin-bottom:.7rem}
+.cta-line:hover{background:#05b34c;transform:translateY(-2px)}
+.cta-note{font-size:.72rem;color:var(--muted)}
 
-/* FOOTER */
-footer{background:var(--cream3);color:var(--brown2);border-top:2px solid var(--orange3);padding:1.8rem clamp(2rem,5vw,4rem);display:flex;justify-content:space-between;align-items:center;font-size:.72rem;letter-spacing:.06em;flex-wrap:wrap;gap:.8rem}
-footer a{color:var(--brown2);text-decoration:none}
-footer a:hover{color:var(--orange)}
-
-/* RESPONSIVE */
-@media(max-width:960px){
-  .hero{grid-template-columns:1fr;min-height:auto}
-  .hero-right{border-top:2px solid var(--orange3)}
-  .persona-grid,.ai-grid,.ai-compare,.cta-section{grid-template-columns:1fr}
-  .persona-card,.ai-card,.ai-col{border-right:none;border-bottom:1px solid var(--border)}
-  .stats-row,.testi-grid,.format-grid{grid-template-columns:1fr 1fr}
-  nav .nav-links{display:none}
-}
+/* ── RESPONSIVE ── */
 @media(max-width:600px){
-  .stats-row,.testi-grid,.format-grid{grid-template-columns:1fr}
-  .format-card{border-right:none;border-bottom:1px solid var(--border)}
+  .ba-grid{grid-template-columns:1fr}
+  .cards-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:400px){
+  .cards-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-inner">
-    <span>你想去哪裡？財報是那道牆</span><span>·</span>
-    <span>超過 95% 備考學生通過</span><span>·</span>
-    <span>獲利是意見，現金是事實</span><span>·</span>
-    <span>每週日 21:00 Ekkorn 直播</span><span>·</span>
-    <span>不適合的，Rock 不會叫你來上課</span><span>·</span>
-    <span>你想去哪裡？財報是那道牆</span><span>·</span>
-    <span>超過 95% 備考學生通過</span><span>·</span>
-    <span>獲利是意見，現金是事實</span><span>·</span>
-    <span>每週日 21:00 Ekkorn 直播</span><span>·</span>
-    <span>不適合的，Rock 不會叫你來上課</span><span>·</span>
+<div class="topbar">每週日 21:00 Ekkorn 免費直播 · <a href="https://brothergo99.github.io/rock-accounting/" target="_blank">回主頁</a></div>
+
+<nav>
+  <a class="nav-logo" href="https://brothergo99.github.io/rock-accounting/">Rock 會計家教</a>
+  <a class="nav-back" href="https://brothergo99.github.io/rock-accounting/">← 回主頁</a>
+</nav>
+
+<!-- ══ STAGE 1：選擇器 ══ -->
+<div id="stage-select">
+  <div class="select-eyebrow">找到你的狀況</div>
+  <h1 class="select-title">你現在是<em>哪一種人？</em></h1>
+  <p class="select-sub">選一個最接近你的，看財報卡住你的方式和解法</p>
+
+  <div class="cards-grid">
+
+    <button class="persona-btn" onclick="showDetail('exam-uni')">
+      <span class="pb-icon">🎓</span>
+      <div class="pb-type">備考生</div>
+      <div class="pb-title">大學生<br>跟不上會計課</div>
+      <div class="pb-hint">學校進度太快，自己讀完全記不住</div>
+    </button>
+
+    <button class="persona-btn" onclick="showDetail('exam-keeji')">
+      <span class="pb-icon">📋</span>
+      <div class="pb-type">備考生</div>
+      <div class="pb-title">記帳士<br>考了沒過</div>
+      <div class="pb-hint">函授上完、補習班上完，考場上還是靠猜</div>
+    </button>
+
+    <button class="persona-btn" onclick="showDetail('work-entry')">
+      <span class="pb-icon">🚪</span>
+      <div class="pb-type">職場人士</div>
+      <div class="pb-title">想入行<br>做會計</div>
+      <div class="pb-hint">沒有會計背景，不知道從哪裡切入</div>
+    </button>
+
+    <button class="persona-btn" onclick="showDetail('work-upgrade')">
+      <span class="pb-icon">📈</span>
+      <div class="pb-type">職場人士</div>
+      <div class="pb-title">已做會計<br>想升主辦</div>
+      <div class="pb-hint">卡在基層，上不去</div>
+    </button>
+
+    <button class="persona-btn" onclick="showDetail('work-owner')">
+      <span class="pb-icon">🏢</span>
+      <div class="pb-type">企業主 / 接班人</div>
+      <div class="pb-title">看不懂<br>自己公司的報表</div>
+      <div class="pb-hint">接家裡事業，數字看懂才能真正接班</div>
+    </button>
+
+    <button class="persona-btn" onclick="showDetail('work-fundraise')">
+      <span class="pb-icon">💼</span>
+      <div class="pb-type">創業者</div>
+      <div class="pb-title">要募資<br>財模說不清楚</div>
+      <div class="pb-hint">投資人問四張表，你卡住了</div>
+    </button>
+
+    <button class="persona-btn" onclick="showDetail('work-other')">
+      <span class="pb-icon">🔧</span>
+      <div class="pb-type">其他職場人士</div>
+      <div class="pb-title">非會計背景<br>需要讀懂財報</div>
+      <div class="pb-hint">SAP顧問、人資、業務、運動員……工作開始跟數字有關</div>
+    </button>
+
+    <button class="persona-btn" onclick="showDetail('invest')">
+      <span class="pb-icon">📊</span>
+      <div class="pb-type">投資人</div>
+      <div class="pb-title">選股差最後一層<br>那層叫財報</div>
+      <div class="pb-hint">技術分析會了，但財報看不懂</div>
+    </button>
+
   </div>
 </div>
 
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#">Rock<em>蕭啟漢 · 會計家教</em></a>
-  <ul class="nav-links">
-    <li><a href="#serve">你的那道牆</a></li>
-    <li><a href="#evidence">真實成果</a></li>
-    <li><a href="#ai">AI 學習</a></li>
-    <li><a href="#formats">怎麼開始</a></li>
-  </ul>
-  <a class="nav-line" href="https://line.me/R/ti/p/@365poxew" target="_blank">💬 免費諮詢</a>
-</nav>
-
-<!-- ══ HERO ══ -->
-<section class="hero">
-  <div class="hero-left">
-    <div class="live-badge"><span class="live-dot"></span>每週日 21:00 · Ekkorn 直播中</div>
-    <div class="hero-kicker">Rock 蕭啟漢 · 會計家教 · 社會人士財報學習</div>
-    <h1 class="hero-headline">
-      你現在的位置<br>
-      和你想去的位置之間，<br>
-      <em>財報是那道牆</em>
-    </h1>
-    <p class="hero-sub">
-      想升職、想轉行、想接班、想募資、想在市場裡不再靠猜——這些目標有一個共同障礙：你還沒辦法讀懂數字在說什麼。Rock 專門幫社會人士把這道牆拆掉。
-    </p>
-    <div class="hero-actions">
-      <a class="btn-primary" href="https://line.me/R/ti/p/@365poxew" target="_blank">說說你想去哪裡 →</a>
-      <a class="btn-ghost" href="#serve">找到你的狀況</a>
-    </div>
+<!-- ══ STAGE 2：詳細內容 ══ -->
+<div id="stage-detail">
+  <div class="detail-wrap">
+    <button class="back-btn" onclick="goBack()">← 重新選擇</button>
+    <div id="detail-content"></div>
   </div>
+</div>
 
-  <div class="hero-right">
-    <div class="cost-label">如果你不學懂財報，你正在付出</div>
-    <ul class="cost-list">
-      <li class="cost-item">
-        <span class="cost-icon">💸</span>
-        <div>
-          <div class="cost-title">金錢代價</div>
-          <div class="cost-desc">補習班每科 NT$15,000–30,000，上完還是只會背分錄。投資人一次看不懂財報警訊，可能是 <strong>NT$50,000 到 500,000 的損失</strong>。</div>
-        </div>
-      </li>
-      <li class="cost-item">
-        <span class="cost-icon">⏳</span>
-        <div>
-          <div class="cost-title">時間代價</div>
-          <div class="cost-desc">自學每週 3–5 小時，六個月後可能仍停在<strong>錯的位置</strong>。方向不對，120 小時只是消耗。</div>
-        </div>
-      </li>
-      <li class="cost-item">
-        <span class="cost-icon">⚠️</span>
-        <div>
-          <div class="cost-title">風險代價</div>
-          <div class="cost-desc">應收帳款暴增、折舊率異常、關係人交易——<strong>財報警訊不會寫在股價上</strong>，看不懂就一直持有它。</div>
-        </div>
-      </li>
-      <li class="cost-item">
-        <span class="cost-icon">🪑</span>
-        <div>
-          <div class="cost-title">情緒代價</div>
-          <div class="cost-desc">財務會議後有人留下來問問題，有人沉默離開。<strong>那個差距，老闆都看在眼裡。</strong></div>
-        </div>
-      </li>
-      <li class="cost-item">
-        <span class="cost-icon">🚪</span>
-        <div>
-          <div class="cost-title">身份代價</div>
-          <div class="cost-desc">財報是職場的語言資格。<strong>不懂的人把自己排除在某些房間之外</strong>——不是別人不讓進，是你沒有門票。</div>
-        </div>
-      </li>
-    </ul>
-  </div>
-</section>
+<script>
+const personas = {
 
-<!-- ══ 你的那道牆 ══ -->
-<div class="section-rule"><span class="section-rule-text">你的那道牆</span></div>
-<section class="section" id="serve">
-  <div class="section-header">
-    <div class="section-eyebrow">你想去哪裡？財報是怎麼擋住你的？</div>
-    <h2 class="section-title">同一種人，<em>不同的那道牆</em></h2>
-  </div>
-  <div class="persona-grid">
+  'exam-uni': {
+    icon: '🎓',
+    type: '備考生',
+    title: '大學課跟不上，<em>自己讀事倍功半</em>',
+    before: [
+      '老師講完下一題，你還在搞懂上一題',
+      '死背分錄，一換題型就全忘',
+      '自己讀花了大量時間，進度還是落後',
+      '考試靠猜，不知道自己哪裡不懂'
+    ],
+    after: [
+      '每個分錄背後的商業邏輯你都清楚',
+      '題目怎麼變都能推導，不需要死背',
+      '跟上學校進度，不再每次考前崩潰',
+      '超過 95% 的學生考前就知道自己準備好了'
+    ],
+    costs: [
+      { icon: '⏳', name: '時間代價', desc: '自己讀沒有方向，花了幾十小時還停在原地，期末前才發現來不及' },
+      { icon: '💸', name: '金錢代價', desc: '補習班課程費用 NT$10,000 起，但只教你答案，不教你為什麼——換一題還是不會' },
+      { icon: '😰', name: '情緒代價', desc: '每次考完看到分數那種「我是不是不適合」的感覺，會影響你對整個科系的信心' }
+    ],
+    outcomes: ['初級會計學', '中級會計學', '成本會計', '考前衝刺', '95%+ 通過率'],
+    testi: {
+      text: '第一次遇到這麼有趣的會計，也會盡可能把財務報表變得容易理解！',
+      who: '匿名學生 · 初會備考 · 2024'
+    },
+    cta_title: '說說你卡在哪裡',
+    cta_body: 'Rock 會直接告訴你問題出在哪，以及你需要多少時間把它補起來。'
+  },
 
-    <div class="persona-card">
-      <div class="persona-num">01</div>
-      <div class="persona-type">備考生</div>
-      <h3 class="persona-name">那張證書，<br>擋住你的下一步</h3>
-      <div class="persona-before">
-        大學課程跟不上，自己讀事倍功半。函授上了一整年，考場上還是靠猜。時間花了、錢花了，證書沒拿到——職涯卡在這裡動不了。
+  'exam-keeji': {
+    icon: '📋',
+    type: '備考生',
+    title: '函授上了一整年，<em>考場上還是靠猜</em>',
+    before: [
+      '函授或補習班上完，題目換個包裝就不會',
+      '花了一整年時間和學費，沒有拿到那張證書',
+      '不知道自己哪裡真的不懂，只能再重來',
+      '考試一次次延後，職涯跟著卡住'
+    ],
+    after: [
+      '理解會計的邏輯結構，而不是死記答案',
+      '三個月內完成補強，重新上考場',
+      '超過 95% 的學生在考前就知道自己準備好了',
+      '拿到證書，打開下一階段的職涯選擇'
+    ],
+    costs: [
+      { icon: '💸', name: '金錢代價', desc: '函授一年費用 NT$15,000–30,000，沒過就是全部白費，還要再花一次' },
+      { icon: '⏳', name: '時間代價', desc: '一年的備考時間是你的機會成本。沒過的每一年，都是你晚一年升職或轉職' },
+      { icon: '😰', name: '情緒代價', desc: '重考帶來的自我懷疑是真實的，會讓你開始覺得自己「不適合做這行」' }
+    ],
+    outcomes: ['記帳士', '初會', '中會', '考試邏輯補強', '函授失敗後轉來'],
+    testi: {
+      text: '老師背景專業，教學深入淺出，專注考試教學。',
+      who: 'Andy Chuang · 考試備考 · 2025'
+    },
+    cta_title: '你之前卡在哪一關？',
+    cta_body: '告訴 Rock 你上過什麼、考了幾次，他直接說問題在哪，以及這次要怎麼準備才能過。'
+  },
+
+  'work-entry': {
+    icon: '🚪',
+    type: '職場人士',
+    title: '想入行做會計，<em>不知道從哪裡切入</em>',
+    before: [
+      '沒有會計背景，自己看書完全不知道學到哪裡算夠',
+      '投履歷沒有回音，不知道缺什麼',
+      '上網查教學，內容零散，串不起來',
+      '花時間自學，但不確定方向對不對'
+    ],
+    after: [
+      '從零開始，用最短路徑學到能找工作的程度',
+      '知道會計職缺真正需要的技能是什麼',
+      '有案例：出納學完之後成功找到會計職缺',
+      '不繞彎路，直接針對求職需求補強'
+    ],
+    costs: [
+      { icon: '⏳', name: '時間代價', desc: '沒有方向的自學可能花半年，學到的卻是面試用不上的東西' },
+      { icon: '🚪', name: '身份代價', desc: '進不了這個行業，你就一直在門外。入行的時間每晚一年，就少一年的經驗累積' },
+      { icon: '💸', name: '金錢代價', desc: '現在的薪水和進入會計後的薪水，差距每個月都在算' }
+    ],
+    outcomes: ['出納 → 會計', '零基礎入門', '求職導向課程', '針對職缺補強'],
+    testi: {
+      text: '因老師待過業界和學術界，課堂中結合實務，以淺顯易懂的方式讓我快速理解，值得推薦的好老師。',
+      who: 'Erin · 職場進修 · 2024'
+    },
+    cta_title: '你現在在哪個位置？',
+    cta_body: 'Rock 會告訴你從你的背景出發，最快需要補哪些東西、大概要花多少時間。'
+  },
+
+  'work-upgrade': {
+    icon: '📈',
+    type: '職場人士',
+    title: '做了幾年基層會計，<em>卡在這裡上不去</em>',
+    before: [
+      '日常記帳沒問題，但主辦會計的工作做不來',
+      '稅務申報、財報分析、月結——這些還不熟',
+      '主管職位出現，但你沒有把握爭取',
+      '同期進來的人已經升了，你還在原地'
+    ],
+    after: [
+      '補上主辦會計需要的稅務和財報分析能力',
+      '月結流程、所得稅申報，都能獨立處理',
+      '有案例：在 Rock 帶領下走到主辦會計職位',
+      '在公司裡有資格往上談'
+    ],
+    costs: [
+      { icon: '💸', name: '金錢代價', desc: '主辦會計和基層的薪資差距通常是 NT$5,000–15,000/月，每晚升一年就少賺這些' },
+      { icon: '🪑', name: '情緒代價', desc: '看著後來的同事追上來，那種「我是不是已經到頂了」的感覺是真實的' },
+      { icon: '🚪', name: '身份代價', desc: '基層會計和主辦會計在公司裡的話語權完全不同，這個差距會影響你後面十年的路' }
+    ],
+    outcomes: ['會計 → 主辦會計', '稅務申報', '財報分析', '月結獨立處理', 'AI 應用練習'],
+    testi: {
+      text: '因老師待過業界和學術界，課堂中結合實務，以淺顯易懂的方式讓我快速理解，值得推薦的好老師。',
+      who: 'Erin · 職場進修 · 2024'
+    },
+    cta_title: '你現在卡在哪一關？',
+    cta_body: '說說你現在的職位和想去的地方，Rock 直接告訴你差在哪裡。'
+  },
+
+  'work-owner': {
+    icon: '🏢',
+    type: '企業主 / 接班人',
+    title: '接家裡事業，<em>但看不懂公司的報表</em>',
+    before: [
+      '每個月收到財報，點頭假裝看懂',
+      '不知道公司到底賺不賺錢、錢在哪裡',
+      '跟會計師或財務主管開會，聽不懂在說什麼',
+      '接班了，但實際上你是在接一個黑盒子'
+    ],
+    after: [
+      '看懂三張報表，知道公司資金和獲利的真實狀況',
+      '能跟會計師對話，問出關鍵問題',
+      '了解哪些數字是警訊、哪些是正常波動',
+      '真正接班，不只是坐上那個位子'
+    ],
+    costs: [
+      { icon: '⚠️', name: '風險代價', desc: '看不懂財報的接班人，可能在公司出問題之前完全察覺不到。等你發現，可能已經是危機' },
+      { icon: '🚪', name: '身份代價', desc: '員工、股東、合作夥伴都在看你能不能撐起這個位子。看不懂數字，你在他們眼裡就是空殼' },
+      { icon: '💸', name: '金錢代價', desc: '一個錯誤的財務決策，代價可能是幾十萬到幾百萬。不是嚇你，是現實' }
+    ],
+    outcomes: ['接班人財報速成', '借貸法則及分錄', '財報閱讀', '看懂三張表', '與會計師對話能力'],
+    testi: {
+      text: '老師直接就學生想了解的公司財報來看，體驗課後直接買了 20 堂。看過很多財報書都看不懂，非常需要老師一步一步帶。',
+      who: '匿名學生 · 財報閱讀 · 2024'
+    },
+    cta_title: '你現在接到哪個階段了？',
+    cta_body: '告訴 Rock 你目前的狀況，他直接說你最需要補哪一塊。'
+  },
+
+  'work-fundraise': {
+    icon: '💼',
+    type: '創業者',
+    title: '要募資，<em>財務模型四張表說不清楚</em>',
+    before: [
+      '投資人問財務預測，你說不出邏輯',
+      '四張表做出來了，但假設合不合理你自己也不確定',
+      '損益表、現金流量表、資產負債表之間的關係不清楚',
+      '募資簡報的財務部分你跳過去講，希望對方別問'
+    ],
+    after: [
+      '清楚四張表的邏輯和勾稽關係',
+      '能解釋你的財務假設為什麼合理',
+      '投資人問財報，你有辦法回答',
+      '財模不只是表格，是你對商業模式的理解'
+    ],
+    costs: [
+      { icon: '💸', name: '金錢代價', desc: '投資人對財務說不清楚的創業者，信任感會大打折扣——那可能是幾百萬的資金沒拿到' },
+      { icon: '⏳', name: '時間代價', desc: '投資人 meeting 是有限的，每一次說不清楚財務，就少一個機會' },
+      { icon: '🚪', name: '身份代價', desc: '創業者看不懂自己的財務數字，投資人會懷疑你能不能管好這間公司' }
+    ],
+    outcomes: ['財模四表練習', '財模合理性檢視', '損益 + 現金流 + 資負表勾稽', '募資財務邏輯'],
+    testi: {
+      text: '財報沒有人教真的不行，看書只能知道最表淺的內容，這真是 AmazingTalker 上最有價值的一堂課。',
+      who: 'Hsiao Yin Hsu · 財報閱讀 · 2024'
+    },
+    cta_title: '你現在卡在四張表的哪裡？',
+    cta_body: 'Rock 直接看你的財模，告訴你問題在哪。'
+  },
+
+  'work-other': {
+    icon: '🔧',
+    type: '其他職場人士',
+    title: '工作開始跟數字有關，<em>但從來沒學過會計</em>',
+    before: [
+      '財務會議上只能點頭，插不上嘴',
+      '老闆丟來一份 P&L，你不知道從哪看起',
+      '懂系統（SAP）、懂人力、懂業務，但不懂帳',
+      '感覺自己是團隊裡那個看不懂數字的人'
+    ],
+    after: [
+      '看懂財報的基本結構，能在會議上開口',
+      '理解你的工作和財務數字之間的關係',
+      '不再是那個「財務的事去問財務」的人',
+      'SAP顧問案例：懂了帳務邏輯，客戶問題答得到點上'
+    ],
+    costs: [
+      { icon: '🪑', name: '情緒代價', desc: '每次財務相關的會議，你是最沉默的那個——那種感覺會讓你對自己的職涯天花板有疑慮' },
+      { icon: '🚪', name: '身份代價', desc: '在公司裡，能跨部門讀懂財務的人，晉升機會和話語權都不一樣' },
+      { icon: '⏳', name: '時間代價', desc: '自己翻書很難有效率，沒有人告訴你哪些東西你的職業真正用得到' }
+    ],
+    outcomes: ['財報閱讀', '財報討論', 'SAP會計邏輯', 'P&L解讀', 'AI應用練習'],
+    testi: {
+      text: '因老師待過業界和學術界，課堂中結合實務，以淺顯易懂的方式讓我快速理解，值得推薦的好老師。',
+      who: 'Erin · 職場進修 · 2024'
+    },
+    cta_title: '你的工作最常碰到哪類數字？',
+    cta_body: '說說你的職業和實際遇到的狀況，Rock 告訴你最短的補強路徑。'
+  },
+
+  'invest': {
+    icon: '📊',
+    type: '投資人',
+    title: '選股邏輯差最後一層，<em>那層叫財報</em>',
+    before: [
+      '技術分析、籌碼、新聞都在用，但總覺得少一塊',
+      'EPS 漂亮就買進，結果踩到地雷',
+      '財報造假的警訊你看不出來，事後才知道',
+      '看過幾本財報書，還是看不懂實際的財報'
+    ],
+    after: [
+      '能看出應收帳款暴增、折舊率異常這類警訊',
+      '理解獲利和現金流之間的差異，不被帳面數字騙',
+      '財報是你的偵探工具，不再是看不懂的密碼',
+      '選股多了一層護城河：你看得到別人看不到的東西'
+    ],
+    costs: [
+      { icon: '💸', name: '金錢代價', desc: '一次看不懂財報警訊買進地雷股，損失可能是 NT$50,000 到 500,000。這不是誇張，是常見的結果' },
+      { icon: '⚠️', name: '風險代價', desc: '財報造假的公司不會在股價圖上提前告訴你。你持有的時候它還在漲，爆發的時候來不及跑' },
+      { icon: '⏳', name: '時間代價', desc: '看了很多財報書還是看不懂，因為書教的是會計準則，不是教你怎麼找異常' }
+    ],
+    outcomes: ['財報閱讀', '現金流量分析', '財報異常偵測', '個股深度研究', '獲利品質判斷'],
+    testi: {
+      text: '看了張明輝會計師的兩本書兩次，都不如老師的一堂課。老師講解的親民、淺顯易懂。',
+      who: '匿名學生 · 財報閱讀 · 2024'
+    },
+    cta_title: '你現在用什麼方法選股？',
+    cta_body: '告訴 Rock 你現在的分析方式，他說財報能幫你補上哪一塊。'
+  }
+
+}
+
+function showDetail(key) {
+  const p = personas[key]
+  if (!p) return
+
+  // 標記 active
+  document.querySelectorAll('.persona-btn').forEach(b => b.classList.remove('active'))
+  event.currentTarget.classList.add('active')
+
+  // 組裝內容
+  const costsHTML = p.costs.map(c => `
+    <div class="cost-row">
+      <span class="cost-icon">${c.icon}</span>
+      <div>
+        <div class="cost-name">${c.name}</div>
+        <div class="cost-desc">${c.desc}</div>
       </div>
-      <div class="persona-after">
-        <span class="outcome-tag">95%+ 通過率</span>
-        <p style="color:var(--brown2)">Rock 不教分錄，教背後的商業邏輯。理解了，題目怎麼變都不怕。超過 95% 的學生在考前就知道自己準備好了。</p>
+    </div>
+  `).join('')
+
+  const outcomesHTML = p.outcomes.map(o => `<span class="otag">${o}</span>`).join('')
+
+  document.getElementById('detail-content').innerHTML = `
+    <div class="detail-header">
+      <div class="detail-type">${p.icon} ${p.type}</div>
+      <h2 class="detail-title">${p.title}</h2>
+    </div>
+
+    <div class="ba-grid">
+      <div class="ba-card before">
+        <div class="ba-label">找到 Rock 之前</div>
+        <ul class="ba-list">
+          ${p.before.map(t => `<li>${t}</li>`).join('')}
+        </ul>
+      </div>
+      <div class="ba-card after">
+        <div class="ba-label">找到 Rock 之後</div>
+        <ul class="ba-list">
+          ${p.after.map(t => `<li>${t}</li>`).join('')}
+        </ul>
       </div>
     </div>
 
-    <div class="persona-card" style="border-top:3px solid var(--orange);background:linear-gradient(180deg,#FFFAF4 0%,var(--white) 100%)">
-      <div class="persona-num" style="color:rgba(245,129,42,.1)">02</div>
-      <div class="persona-type" style="color:var(--brown)">社會人士 · 核心客群</div>
-      <h3 class="persona-name">你的目標已經很清楚，<br>財報是最後那道關</h3>
-      <div class="persona-before">
-        想升主辦，卡在稅務和財報分析；想轉會計，不知道切入點；接家裡事業，看不懂自己公司的報表；要募資，四張財務模型說不清楚；SAP顧問，懂系統不懂帳——障礙不同，核心一樣：數字讀不通。
-      </div>
-      <div class="persona-after">
-        <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.9rem">
-          <span class="outcome-tag">出納 → 會計</span>
-          <span class="outcome-tag">會計 → 主辦</span>
-          <span class="outcome-tag">接班人讀懂財報</span>
-          <span class="outcome-tag">募資方財模四表</span>
-          <span class="outcome-tag">SAP顧問補帳務邏輯</span>
-          <span class="outcome-tag">人資 / 運動員讀財報</span>
-        </div>
-        <p style="font-size:.8rem;color:var(--brown2);line-height:1.75">Rock 不用同一套課表應付所有人。你說你的目標，他告訴你現在差在哪、下一步怎麼走。</p>
-      </div>
+    <div class="cost-section">
+      <div class="cost-title-row">你現在正在付出的代價</div>
+      <div class="cost-items">${costsHTML}</div>
     </div>
 
-    <div class="persona-card">
-      <div class="persona-num">03</div>
-      <div class="persona-type">投資人</div>
-      <h3 class="persona-name">選股邏輯差最後一層，<br>那層叫財報</h3>
-      <div class="persona-before">
-        技術分析、籌碼、新聞——這些你都在用。但財報造假的公司不會在 K 線圖上提前警告你。EPS 漂亮背後的應收帳款暴增、折舊率異常——這些你一直略過。
-      </div>
-      <div class="persona-after">
-        <span class="outcome-tag">財報閱讀</span>
-        <p style="color:var(--brown2)">Rock 教你把財報當偵探工具——找出企業試圖隱藏的訊息。獲利是意見，現金才是事實。</p>
-      </div>
+    <div class="outcome-section">
+      <div class="cost-title-row" style="margin-bottom:.8rem">這類學生在學的東西</div>
+      <div class="outcome-tags">${outcomesHTML}</div>
     </div>
 
-  </div>
-</section>
-
-<!-- ══ 成果記錄 ══ -->
-<section class="evidence-section" id="evidence">
-  <div class="section-header">
-    <div class="section-eyebrow">成果記錄 · 不是自我介紹</div>
-    <h2 class="section-title">數字背後，<em>每一個都是真人</em></h2>
-  </div>
-  <div class="stats-row">
-    <div class="stat-cell">
-      <div class="stat-num">95<span>%+</span></div>
-      <div class="stat-label">備考通過率<br>（考前就知道準備好了）</div>
-    </div>
-    <div class="stat-cell">
-      <div class="stat-num">430</div>
-      <div class="stat-label">2025 完課堂數<br>AmazingTalker 記錄可查</div>
-    </div>
-    <div class="stat-cell">
-      <div class="stat-num">10<span>年+</span></div>
-      <div class="stat-label">會計實務經驗<br>教的是真實世界用的</div>
-    </div>
-    <div class="stat-cell">
-      <div class="stat-num">40<span>場+</span></div>
-      <div class="stat-label">週末免費分享<br>每場都有複習筆記</div>
-    </div>
-  </div>
-  <div class="testi-grid">
-    <div class="testi-card">
+    <div class="testi-box">
       <div class="testi-stars">★★★★★</div>
-      <span class="testi-tag tag-invest">投資人</span>
-      <div class="testi-quote">財報沒有人教真的不行，看書只能知道最表淺的內容，這真是 AmazingTalker 上最有價值的一堂課。</div>
-      <div class="testi-meta"><strong>Hsiao Yin Hsu</strong> · 財報閱讀 · 2024</div>
+      <div class="testi-text">${p.testi.text}</div>
+      <div class="testi-who">${p.testi.who}</div>
     </div>
-    <div class="testi-card">
-      <div class="testi-stars">★★★★★</div>
-      <span class="testi-tag tag-invest">投資人</span>
-      <div class="testi-quote">老師直接就學生想了解的公司財報來看，體驗課後直接買了 20 堂。看過很多財報書都看不懂，非常需要老師一步一步帶。</div>
-      <div class="testi-meta"><strong>匿名學生</strong> · 財報閱讀 · 2024</div>
-    </div>
-    <div class="testi-card">
-      <div class="testi-stars">★★★★★</div>
-      <span class="testi-tag tag-invest">投資人</span>
-      <div class="testi-quote">看了張明輝會計師的兩本書兩次，都不如老師的一堂課。老師講解的親民、淺顯易懂。</div>
-      <div class="testi-meta"><strong>匿名學生</strong> · 財報閱讀 · 2024</div>
-    </div>
-    <div class="testi-card">
-      <div class="testi-stars">★★★★★</div>
-      <span class="testi-tag tag-work">職場人士</span>
-      <div class="testi-quote">因老師待過業界和學術界，課堂中結合實務，以淺顯易懂的方式讓我快速理解，值得推薦的好老師。</div>
-      <div class="testi-meta"><strong>Erin</strong> · 職場進修 · 2024</div>
-    </div>
-    <div class="testi-card">
-      <div class="testi-stars">★★★★★</div>
-      <span class="testi-tag tag-exam">備考生</span>
-      <div class="testi-quote">老師背景專業，教學深入淺出，專注考試教學。</div>
-      <div class="testi-meta"><strong>Andy Chuang</strong> · 考試備考 · 2025</div>
-    </div>
-    <div class="testi-card">
-      <div class="testi-stars">★★★★★</div>
-      <span class="testi-tag tag-exam">備考生</span>
-      <div class="testi-quote">第一次遇到這麼有趣的會計，也會盡可能把財務報表變得容易理解！</div>
-      <div class="testi-meta"><strong>匿名學生</strong> · 初會備考 · 2024</div>
-    </div>
-  </div>
-  <div style="text-align:center;margin-top:2rem">
-    <a href="https://tw.amazingtalker.com/teachers-and-tutors/364fc2c3-f93f-4701-9b96-72f9ba4c9bfe" target="_blank" style="font-size:.75rem;color:var(--brown2);letter-spacing:.1em;text-decoration:none;border-bottom:1px solid var(--orange3);padding-bottom:2px">查看 AmazingTalker 全部 80 則評價 →</a>
-  </div>
-</section>
 
-<!-- ══ 現在正在上課的人 ══ -->
-<div class="section-rule"><span class="section-rule-text">現在正在上課的人</span></div>
-<section class="section">
-  <div class="section-header">
-    <div class="section-eyebrow">真實學生 · 不同背景 · 同一個需求</div>
-    <h2 class="section-title">這些人正在學的東西，<em>你也需要嗎？</em></h2>
-  </div>
-  <div class="students-grid">
-    <div class="student-card">
-      <div class="sc-role">主辦會計</div>
-      <div class="sc-title">所得稅核退<br>費用段落</div>
-      <div class="sc-note">卡在稅務細節，要往上走就得搞懂這塊</div>
+    <div class="cta-box">
+      <h3>${p.cta_title}，<em>說給 Rock 聽</em></h3>
+      <p>${p.cta_body}<br>不適合的，他不會叫你來上課。</p>
+      <a class="cta-line" href="https://line.me/R/ti/p/@365poxew" target="_blank">💬 加 LINE 免費諮詢</a><br>
+      <span class="cta-note">免費 · 說清楚你的狀況就夠了</span>
     </div>
-    <div class="student-card">
-      <div class="sc-role">SAP 顧問</div>
-      <div class="sc-title">買賣業會計<br>與系統的關係</div>
-      <div class="sc-note">懂系統不懂會計邏輯，客戶問題答不到點上</div>
-    </div>
-    <div class="student-card">
-      <div class="sc-role">會計 / 主辦會計</div>
-      <div class="sc-title">會計 AI<br>應用練習</div>
-      <div class="sc-note">懂會計才能用好 AI，不懂就只是複製貼上</div>
-    </div>
-    <div class="student-card">
-      <div class="sc-role">人資 · 運動員 · 經營者</div>
-      <div class="sc-title">財報討論<br>財報閱讀</div>
-      <div class="sc-note">不同職業，同一個需求：讀懂數字背後的意思</div>
-    </div>
-    <div class="student-card gold">
-      <div class="sc-role gold-role">接家裡事業</div>
-      <div class="sc-title">借貸法則<br>及分錄</div>
-      <div class="sc-note">接班不只是接位子，要接得懂財務才接得住</div>
-    </div>
-    <div class="student-card gold">
-      <div class="sc-role gold-role">募資方</div>
-      <div class="sc-title">財模四表<br>練習</div>
-      <div class="sc-note">投資人看的是財務邏輯，說不清楚就拿不到錢</div>
-    </div>
-    <div class="student-card gold">
-      <div class="sc-role gold-role">分析師考生</div>
-      <div class="sc-title">財報分析<br>解題</div>
-      <div class="sc-note">考試考的不只是記憶，是能不能讀出結論</div>
-    </div>
-    <div class="student-card gold">
-      <div class="sc-role gold-role">財務建模</div>
-      <div class="sc-title">財模合理性<br>檢視</div>
-      <div class="sc-note">模型建出來了，假設合不合理？自己說不清楚</div>
-    </div>
-  </div>
-  <div style="margin-top:1.8rem;padding:1.3rem 1.6rem;border:1.5px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-radius:4px">
-    <div>
-      <div style="font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem">你的情況不在這裡？</div>
-      <div style="font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink)">說給 Rock 聽，他會直接告訴你適不適合</div>
-    </div>
-    <a href="https://line.me/R/ti/p/@365poxew" target="_blank" class="btn-primary" style="white-space:nowrap">加 LINE 諮詢 →</a>
-  </div>
-</section>
+  `
 
-<!-- ══ AI 學習技術 ══ -->
-<div class="section-rule"><span class="section-rule-text">結合 AI 的實際意思</span></div>
-<section class="ai-section" id="ai">
-  <div class="section-header">
-    <div class="section-eyebrow">不是噱頭，是三層工具</div>
-    <h2 class="section-title">「結合 AI 學習技術」<br><em>這句話的實際意思</em></h2>
-  </div>
-  <div class="ai-grid">
-    <div class="ai-card featured">
-      <div class="ai-card-step">上課當下</div>
-      <div class="ai-card-title">你的公司數字<br>當場變成互動儀表板</div>
-      <div class="ai-card-desc">Rock 用 Claude Code 現場把真實業務數據——銷售趨勢、品牌佔比、技師工量——做成可以互動的報表。不是看投影片，是看你自己公司的數字在動。機車行實體課現場就是這樣讓學員眼睛一亮的。</div>
-      <div class="ai-card-tag">✦ 機車行實體課現場示範案例</div>
-    </div>
-    <div class="ai-card">
-      <div class="ai-card-step">課後複習</div>
-      <div class="ai-card-title">每堂課有<br>Notion 結構筆記</div>
-      <div class="ai-card-desc">上課聽懂，回家忘光——這是所有學習的通病。Rock 的每堂課後都有整理好的 Notion 頁面，概念、例題、重點全在裡面，隨時可以回頭查。</div>
-      <a href="https://iron-butternut-79c.notion.site/192dd7aab0d9804b98d3ec13ae495e7d?pvs=74" target="_blank" class="format-link">查看課後筆記範例 →</a>
-    </div>
-    <div class="ai-card">
-      <div class="ai-card-step">課後練習</div>
-      <div class="ai-card-title">Gemini 儀表板<br>24 小時練習空間</div>
-      <div class="ai-card-desc">每位學生有專屬的 Gemini 練習工具。課後可以繼續提問、驗證理解、練習題目——不是等下週上課才能問，是隨時可以練。</div>
-      <div class="ai-card-tag">✦ 課程學生專屬工具</div>
-    </div>
-  </div>
-  <div class="ai-compare">
-    <div class="ai-col bad">
-      <div class="ai-col-label">其他人怎麼用 AI</div>
-      <div class="ai-col-text">用 AI 生成答案 → 不知道對不對 → 遇到問題還是看不懂 → 永遠依賴 AI，沒有自己的判斷能力</div>
-    </div>
-    <div class="ai-col good">
-      <div class="ai-col-label">Rock 學生怎麼用 AI</div>
-      <div class="ai-col-text">先懂財報邏輯 → 有能力判斷 AI 答案對不對 → AI 是加速工具，不是拐杖 → 真正有用的財務分析能力</div>
-    </div>
-  </div>
-  <div style="margin-top:2rem;padding:1.4rem 1.8rem;background:var(--white);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-radius:4px">
-    <div>
-      <div style="font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem">AI 時代真正有用的技能</div>
-      <div style="font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink)">不懂財報的人用 AI，頂多是複製貼上——不知道對不對</div>
-    </div>
-    <a href="https://line.me/R/ti/p/@365poxew" target="_blank" class="btn-primary" style="white-space:nowrap;font-size:.8rem">免費諮詢了解更多 →</a>
-  </div>
-</section>
+  document.getElementById('stage-select').style.display = 'none'
+  const detail = document.getElementById('stage-detail')
+  detail.style.display = 'block'
+  detail.scrollIntoView({behavior:'smooth', block:'start'})
+}
 
-<!-- ══ 學習方式 ══ -->
-<div class="section-rule"><span class="section-rule-text">怎麼開始</span></div>
-<section class="section" id="formats">
-  <div class="section-header">
-    <div class="section-eyebrow">四個接觸點，從免費到深度</div>
-    <h2 class="section-title">先試試 Rock 怎麼教，<em>再決定要不要付錢</em></h2>
-  </div>
-  <div class="format-grid">
-    <div class="format-card">
-      <span class="format-icon">🔴</span>
-      <div class="format-name">週日直播（免費）</div>
-      <div class="format-desc">每週日 21:00，用財報視角解讀一本書或一間企業。免費、即時互動、直播後有複習筆記。零成本先看 Rock 怎麼教。</div>
-      <a class="format-link" href="https://share.ekkorn.com/share/share.html#/profile/jFwLDXvG" target="_blank">立即追蹤 Ekkorn →</a>
-    </div>
-    <div class="format-card">
-      <span class="format-icon">📺</span>
-      <div class="format-name">YouTube（免費）</div>
-      <div class="format-desc">直播錄影回放，短影音免費公開。一分鐘讓你對財報有感，適合還在觀望的人。</div>
-      <a class="format-link" href="https://www.youtube.com/@Brothergo99" target="_blank">前往頻道 →</a>
-    </div>
-    <div class="format-card">
-      <span class="format-icon">💬</span>
-      <div class="format-name">LINE 諮詢（免費）</div>
-      <div class="format-desc">告訴 Rock 你的狀況和目標，他直接說這對你有沒有用——不適合的，他不會叫你來上課。</div>
-      <a class="format-link" href="https://line.me/R/ti/p/@365poxew" target="_blank">加 LINE 諮詢 →</a>
-    </div>
-    <div class="format-card">
-      <span class="format-icon">🎓</span>
-      <div class="format-name">一對一課程</div>
-      <div class="format-desc">AmazingTalker 平台，430 堂完課記錄，五星評價公開可查。量身規劃，你的起點和目標決定課程方向。</div>
-      <a class="format-link" href="https://tw.amazingtalker.com/teachers-and-tutors/364fc2c3-f93f-4701-9b96-72f9ba4c9bfe" target="_blank">查看評價記錄 →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ══ FINAL CTA ══ -->
-<section class="cta-section">
-  <div>
-    <h2 class="cta-headline">你想去哪裡？<br><em>說給 Rock 聽</em></h2>
-  </div>
-  <div>
-    <p class="cta-body">升職、轉行、接班、募資、投資——每個人的目標不同，財報擋住你的方式也不一樣。加 LINE 告訴 Rock 你的狀況，他會直接說這對你有沒有用。不適合的，他不會叫你來上課。</p>
-    <div class="cta-choices">
-      <a class="cta-option" href="https://line.me/R/ti/p/@365poxew" target="_blank">
-        <span class="cta-option-icon">💬</span>
-        <div class="cta-option-text">
-          <div class="cta-option-title">加 LINE 免費諮詢</div>
-          <div class="cta-option-sub">說說你的目標，Rock 直接告訴你下一步</div>
-        </div>
-        <span class="cta-option-arrow">→</span>
-      </a>
-      <a class="cta-option" href="https://share.ekkorn.com/share/share.html#/profile/jFwLDXvG" target="_blank">
-        <span class="cta-option-icon">🔴</span>
-        <div class="cta-option-text">
-          <div class="cta-option-title">先看直播，零成本試水</div>
-          <div class="cta-option-sub">每週日 21:00 · Ekkorn 免費直播</div>
-        </div>
-        <span class="cta-option-arrow">→</span>
-      </a>
-      <a class="cta-option" href="https://tw.amazingtalker.com/teachers-and-tutors/364fc2c3-f93f-4701-9b96-72f9ba4c9bfe" target="_blank">
-        <span class="cta-option-icon">⭐</span>
-        <div class="cta-option-text">
-          <div class="cta-option-title">查看五星評價記錄</div>
-          <div class="cta-option-sub">AmazingTalker · 430 堂完課 · 公開可查</div>
-        </div>
-        <span class="cta-option-arrow">→</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div>© 2026 Rock 蕭啟漢 · 會計家教</div>
-  <div>
-    <a href="https://line.me/R/ti/p/@365poxew" target="_blank">LINE @365poxew</a>&nbsp;·&nbsp;
-    <a href="https://www.youtube.com/@Brothergo99" target="_blank">YouTube</a>&nbsp;·&nbsp;
-    <a href="https://share.ekkorn.com/share/share.html#/profile/jFwLDXvG" target="_blank">Ekkorn 直播</a>&nbsp;·&nbsp;
-    <a href="https://tw.amazingtalker.com/teachers-and-tutors/364fc2c3-f93f-4701-9b96-72f9ba4c9bfe" target="_blank">AmazingTalker</a>
-  </div>
-</footer>
-
+function goBack() {
+  document.getElementById('stage-detail').style.display = 'none'
+  document.getElementById('stage-select').style.display = 'block'
+  window.scrollTo({top:0, behavior:'smooth'})
+}
+</script>
 </body>
 </html>
