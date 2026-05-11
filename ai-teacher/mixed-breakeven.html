@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>混合產品損益兩平分析</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --orange:      #ea580c;
+  --orange-dark: #c2410c;
+  --orange-mid:  #fb923c;
+  --orange-bg:   #fff7ed;
+  --orange-100:  #ffedd5;
+  --orange-200:  #fed7aa;
+  --stone-900:   #1c1917;
+  --stone-800:   #292524;
+  --stone-700:   #44403c;
+  --stone-600:   #57534e;
+  --stone-500:   #78716c;
+  --stone-400:   #a8a29e;
+  --stone-300:   #d6d3d1;
+  --stone-200:   #e7e5e4;
+  --stone-100:   #f5f5f4;
+  --stone-50:    #fafaf9;
+  --red-50:      #fef2f2;
+  --red-100:     #fee2e2;
+  --red-200:     #fecaca;
+  --red-500:     #ef4444;
+  --red-600:     #dc2626;
+  --green-600:   #16a34a;
+  --white:       #ffffff;
+  --r:           14px;
+  --r-sm:        8px;
+}
+
+html, body {
+  font-family: -apple-system, 'Segoe UI', 'Noto Sans TC', sans-serif;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffffff 55%, #ffedd5 100%);
+  min-height: 100vh;
+  color: var(--stone-700);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.page { max-width: 960px; margin: 0 auto; padding: 1.75rem 1.25rem 3rem; }
+
+header { margin-bottom: 1.75rem; }
+.badge {
+  display: inline-block;
+  font-size: 11px; font-weight: 700; letter-spacing: .05em;
+  background: var(--orange-100); color: var(--orange-dark);
+  border: 1px solid var(--orange-200); border-radius: 6px;
+  padding: 2px 10px; margin-bottom: .5rem;
+}
+h1 { font-size: 1.6rem; font-weight: 900; color: var(--stone-900); line-height: 1.25; }
+h1 span { color: var(--orange); }
+.sub { font-size: .8rem; color: var(--stone-500); margin-top: .35rem; font-weight: 500; }
+
+/* ── Layout ── */
+.layout { display: grid; grid-template-columns: 300px 1fr; gap: 1.1rem; align-items: start; }
+@media (max-width: 680px) { .layout { grid-template-columns: 1fr; } }
+
+.panel {
+  background: var(--white);
+  border: 1px solid #ffe4c8;
+  border-radius: var(--r);
+  padding: 1.1rem 1.2rem;
+}
+.panel + .panel { margin-top: 1rem; }
+
+.section-label {
+  font-size: .7rem; font-weight: 700; letter-spacing: .08em;
+  color: var(--stone-500); text-transform: uppercase;
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: .9rem;
+}
+.section-label .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
+
+/* ── Sliders ── */
+.slider-group { display: flex; flex-direction: column; gap: .85rem; }
+.sl label {
+  display: flex; justify-content: space-between;
+  font-size: .75rem; font-weight: 600; color: var(--stone-600); margin-bottom: 4px;
+}
+.sl label .v { font-weight: 800; color: var(--stone-900); }
+input[type=range] {
+  -webkit-appearance: none; width: 100%; height: 4px;
+  border-radius: 99px; background: var(--stone-200); outline: none; cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 15px; height: 15px;
+  border-radius: 50%; cursor: pointer; transition: transform .12s;
+}
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.25); }
+input[type=range].c-orange::-webkit-slider-thumb { background: var(--orange); }
+input[type=range].c-stone::-webkit-slider-thumb  { background: var(--stone-500); }
+input[type=range].c-dark::-webkit-slider-thumb   { background: var(--stone-700); }
+
+.divider { border: none; border-top: 1px solid #ffe4c8; margin: .75rem 0; }
+
+/* ── Product columns ── */
+.product-cols { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.prod-card {
+  background: var(--white);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--stone-200);
+  border-top: 3px solid var(--stone-300);
+  padding: .9rem .85rem;
+}
+.prod-card.type-a { border-top-color: var(--orange); }
+.prod-card.type-b { border-top-color: var(--stone-400); }
+.prod-title { font-size: .75rem; font-weight: 900; margin-bottom: .75rem; }
+.prod-title.a { color: var(--orange); }
+.prod-title.b { color: var(--stone-600); }
+.prod-sl { display: flex; flex-direction: column; gap: .6rem; }
+.prod-sl label {
+  display: flex; justify-content: space-between;
+  font-size: .68rem; font-weight: 600; color: var(--stone-500);
+}
+.prod-sl label span { font-weight: 700; color: var(--stone-800); }
+
+/* ── Mix slider ── */
+.mix-box {
+  background: var(--orange-bg);
+  border: 1px solid var(--orange-200);
+  border-radius: var(--r-sm);
+  padding: .9rem 1rem;
+  margin-bottom: .9rem;
+}
+.mix-row {
+  display: flex; justify-content: space-between;
+  font-size: .75rem; font-weight: 700; margin-bottom: 5px;
+}
+.mix-row .a { color: var(--orange); }
+.mix-row .b { color: var(--stone-500); }
+.mix-hint { font-size: .65rem; color: var(--stone-400); margin-top: 4px; }
+
+/* ── Right col ── */
+.right-col { display: flex; flex-direction: column; gap: 1rem; }
+
+/* ── Metric cards ── */
+.metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; }
+@media (max-width: 420px) { .metrics-row { grid-template-columns: 1fr 1fr; } }
+
+.metric-card {
+  background: var(--white);
+  border: 1px solid #ffe4c8;
+  border-radius: var(--r-sm);
+  padding: .85rem .95rem;
+}
+.metric-card.highlight { background: var(--orange-bg); border-color: var(--orange-200); }
+.m-label {
+  font-size: .65rem; font-weight: 700; color: var(--stone-500);
+  letter-spacing: .03em; margin-bottom: .35rem;
+}
+.m-val {
+  font-size: 1.5rem; font-weight: 900; line-height: 1;
+  color: var(--stone-900);
+}
+.m-val.orange { color: var(--orange); }
+.m-val.danger { color: var(--red-600); }
+.m-sub-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+  margin-top: .5rem; padding-top: .5rem;
+  border-top: 1px solid var(--stone-100);
+}
+.metric-card.highlight .m-sub-row { border-top-color: var(--orange-200); }
+.sub-tag {
+  font-size: .65rem; font-weight: 700;
+  padding: 3px 5px; border-radius: 4px; line-height: 1.3;
+}
+.sub-tag.a { background: var(--orange-100); color: var(--orange-dark); }
+.sub-tag.b { background: var(--stone-100); color: var(--stone-600); }
+
+/* ── Bar chart ── */
+.bars-panel { padding: .95rem 1.1rem; }
+.bar-item { margin-bottom: .8rem; }
+.bar-hdr { display: flex; justify-content: space-between; font-size: .7rem; font-weight: 600; color: var(--stone-500); margin-bottom: 4px; }
+.bar-hdr .bv { font-weight: 800; color: var(--stone-800); }
+.bar-track { height: 8px; background: var(--stone-100); border-radius: 99px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 99px; transition: width .35s ease; }
+
+/* ── Insights ── */
+.insights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+@media (max-width: 480px) { .insights-grid { grid-template-columns: 1fr; } }
+.i-card {
+  background: var(--stone-50);
+  border: 1px solid var(--stone-200);
+  border-radius: var(--r-sm);
+  padding: .85rem .95rem;
+  transition: box-shadow .2s;
+}
+.i-card:hover { box-shadow: 0 3px 10px rgba(0,0,0,.07); }
+.i-card.full { grid-column: 1 / -1; }
+.i-card.warn {
+  background: var(--red-50);
+  border-color: var(--red-200);
+  border-left: 3px solid var(--red-500);
+}
+.i-label {
+  font-size: .65rem; font-weight: 700; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--stone-500);
+  display: flex; align-items: center; gap: 5px; margin-bottom: .45rem;
+}
+.i-card.warn .i-label { color: var(--red-600); }
+.i-card p { font-size: .78rem; color: var(--stone-700); line-height: 1.65; font-weight: 500; }
+.hl           { font-weight: 900; color: var(--stone-900); }
+.hl.orange    { color: var(--orange); }
+.hl.orange-bg { color: var(--orange-dark); background: var(--orange-100); padding: 0 3px; border-radius: 3px; }
+.hl.stone-bg  { color: var(--stone-800); background: var(--stone-200); padding: 0 3px; border-radius: 3px; }
+.hl.red-bg    { color: var(--red-600); background: var(--red-100); padding: 0 3px; border-radius: 3px; }
+.hl.green     { color: var(--green-600); }
+
+footer {
+  margin-top: 2.5rem; text-align: center;
+  font-size: .7rem; color: var(--stone-400); letter-spacing: .03em;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="badge">互動分析工具 · 混合產品模型</div>
+    <h1>機車行輪胎銷售<span>與設備回本分析</span></h1>
+    <p class="sub">精算「高價 / 平價」產品組合對加權貢獻毛利與營運目標的真實影響</p>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── 左側：所有參數 ── -->
+    <div>
+
+      <!-- 銷售組合 + 全域 -->
+      <div class="panel">
+        <div class="section-label"><span class="dot"></span>全域營運設定</div>
+        <div class="slider-group">
+          <div class="sl">
+            <label>設備投資 / 固定成本 <span class="v" id="v-opex">$30,000</span></label>
+            <input type="range" class="c-dark" id="s-opex" min="0" max="100000" step="1000" value="30000">
+          </div>
+          <div class="sl">
+            <label>期望額外獲利 <span class="v" id="v-target">$20,000</span></label>
+            <input type="range" class="c-orange" id="s-target" min="0" max="100000" step="5000" value="20000">
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="mix-box">
+          <div class="mix-row">
+            <span class="a" id="mix-a-pct">高價胎 30%</span>
+            <span class="b" id="mix-b-pct">平價胎 70%</span>
+          </div>
+          <input type="range" class="c-orange" id="s-ratio" min="0" max="100" step="10" value="30">
+          <div class="mix-hint">調整客人選擇高價胎的比例，觀察加權毛利如何變動</div>
+        </div>
+
+      </div>
+
+      <!-- 商品細部 -->
+      <div class="panel">
+        <div class="section-label"><span class="dot"></span>商品細部設定</div>
+        <div class="product-cols">
+
+          <!-- 高價胎 -->
+          <div class="prod-card type-a">
+            <div class="prod-title a">🟠 高價輪胎</div>
+            <div class="prod-sl">
+              <div class="sl">
+                <label>售價 <span id="v-pa">$2,500</span></label>
+                <input type="range" class="c-orange" id="s-pa" min="1500" max="5000" step="100" value="2500">
+              </div>
+              <div class="sl">
+                <label>進價 <span id="v-ca">$1,200</span></label>
+                <input type="range" class="c-stone" id="s-ca" min="800" max="3000" step="100" value="1200">
+              </div>
+              <div class="sl">
+                <label>工資 <span id="v-la">$300</span></label>
+                <input type="range" class="c-stone" id="s-la" min="100" max="1000" step="50" value="300">
+              </div>
+            </div>
+          </div>
+
+          <!-- 平價胎 -->
+          <div class="prod-card type-b">
+            <div class="prod-title b">⚪ 平價輪胎</div>
+            <div class="prod-sl">
+              <div class="sl">
+                <label>售價 <span id="v-pb">$1,200</span></label>
+                <input type="range" class="c-stone" id="s-pb" min="800" max="2000" step="50" value="1200">
+              </div>
+              <div class="sl">
+                <label>進價 <span id="v-cb">$600</span></label>
+                <input type="range" class="c-stone" id="s-cb" min="400" max="1500" step="50" value="600">
+              </div>
+              <div class="sl">
+                <label>工資 <span id="v-lb">$200</span></label>
+                <input type="range" class="c-stone" id="s-lb" min="100" max="800" step="50" value="200">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── 右側：指標 + 圖表 + 洞察 ── -->
+    <div class="right-col">
+
+      <!-- 核心指標 -->
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="m-label">📊 加權平均毛利 (WACM)</div>
+          <div class="m-val orange" id="m-wacm">$490</div>
+          <div class="m-sub-row">
+            <div class="sub-tag a" id="m-cma">高: $1,000</div>
+            <div class="sub-tag b" id="m-cmb">平: $400</div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="m-label">🔧 設備回本總量</div>
+          <div class="m-val" id="m-bep">62 條</div>
+          <div class="m-sub-row">
+            <div class="sub-tag a" id="m-bepa">高: 19 條</div>
+            <div class="sub-tag b" id="m-bepb">平: 43 條</div>
+          </div>
+        </div>
+        <div class="metric-card highlight">
+          <div class="m-label">🎯 期望達標總量</div>
+          <div class="m-val orange" id="m-tgt">103 條</div>
+          <div class="m-sub-row">
+            <div class="sub-tag a" id="m-tgta">高: 31 條</div>
+            <div class="sub-tag b" id="m-tgtb">平: 72 條</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 成本結構對比 -->
+      <div class="panel bars-panel">
+        <div class="section-label"><span class="dot"></span>單條售價結構對比</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+          <div>
+            <div style="font-size:.7rem;font-weight:800;color:var(--orange);margin-bottom:.5rem;">🟠 高價輪胎</div>
+            <div id="bars-a"></div>
+          </div>
+          <div>
+            <div style="font-size:.7rem;font-weight:800;color:var(--stone-500);margin-bottom:.5rem;">⚪ 平價輪胎</div>
+            <div id="bars-b"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 洞察 -->
+      <div class="panel">
+        <div class="section-label"><span class="dot"></span>混合產品商業洞察</div>
+        <div class="insights-grid">
+
+          <div class="i-card">
+            <div class="i-label">📈 銷售組合槓桿</div>
+            <p>目前高低價胎毛利差距為 <span class="hl orange" id="i-diff">$600</span>。每說服一位客人升級高價胎，加權毛利 (WACM) 就會提升——整月需換的目標條數也隨之下降，這正是「推銷話術」的真實財務價值。</p>
+          </div>
+
+          <div class="i-card">
+            <div class="i-label">📦 精準備貨水位</div>
+            <p>達成目標不只看總量 <span class="hl" id="i-tgt-t">103</span> 條。依當前組合佔比，需備 <span class="hl orange-bg" id="i-tgt-a">31 條高價</span> 與 <span class="hl stone-bg" id="i-tgt-b">72 條平價</span>，避免資金積壓在賣不動的規格上。</p>
+          </div>
+
+          <div class="i-card warn full">
+            <div class="i-label">⚠️ 全面通膨壓力測試</div>
+            <p>若上游廠商同時漲價，導致兩種輪胎進價各上漲 $100 且無法轉嫁，為了維持相同的獲利目標，整個月必須 <span class="hl red-bg" id="i-risk">額外多換 X 條</span>。在毛利已被稀釋的情況下，數量壓力將呈指數型上升。</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>© Rock 會計家教 · 互動儀表板示範工具 · 數字僅供教學用途</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const fmt  = v => '$' + Math.round(v).toLocaleString('zh-TW');
+const fmtN = (v, u) => Math.round(v).toLocaleString('zh-TW') + ' ' + u;
+
+const BAR_CFG = [
+  { key: 'price', label: '售價',    color: '#3b82f6' },
+  { key: 'cogs',  label: '進貨成本', color: '#ef4444' },
+  { key: 'labor', label: '換胎工資', color: '#f59e0b' },
+  { key: 'cm',    label: '貢獻毛利', color: '#22c55e' },
+];
+
+function renderBars(containerId, price, cogs, labor, cm) {
+  const items = [
+    { key: 'price', val: price },
+    { key: 'cogs',  val: cogs  },
+    { key: 'labor', val: labor },
+    { key: 'cm',    val: Math.max(cm, 0) },
+  ];
+  $(containerId).innerHTML = items.map(item => {
+    const cfg = BAR_CFG.find(c => c.key === item.key);
+    const pct = price > 0 ? Math.min((item.val / price) * 100, 100).toFixed(1) : 0;
+    return `<div class="bar-item">
+      <div class="bar-hdr"><span>${cfg.label}</span><span class="bv">${fmt(item.val)}</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${cfg.color}"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function update() {
+  const opex   = +$('s-opex').value;
+  const target = +$('s-target').value;
+  const ratio  = +$('s-ratio').value;
+  const pa = +$('s-pa').value, ca = +$('s-ca').value, la = +$('s-la').value;
+  const pb = +$('s-pb').value, cb = +$('s-cb').value, lb = +$('s-lb').value;
+
+  // 顯示滑桿值
+  $('v-opex').textContent = fmt(opex);
+  $('v-target').textContent = fmt(target);
+  $('mix-a-pct').textContent = `高價胎 ${ratio}%`;
+  $('mix-b-pct').textContent = `平價胎 ${100 - ratio}%`;
+  $('v-pa').textContent = fmt(pa); $('v-ca').textContent = fmt(ca); $('v-la').textContent = fmt(la);
+  $('v-pb').textContent = fmt(pb); $('v-cb').textContent = fmt(cb); $('v-lb').textContent = fmt(lb);
+
+  // 計算
+  const cmA = pa - ca - la;
+  const cmB = pb - cb - lb;
+  const rA = ratio / 100, rB = (100 - ratio) / 100;
+  const wacm = cmA * rA + cmB * rB;
+
+  const bepTotal    = wacm > 0 ? Math.ceil(opex / wacm) : 0;
+  const targetTotal = wacm > 0 ? Math.ceil((opex + target) / wacm) : 0;
+  const bepA        = Math.round(bepTotal * rA);
+  const bepB        = bepTotal - bepA;
+  const tgtA        = Math.round(targetTotal * rA);
+  const tgtB        = targetTotal - tgtA;
+
+  const wacmRisk   = wacm - 100;
+  const riskExtra  = wacmRisk > 0
+    ? Math.ceil((opex + target) / wacmRisk) - targetTotal
+    : '∞';
+
+  // 更新指標卡
+  $('m-wacm').textContent = wacm > 0 ? fmt(wacm) : '負毛利';
+  $('m-wacm').className = 'm-val ' + (wacm > 0 ? 'orange' : 'danger');
+  $('m-cma').textContent = `高: ${fmt(cmA)}`;
+  $('m-cmb').textContent = `平: ${fmt(cmB)}`;
+  $('m-bep').textContent  = wacm > 0 ? fmtN(bepTotal, '條') : '---';
+  $('m-bepa').textContent = `高: ${bepA} 條`;
+  $('m-bepb').textContent = `平: ${bepB} 條`;
+  $('m-tgt').textContent  = wacm > 0 ? fmtN(targetTotal, '條') : '---';
+  $('m-tgta').textContent = `高: ${tgtA} 條`;
+  $('m-tgtb').textContent = `平: ${tgtB} 條`;
+
+  // 長條圖
+  renderBars('bars-a', pa, ca, la, cmA);
+  renderBars('bars-b', pb, cb, lb, cmB);
+
+  // 洞察文字
+  $('i-diff').textContent  = fmt(Math.abs(cmA - cmB));
+  $('i-tgt-t').textContent = targetTotal.toLocaleString();
+  $('i-tgt-a').textContent = `${tgtA} 條高價`;
+  $('i-tgt-b').textContent = `${tgtB} 條平價`;
+  $('i-risk').textContent  = `額外多換 ${riskExtra} 條`;
+}
+
+['s-opex','s-target','s-ratio',
+ 's-pa','s-ca','s-la',
+ 's-pb','s-cb','s-lb'].forEach(id => $(id).addEventListener('input', update));
+
+update();
+</script>
+</body>
+</html>
