@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Rock 機車行繼續經營決策面板</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E05A00;
+    --orange-light: #FF7A25;
+    --orange-pale: #FFF4EC;
+    --orange-border: #FFD4B2;
+    --dark: #1A1A1A;
+    --mid: #555;
+    --muted: #999;
+    --bg: #FAF7F4;
+    --card: #FFFFFF;
+    --green: #16A34A;
+    --green-bg: #F0FDF4;
+    --green-border: #BBF7D0;
+    --red: #DC2626;
+    --red-bg: #FEF2F2;
+    --red-border: #FECACA;
+    --blue: #1D4ED8;
+    --blue-bg: #EFF6FF;
+    --blue-border: #BFDBFE;
+    --yellow: #D97706;
+    --yellow-bg: #FFFBEB;
+    --yellow-border: #FDE68A;
+    --purple: #7C3AED;
+    --purple-bg: #F5F0FF;
+    --purple-border: #DDD6FE;
+    --slate: #475569;
+    --slate-bg: #F8FAFC;
+    --divider: #EAE4DC;
+    --radius: 14px;
+    --shadow: 0 1px 3px rgba(0,0,0,.07), 0 4px 16px rgba(0,0,0,.05);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── TOP NAV ── */
+  .topbar {
+    background: var(--dark);
+    padding: 0 20px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-logo { font-size: 17px; font-weight: 900; color: #fff; letter-spacing: -0.3px; }
+  .topbar-logo span { color: var(--orange-light); }
+  .topbar-badge {
+    font-size: 11px; font-weight: 700; background: var(--orange);
+    color: #fff; padding: 3px 10px; border-radius: 20px; letter-spacing: .5px;
+  }
+
+  /* ── LAYOUT ── */
+  .page { max-width: 1080px; margin: 0 auto; padding: 24px 16px 48px; }
+
+  /* ── HEADER ── */
+  .header { margin-bottom: 20px; }
+  .header-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-bottom: 10px;
+  }
+  .header-bar { width: 4px; height: 22px; background: var(--orange); border-radius: 2px; }
+  .header-tag-text { font-size: 11px; font-weight: 800; color: var(--orange); letter-spacing: 2px; text-transform: uppercase; }
+  h1 { font-size: clamp(20px, 5vw, 28px); font-weight: 900; letter-spacing: -0.5px; }
+  .header-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* ── SCENARIO BUTTONS ── */
+  .scenarios { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; margin-bottom: 24px; }
+  .btn {
+    padding: 9px 16px; border: none; border-radius: 8px;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+    font-family: inherit; transition: opacity .15s, transform .1s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-dark { background: var(--dark); color: #fff; }
+  .btn-orange { background: var(--orange); color: #fff; }
+  .btn-outline { background: #fff; color: var(--dark); border: 1.5px solid var(--divider); }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card); border-radius: var(--radius);
+    border: 1px solid var(--divider); box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .card-body { padding: 20px; }
+  .card-head {
+    padding: 16px 20px 14px;
+    border-bottom: 1px solid var(--divider);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .card-title { font-size: 14px; font-weight: 800; color: var(--dark); }
+  .pill {
+    font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 20px;
+    background: var(--orange-pale); color: var(--orange); border: 1px solid var(--orange-border);
+  }
+
+  /* ── DECISION BANNER ── */
+  .decision-banner {
+    border-radius: var(--radius); padding: 18px 20px;
+    border-width: 1.5px; border-style: solid;
+    display: flex; gap: 14px; align-items: flex-start;
+    margin-bottom: 16px;
+    transition: background .3s, border-color .3s;
+  }
+  .decision-icon { font-size: 26px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+  .decision-title { font-size: 16px; font-weight: 900; margin-bottom: 6px; letter-spacing: -0.2px; }
+  .decision-text { font-size: 13px; line-height: 1.7; opacity: .88; font-weight: 500; }
+
+  /* ── GRID ── */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  @media (min-width: 768px) {
+    .main-grid { grid-template-columns: 320px 1fr; }
+  }
+  .right-col { display: flex; flex-direction: column; gap: 16px; }
+
+  /* ── SLIDERS ── */
+  .sliders-list { display: flex; flex-direction: column; gap: 18px; }
+  .slider-group { }
+  .slider-label-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 7px;
+  }
+  .slider-label { font-size: 13px; font-weight: 600; color: var(--dark); }
+  .slider-hint { font-size: 11px; color: var(--muted); margin-left: 5px; }
+  .slider-value { font-size: 15px; font-weight: 900; }
+  .slider-track-wrap {
+    position: relative; height: 8px; border-radius: 4px;
+    background: #E8E0D8; cursor: pointer;
+  }
+  .slider-fill {
+    position: absolute; left: 0; top: 0; height: 100%;
+    border-radius: 4px; transition: width .05s;
+    pointer-events: none;
+  }
+  input[type=range] {
+    position: absolute; inset: -6px 0;
+    width: 100%; opacity: 0; cursor: pointer;
+    height: calc(100% + 12px);
+  }
+  .slider-note {
+    font-size: 11px; margin-top: 5px; font-weight: 500; line-height: 1.5;
+  }
+  .inset-box {
+    padding: 14px; border-radius: 10px;
+  }
+
+  /* ── METRIC ROWS ── */
+  .metric-list { display: flex; flex-direction: column; gap: 0; }
+  .metric-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0; font-size: 13px;
+  }
+  .metric-row.border-b { border-bottom: 1px solid var(--divider); }
+  .metric-row.indent { padding-left: 12px; }
+  .metric-label { color: var(--mid); }
+  .metric-label.bold { color: var(--dark); font-weight: 700; }
+  .metric-value { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .metric-value.bold { font-size: 15px; font-weight: 800; }
+  .result-box {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 14px; border-radius: 9px; margin-top: 8px;
+    transition: background .3s;
+  }
+  .result-label { font-size: 13px; font-weight: 700; }
+  .result-value { font-size: 20px; font-weight: 900; font-variant-numeric: tabular-nums; }
+
+  /* ── KPI ROW ── */
+  .kpi-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .kpi-box { border-radius: 10px; padding: 12px; text-align: center; }
+  .kpi-label { font-size: 11px; color: var(--muted); margin-bottom: 5px; font-weight: 600; }
+  .kpi-value { font-size: 20px; font-weight: 900; font-variant-numeric: tabular-nums; }
+
+  /* ── QUADRANT ── */
+  .quad-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .quad-box { background: #fff; border-radius: 9px; padding: 11px 13px; }
+  .quad-condition { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+  .quad-name { font-size: 13px; font-weight: 800; }
+  .quad-sub { font-size: 11px; color: var(--muted); }
+
+  /* ── TABS (mobile) ── */
+  .tabs {
+    display: flex; gap: 0; border-radius: 10px; overflow: hidden;
+    border: 1.5px solid var(--divider); background: var(--bg);
+    margin-bottom: 14px;
+  }
+  .tab-btn {
+    flex: 1; padding: 10px 4px; font-size: 13px; font-weight: 700;
+    border: none; background: transparent; color: var(--muted); cursor: pointer;
+    font-family: inherit; transition: all .15s;
+  }
+  .tab-btn.active { background: var(--dark); color: #fff; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── CARDS-2COL ── */
+  .cards-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 540px) { .cards-2col { grid-template-columns: 1fr; } }
+
+  /* ── ANIMATE ── */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+  .page > * { animation: fadeUp .35s ease both; }
+  .page > *:nth-child(1) { animation-delay: 0s; }
+  .page > *:nth-child(2) { animation-delay: .05s; }
+  .page > *:nth-child(3) { animation-delay: .1s; }
+  .page > *:nth-child(4) { animation-delay: .15s; }
+
+  /* ── DIVIDER TEXT ── */
+  .section-label {
+    font-size: 11px; font-weight: 800; color: var(--muted);
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 10px; margin-top: 4px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--divider); }
+
+  /* ── EVA DESCRIPTION ── */
+  .eva-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 14px; }
+  .eva-desc strong { color: var(--orange); }
+  .eva-desc b { color: var(--red); }
+
+  /* ── footer ── */
+  .footer { text-align: center; font-size: 12px; color: var(--muted); padding-top: 16px; }
+
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topbar">
+  <div class="topbar-logo"><span>Rock</span> 會計家教</div>
+  <div class="topbar-badge">財務決策工具</div>
+</nav>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-tag">
+      <div class="header-bar"></div>
+      <span class="header-tag-text">繼續經營 / 停損判斷</span>
+    </div>
+    <h1>機車行展店決策面板</h1>
+    <p class="header-sub">用變動成本法與現金流，破解傳統損益表的盲點</p>
+  </div>
+
+  <!-- SCENARIO BUTTONS -->
+  <div class="scenarios">
+    <button class="btn btn-dark" onclick="setScenarioA()">⚙️ 案例 A：重資產 / 賠折舊</button>
+    <button class="btn btn-orange" onclick="setScenarioB()">📦 案例 B：重庫存 / 黑字倒閉</button>
+    <button class="btn btn-outline" onclick="resetDefault()">↺ 重設</button>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- LEFT: CONTROLS -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">📊 營運參數設定</span>
+      </div>
+      <div class="card-body">
+        <div class="sliders-list">
+
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <div><span class="slider-label">單月營收</span><span class="slider-hint">萬元</span></div>
+              <span class="slider-value" id="v-revenue" style="color:var(--orange)">60 萬</span>
+            </div>
+            <div class="slider-track-wrap">
+              <div class="slider-fill" id="f-revenue" style="background:var(--orange)"></div>
+              <input type="range" id="s-revenue" min="10" max="200" step="5" value="60" oninput="update()">
+            </div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <div><span class="slider-label">變動成本率</span><span class="slider-hint">零件 / 技師抽成</span></div>
+              <span class="slider-value" id="v-vc" style="color:var(--orange-light)">40%</span>
+            </div>
+            <div class="slider-track-wrap">
+              <div class="slider-fill" id="f-vc" style="background:var(--orange-light)"></div>
+              <input type="range" id="s-vc" min="10" max="90" step="5" value="40" oninput="update()">
+            </div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <div><span class="slider-label">付現固定成本</span><span class="slider-hint">店租 / 行政薪資</span></div>
+              <span class="slider-value" id="v-fixed" style="color:var(--dark)">10 萬</span>
+            </div>
+            <div class="slider-track-wrap">
+              <div class="slider-fill" id="f-fixed" style="background:var(--dark)"></div>
+              <input type="range" id="s-fixed" min="0" max="50" step="1" value="10" oninput="update()">
+            </div>
+          </div>
+
+          <div class="inset-box" style="background:var(--purple-bg);border:1px solid var(--purple-border)">
+            <div class="slider-group">
+              <div class="slider-label-row">
+                <div><span class="slider-label">折舊與攤銷</span><span class="slider-hint">非付現</span></div>
+                <span class="slider-value" id="v-dep" style="color:var(--purple)">40 萬</span>
+              </div>
+              <div class="slider-track-wrap">
+                <div class="slider-fill" id="f-dep" style="background:var(--purple)"></div>
+                <input type="range" id="s-dep" min="0" max="100" step="5" value="40" oninput="update()">
+              </div>
+              <p class="slider-note" style="color:var(--purple)">裝潢、頂車機等前期投資的沉沒成本（不影響現金）</p>
+            </div>
+          </div>
+
+          <div class="inset-box" style="background:var(--yellow-bg);border:1px solid var(--yellow-border)">
+            <div class="slider-group">
+              <div class="slider-label-row">
+                <div><span class="slider-label">營運資金積壓</span><span class="slider-hint">囤貨 / 應收</span></div>
+                <span class="slider-value" id="v-inv" style="color:var(--yellow)">0 萬</span>
+              </div>
+              <div class="slider-track-wrap">
+                <div class="slider-fill" id="f-inv" style="background:var(--yellow)"></div>
+                <input type="range" id="s-inv" min="-20" max="100" step="5" value="0" oninput="update()">
+              </div>
+              <p class="slider-note" style="color:var(--yellow)">正值＝資金積壓（囤庫存）；負值＝消化庫存變現</p>
+            </div>
+          </div>
+
+          <div class="inset-box" style="background:var(--slate-bg);border:1px solid #E2E8F0">
+            <div class="slider-group">
+              <div class="slider-label-row">
+                <div><span class="slider-label">資金成本率</span><span class="slider-hint">年化 %</span></div>
+                <span class="slider-value" id="v-cap" style="color:var(--slate)">5%</span>
+              </div>
+              <div class="slider-track-wrap">
+                <div class="slider-fill" id="f-cap" style="background:var(--slate)"></div>
+                <input type="range" id="s-cap" min="1" max="20" step="1" value="5" oninput="update()">
+              </div>
+              <p class="slider-note" style="color:var(--slate)">用於計算庫存積壓的機會成本（EVA 懲罰係數）</p>
+            </div>
+          </div>
+
+        </div><!-- /sliders-list -->
+      </div>
+    </div><!-- /left card -->
+
+    <!-- RIGHT COL -->
+    <div class="right-col">
+
+      <!-- DECISION BANNER -->
+      <div class="decision-banner" id="decision-banner">
+        <div class="decision-icon" id="decision-icon">🚀</div>
+        <div>
+          <div class="decision-title" id="decision-title">健康營運 (Healthy)</div>
+          <div class="decision-text" id="decision-text">帳面與現金流雙贏，為可複製擴張的理想展店模型。</div>
+        </div>
+      </div>
+
+      <!-- MOBILE TABS for P&L vs OCF -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('pl',this)">📄 損益表</button>
+        <button class="tab-btn" onclick="switchTab('ocf',this)">💵 現金流</button>
+        <button class="tab-btn" onclick="switchTab('eva',this)">🎙️ Rock 老師觀點</button>
+      </div>
+
+      <!-- TAB: P&L -->
+      <div class="tab-panel active" id="tab-pl">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">傳統損益表</span>
+            <span class="pill">帳面視角</span>
+          </div>
+          <div class="card-body">
+            <div class="metric-list">
+              <div class="metric-row border-b">
+                <span class="metric-label bold">營業收入</span>
+                <span class="metric-value bold" id="r-revenue">60.0 萬</span>
+              </div>
+              <div class="metric-row indent border-b">
+                <span class="metric-label">(−) 變動成本</span>
+                <span class="metric-value" style="color:var(--muted)" id="r-vc">−24.0 萬</span>
+              </div>
+              <div class="metric-row border-b">
+                <span class="metric-label bold">邊際貢獻 (CM)</span>
+                <span class="metric-value bold" id="r-cm">36.0 萬</span>
+              </div>
+              <div class="metric-row indent">
+                <span class="metric-label">(−) 付現固定成本</span>
+                <span class="metric-value" style="color:var(--muted)" id="r-fixed">−10.0 萬</span>
+              </div>
+              <div class="metric-row indent border-b">
+                <span class="metric-label" style="color:var(--purple)">(−) 折舊費用（非付現）</span>
+                <span class="metric-value" style="color:var(--purple)" id="r-dep">−40.0 萬</span>
+              </div>
+            </div>
+            <div class="result-box" id="rbox-book">
+              <span class="result-label" id="rlabel-book">帳面營業利益</span>
+              <span class="result-value" id="rvalue-book">−14.0 萬</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: OCF -->
+      <div class="tab-panel" id="tab-ocf">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">現金流量分析</span>
+            <span class="pill">實質存活</span>
+          </div>
+          <div class="card-body">
+            <div class="metric-list">
+              <div class="metric-row border-b">
+                <span class="metric-label bold">邊際貢獻 (CM)</span>
+                <span class="metric-value bold" id="o-cm">36.0 萬</span>
+              </div>
+              <div class="metric-row indent border-b">
+                <span class="metric-label">(−) 付現固定成本</span>
+                <span class="metric-value" style="color:var(--muted)" id="o-fixed">−10.0 萬</span>
+              </div>
+              <div class="metric-row border-b">
+                <span class="metric-label bold">EBITDA（營運付現獲利）</span>
+                <span class="metric-value bold" id="o-ebitda">26.0 萬</span>
+              </div>
+              <div class="metric-row indent border-b">
+                <span class="metric-label" style="color:var(--yellow)">(−) 營運資金積壓</span>
+                <span class="metric-value" style="color:var(--yellow)" id="o-inv">−0.0 萬</span>
+              </div>
+            </div>
+            <div class="result-box" id="rbox-ocf">
+              <span class="result-label" id="rlabel-ocf">營業活動現金流 (OCF)</span>
+              <span class="result-value" id="rvalue-ocf">26.0 萬</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Rock老師觀點 -->
+      <div class="tab-panel" id="tab-eva">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">🎙️ Rock 老師怎麼看</span>
+            <span class="pill">洞見解析</span>
+          </div>
+          <div class="card-body">
+
+            <!-- Quote block -->
+            <div id="rock-quote" style="background:var(--orange-pale);border-left:4px solid var(--orange);border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:16px;">
+              <div style="font-size:11px;font-weight:800;color:var(--orange);letter-spacing:1px;margin-bottom:6px;">ROCK 老師說</div>
+              <div id="rock-quote-text" style="font-size:14px;font-weight:700;color:var(--dark);line-height:1.75;"></div>
+            </div>
+
+            <!-- Insight cards -->
+            <div id="rock-insights" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;"></div>
+
+            <!-- KPI row -->
+            <div style="background:var(--slate-bg);border-radius:10px;padding:14px;border:1px solid #E2E8F0;">
+              <div style="font-size:11px;font-weight:800;color:var(--muted);letter-spacing:1px;margin-bottom:10px;">數字驗算</div>
+              <div class="kpi-grid">
+                <div class="kpi-box" id="kpi-ocf-box" style="background:var(--blue-bg)">
+                  <div class="kpi-label">OCF 現金流</div>
+                  <div class="kpi-value" id="kpi-ocf" style="color:var(--blue)">26.0</div>
+                </div>
+                <div class="kpi-box" style="background:var(--red-bg)">
+                  <div class="kpi-label">隱含資金成本</div>
+                  <div class="kpi-value" id="kpi-cap" style="color:var(--red)">−0.0</div>
+                </div>
+                <div class="kpi-box" id="kpi-eva-box" style="background:var(--green-bg)">
+                  <div class="kpi-label">真實獲利能力</div>
+                  <div class="kpi-value" id="kpi-eva" style="color:var(--green)">26.0</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- QUADRANT REFERENCE (always visible) -->
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">📌 四象限決策速查</span>
+        </div>
+        <div class="card-body">
+          <div class="quad-grid">
+            <div class="quad-box" style="border-left:3px solid var(--green)">
+              <div class="quad-condition">帳面 ✅ 現金 ✅</div>
+              <div class="quad-name" style="color:var(--green)">健康營運</div>
+              <div class="quad-sub">可複製展店</div>
+            </div>
+            <div class="quad-box" style="border-left:3px solid var(--blue)">
+              <div class="quad-condition">帳面 ❌ 現金 ✅</div>
+              <div class="quad-name" style="color:var(--blue)">繼續營業</div>
+              <div class="quad-sub">折舊遮蔽真實獲利</div>
+            </div>
+            <div class="quad-box" style="border-left:3px solid var(--yellow)">
+              <div class="quad-condition">帳面 ✅ 現金 ❌</div>
+              <div class="quad-name" style="color:var(--yellow)">黑字倒閉風險</div>
+              <div class="quad-sub">庫存吞噬現金</div>
+            </div>
+            <div class="quad-box" style="border-left:3px solid var(--red)">
+              <div class="quad-condition">帳面 ❌ 現金 ❌</div>
+              <div class="quad-name" style="color:var(--red)">立即停損</div>
+              <div class="quad-sub">CM 為負需立刻止血</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /right-col -->
+  </div><!-- /main-grid -->
+
+  <div class="footer">Rock 會計家教・看懂數字，看透商業</div>
+
+</div><!-- /page -->
+
+<script>
+function fmt(v) {
+  return (v >= 0 ? '' : '') + v.toFixed(1) + ' 萬';
+}
+function fmtSigned(v) {
+  return (v >= 0 ? '+' : '') + v.toFixed(1);
+}
+
+function sliderPct(id, min, max) {
+  const v = Number(document.getElementById(id).value);
+  return ((v - min) / (max - min)) * 100;
+}
+
+function setFill(fillId, pct, min) {
+  // For sliders with negative range (like inventory), offset properly
+  const p = Math.max(0, Math.min(100, pct));
+  document.getElementById(fillId).style.width = p + '%';
+}
+
+function update() {
+  const revenue = Number(document.getElementById('s-revenue').value);
+  const vcRatio = Number(document.getElementById('s-vc').value);
+  const fixedCash = Number(document.getElementById('s-fixed').value);
+  const dep = Number(document.getElementById('s-dep').value);
+  const inv = Number(document.getElementById('s-inv').value);
+  const capRate = Number(document.getElementById('s-cap').value);
+
+  // Update slider displays
+  document.getElementById('v-revenue').textContent = revenue + ' 萬';
+  document.getElementById('v-vc').textContent = vcRatio + '%';
+  document.getElementById('v-fixed').textContent = fixedCash + ' 萬';
+  document.getElementById('v-dep').textContent = dep + ' 萬';
+  document.getElementById('v-inv').textContent = (inv >= 0 ? '+' : '') + inv + ' 萬';
+  document.getElementById('v-cap').textContent = capRate + '%';
+
+  setFill('f-revenue', sliderPct('s-revenue', 10, 200));
+  setFill('f-vc', sliderPct('s-vc', 10, 90));
+  setFill('f-fixed', sliderPct('s-fixed', 0, 50));
+  setFill('f-dep', sliderPct('s-dep', 0, 100));
+  // inventory: 0 at -20, 100% at 100 → pct for 0 = (0-(-20))/(100-(-20)) = 20/120 = 16.7%
+  setFill('f-inv', sliderPct('s-inv', -20, 100));
+  setFill('f-cap', sliderPct('s-cap', 1, 20));
+
+  // Calculations
+  const vc = revenue * (vcRatio / 100);
+  const cm = revenue - vc;
+  const ebitda = cm - fixedCash;
+  const bookProfit = ebitda - dep;
+  const ocf = ebitda - inv;
+  const capPenalty = Math.max(0, inv) * (capRate / 100);
+  const econProfit = ocf - capPenalty;
+
+  // P&L
+  document.getElementById('r-revenue').textContent = fmt(revenue);
+  document.getElementById('r-vc').textContent = '−' + fmt(vc);
+  document.getElementById('r-cm').textContent = fmt(cm);
+  document.getElementById('r-cm').style.color = cm >= 0 ? 'var(--dark)' : 'var(--red)';
+  document.getElementById('r-fixed').textContent = '−' + fmt(fixedCash);
+  document.getElementById('r-dep').textContent = '−' + fmt(dep);
+
+  const bookBox = document.getElementById('rbox-book');
+  const bookVal = document.getElementById('rvalue-book');
+  bookVal.textContent = fmt(bookProfit);
+  if (bookProfit >= 0) {
+    bookBox.style.background = 'var(--green-bg)';
+    bookVal.style.color = 'var(--green)';
+    document.getElementById('rlabel-book').style.color = 'var(--green)';
+  } else {
+    bookBox.style.background = 'var(--red-bg)';
+    bookVal.style.color = 'var(--red)';
+    document.getElementById('rlabel-book').style.color = 'var(--red)';
+  }
+
+  // OCF
+  document.getElementById('o-cm').textContent = fmt(cm);
+  document.getElementById('o-fixed').textContent = '−' + fmt(fixedCash);
+  document.getElementById('o-ebitda').textContent = fmt(ebitda);
+  document.getElementById('o-ebitda').style.color = ebitda >= 0 ? 'var(--dark)' : 'var(--red)';
+
+  const invDisplay = inv >= 0 ? '−' + fmt(inv) : '+' + fmt(Math.abs(inv));
+  document.getElementById('o-inv').textContent = invDisplay;
+
+  const ocfBox = document.getElementById('rbox-ocf');
+  const ocfVal = document.getElementById('rvalue-ocf');
+  ocfVal.textContent = fmt(ocf);
+  if (ocf >= 0) {
+    ocfBox.style.background = 'var(--blue-bg)';
+    ocfVal.style.color = 'var(--blue)';
+    document.getElementById('rlabel-ocf').style.color = 'var(--blue)';
+  } else {
+    ocfBox.style.background = 'var(--red-bg)';
+    ocfVal.style.color = 'var(--red)';
+    document.getElementById('rlabel-ocf').style.color = 'var(--red)';
+  }
+
+  // ── ROCK 老師觀點 (動態依情境切換) ──
+  const rockData = (() => {
+    // 計算幾個關鍵診斷指標
+    const cmRatio = revenue > 0 ? (cm / revenue * 100) : 0;
+    const invTurnoverRisk = inv > ebitda; // 庫存積壓大於 EBITDA
+    const depHeavy = dep > ebitda;        // 折舊大於 EBITDA
+
+    if (cm <= 0) {
+      return {
+        quote: '邊際貢獻是負的，代表你每多賣一台，就多虧一台。這不是努力不夠，是商業模式本身壞掉了。',
+        insights: [
+          { icon:'🔍', color:'var(--red)', title:'核心問題：定價或成本結構崩潰', body:`目前 CM率 ${cmRatio.toFixed(1)}%，代表每賺 1 元收入就要花超過 1 元的變動成本。不論租金多便宜、折舊多低都救不了，因為這是「做越多、賠越多」的陷阱。` },
+          { icon:'💡', color:'var(--orange)', title:'Rock 建議：先停，再重設定價', body:'先暫停放大規模，重新計算每個服務項目的真實成本。通常問題在「工時計算錯誤」或「收費沒有含耗材」，把這兩個補上去，CM 就能轉正。' },
+        ]
+      };
+    } else if (bookProfit < 0 && ocf > 0) {
+      return {
+        quote: `老闆看到帳面虧損 ${Math.abs(bookProfit).toFixed(1)} 萬很心慌，但其實每個月現金還在進來 ${ocf.toFixed(1)} 萬。折舊只是紙上的數字，不會讓你付不出薪水。`,
+        insights: [
+          { icon:'📊', color:'var(--blue)', title:'損益表在說謊嗎？不，它只是在記錄過去', body:`折舊 ${dep.toFixed(1)} 萬是當初裝潢、設備的前期投資，現在「攤銷」進帳面而已。這筆錢早就付出去了，今天不會再流失。真正要看的是 OCF 有沒有為正。` },
+          { icon:'⏳', color:'var(--green)', title:'Rock 的底線判斷：OCF > 0 就不關店', body:`只要 EBITDA（${ebitda.toFixed(1)} 萬）能覆蓋付現支出，店就有活下去的理由。等設備折舊攤完，帳面利益自然轉正。現在的虧損只是「時間差」，不是真虧。` },
+          { icon:'⚠️', color:'var(--yellow)', title:'唯一要注意：現金缺口會不會提前爆', body:'如果這段折舊期間有大筆資本支出或還款壓力，才是真正的風險。做好 13 週現金流預測，確認每週都有足夠的周轉金。' },
+        ]
+      };
+    } else if (bookProfit > 0 && ocf < 0) {
+      return {
+        quote: `這是最危險的情境，也是最多機車行倒閉前的樣子。帳面賺了 ${bookProfit.toFixed(1)} 萬，但錢都跑到倉庫裡變成輪胎跟部品，拿不出來付薪水。`,
+        insights: [
+          { icon:'💀', color:'var(--red)', title:'黑字倒閉：帳面越漂亮，死得越快', body:`本月庫存積壓 ${inv.toFixed(1)} 萬，已超過 EBITDA ${ebitda.toFixed(1)} 萬，代表賺到的錢全部「凍」在庫存裡。銀行帳戶餘額會以每月 ${Math.abs(ocf).toFixed(1)} 萬的速度下降，終點就是資金斷鏈。` },
+          { icon:'🔑', color:'var(--orange)', title:'Rock 的核心解法：庫存周轉率是命', body:'把庫存目標控在「30 天銷售量」以內。超過 45 天沒賣出的零件，寧可打折出清，換回現金。死庫存佔用的資金成本，遠比表面上看起來更貴。' },
+          { icon:'📐', color:'var(--yellow)', title:`隱含資金成本試算（${capRate}% 年化）`, body:`光是今月積壓的 ${inv.toFixed(1)} 萬，按 ${capRate}% 資金成本算，每月隱形成本就是 ${capPenalty.toFixed(2)} 萬。這筆錢不會出現在損益表，但它確確實實讓你更窮了。` },
+        ]
+      };
+    } else if (bookProfit > 0 && ocf > 0) {
+      return {
+        quote: `這是教科書上的展店案例。帳面賺、現金也在進來，代表這個門市的商業模式已經被驗證了，可以複製。`,
+        insights: [
+          { icon:'✅', color:'var(--green)', title:'帳面 × 現金流雙正：最健康的狀態', body:`CM率 ${cmRatio.toFixed(1)}%，代表每 100 元收入有 ${cmRatio.toFixed(0)} 元可以用來覆蓋固定成本與利潤。這是可以拿去開第二家店的數字。` },
+          { icon:'🚀', color:'var(--orange)', title:'Rock 的複製展店指標：先確認 CM率 ≥ 35%', body:'展第二家前，把第一家的變動成本結構整理清楚：技師抽成比例、零件進貨條件是否能複製？如果可以，用這個模型直接推算第二家的損益平衡點。' },
+          { icon:'💡', color:'var(--blue)', title:'現在該做的事：建立現金緩衝', body:`目前 OCF ${ocf.toFixed(1)} 萬，建議保留至少 3 個月固定支出（約 ${(fixedCash * 3).toFixed(0)} 萬）作為安全緩衝，再把超額現金投入展店或設備升級。` },
+        ]
+      };
+    } else {
+      return {
+        quote: '邊際貢獻是正的，代表每做一筆生意都有賺，但問題是賺的還不夠付租金。這不是做不下去，是規模還不夠。',
+        insights: [
+          { icon:'📉', color:'var(--orange)', title:'CM 為正，但 EBITDA 為負：規模問題', body:`每月 EBITDA ${ebitda.toFixed(1)} 萬，代表還有 ${Math.abs(ebitda).toFixed(1)} 萬的缺口。這是「規模不足」而不是「商業模式壞掉」，解法是衝營收，而不是砍成本。` },
+          { icon:'🎯', color:'var(--blue)', title:'Rock 的診斷：先算損益平衡點', body:`損益平衡點 = 固定成本 ÷ CM率 = ${fixedCash.toFixed(0)} ÷ ${cmRatio.toFixed(0)}% = ${cmRatio > 0 ? (fixedCash / (cmRatio/100)).toFixed(1) : '∞'} 萬。這是你每個月必須達到的最低營收門檻，低於這個數字就是在燒錢。` },
+          { icon:'⏰', color:'var(--red)', title:'現金還剩多久？這是最關鍵的問題', body:'現金缺口需要用期初現金或外部資金補貼。把手上的現金除以每月缺口，算出「跑道還有幾個月」，這個數字決定你有多少時間可以衝高營收。' },
+        ]
+      };
+    }
+  })();
+
+  // Render Rock insights
+  document.getElementById('rock-quote-text').textContent = rockData.quote;
+  const insightsEl = document.getElementById('rock-insights');
+  insightsEl.innerHTML = rockData.insights.map(ins => `
+    <div style="display:flex;gap:12px;padding:12px 14px;background:#fff;border-radius:10px;border:1px solid var(--divider);">
+      <div style="font-size:20px;flex-shrink:0;margin-top:1px;">${ins.icon}</div>
+      <div>
+        <div style="font-size:13px;font-weight:800;color:${ins.color};margin-bottom:4px;">${ins.title}</div>
+        <div style="font-size:12px;color:var(--mid);line-height:1.7;">${ins.body}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // KPI numbers
+  document.getElementById('kpi-ocf').textContent = fmtSigned(ocf);
+  document.getElementById('kpi-cap').textContent = '−' + capPenalty.toFixed(1);
+  document.getElementById('kpi-eva').textContent = fmtSigned(econProfit);
+
+  const ocfKpiBox = document.getElementById('kpi-ocf-box');
+  const kpiOcfEl = document.getElementById('kpi-ocf');
+  if (ocf >= 0) { ocfKpiBox.style.background = 'var(--blue-bg)'; kpiOcfEl.style.color = 'var(--blue)'; }
+  else { ocfKpiBox.style.background = 'var(--red-bg)'; kpiOcfEl.style.color = 'var(--red)'; }
+
+  const evaBox = document.getElementById('kpi-eva-box');
+  const kpiEvaEl = document.getElementById('kpi-eva');
+  if (econProfit >= 0) { evaBox.style.background = 'var(--green-bg)'; kpiEvaEl.style.color = 'var(--green)'; }
+  else { evaBox.style.background = 'var(--red-bg)'; kpiEvaEl.style.color = 'var(--red)'; }
+
+  // DECISION BANNER
+  const banner = document.getElementById('decision-banner');
+  const icon = document.getElementById('decision-icon');
+  const title = document.getElementById('decision-title');
+  const text = document.getElementById('decision-text');
+
+  let d;
+  if (cm <= 0) {
+    d = { icon:'🛑', title:'立即停損 (Shut Down)', text:'邊際貢獻為負！每做一筆生意都在流失現金，應立即停止營業或徹底改變商業模式。', c:'var(--red)', bg:'var(--red-bg)', border:'var(--red-border)' };
+  } else if (bookProfit < 0 && ocf > 0) {
+    d = { icon:'💰', title:'✅ 繼續營業 — 賺現金、賠折舊', text:'帳面虧損來自前期沉沒成本（高額折舊），但現金流為正且邊際貢獻覆蓋付現固定成本。短期絕不能關店，設備回本後即迎獲利期。', c:'var(--blue)', bg:'var(--blue-bg)', border:'var(--blue-border)' };
+  } else if (bookProfit > 0 && ocf < 0) {
+    d = { icon:'📦', title:'🚨 高危虛胖 — 帳面賺錢、現金失血', text:'損益表具欺騙性！利潤全卡在死庫存裡，若不改善庫存周轉，極易發生黑字倒閉（資金斷鏈）。', c:'var(--yellow)', bg:'var(--yellow-bg)', border:'var(--yellow-border)' };
+  } else if (bookProfit > 0 && ocf > 0) {
+    d = { icon:'🚀', title:'🟢 健康營運 (Healthy)', text:'帳面與現金流雙贏，為可複製擴張的理想展店模型。', c:'var(--green)', bg:'var(--green-bg)', border:'var(--green-border)' };
+  } else {
+    d = { icon:'🩸', title:'📉 慢性失血 (Bleeding)', text:'邊際貢獻雖為正，但連付現固定成本都無法覆蓋，必須立即縮減固定開支或提升營收，否則現金將耗盡。', c:'var(--orange)', bg:'var(--orange-pale)', border:'var(--orange-border)' };
+  }
+
+  icon.textContent = d.icon;
+  title.textContent = d.title;
+  title.style.color = d.c;
+  text.textContent = d.text;
+  banner.style.background = d.bg;
+  banner.style.borderColor = d.border;
+}
+
+function setSlider(id, val) {
+  document.getElementById('s-' + id).value = val;
+}
+
+function setScenarioA() {
+  setSlider('revenue', 60); setSlider('vc', 40); setSlider('fixed', 10); setSlider('dep', 40); setSlider('inv', 0); setSlider('cap', 5);
+  update();
+}
+function setScenarioB() {
+  // 確保：帳面賺錢(bookProfit>0) 且 現金失血(OCF<0)
+  // revenue=80, vcRatio=50 → CM=40, fixedCash=8, dep=4 → bookProfit=28>0
+  // inv=45 → OCF=32-45=-13<0 ✓ 黑字倒閉案例
+  setSlider('revenue', 80); setSlider('vc', 50); setSlider('fixed', 8); setSlider('dep', 4); setSlider('inv', 45); setSlider('cap', 5);
+  update();
+}
+function resetDefault() {
+  setScenarioA();
+}
+
+function switchTab(name, btn) {
+  ['pl','ocf','eva'].forEach(t => {
+    document.getElementById('tab-' + t).classList.remove('active');
+  });
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Init
+update();
+</script>
+</body>
+</html>
