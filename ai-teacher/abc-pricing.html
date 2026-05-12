@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC 作業基礎定價系統</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #FDF6EC;
+  --bg-warm:   #FEF0D8;
+  --bg-card:   #FFFFFF;
+  --bg-muted:  #F5EDE0;
+  --border:    #E8D5B8;
+  --border-str:#D4B896;
+  --text:      #1A1A1A;
+  --text-muted:#7A6A56;
+  --text-dim:  #A8957E;
+  --orange:    #E8560A;
+  --orange-lt: #FFF0E6;
+  --orange-md: #FDDCC4;
+  --green:     #2DB843;
+  --green-dk:  #1A8C2B;
+  --green-lt:  #E8F8EB;
+  --red:       #E53935;
+  --red-lt:    #FDEBEA;
+  --amber:     #D97706;
+  --amber-lt:  #FEF3C7;
+  --violet:    #7C3AED;
+  --violet-lt: #EDE9FE;
+  --blue:      #1D6FBF;
+  --blue-lt:   #EFF6FF;
+  --slate:     #64748B;
+  --slate-lt:  #F1F5F9;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Noto Sans TC', sans-serif;
+  --radius: 10px;
+  --shadow: 0 2px 12px rgba(60,30,0,0.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; padding: 0 0 80px; }
+
+/* ── Topbar ── */
+.topbar {
+  background: var(--orange); color: white; padding: 10px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(232,86,10,0.3);
+}
+.topbar-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; opacity: 0.75; text-transform: uppercase; }
+.topbar-title { font-weight: 900; font-size: 15px; letter-spacing: -0.01em; }
+.topbar-badge {
+  background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 999px; padding: 3px 12px; font-size: 11px; font-family: var(--mono);
+}
+
+/* ── Hero ── */
+.hero {
+  background: linear-gradient(135deg, #FEF0D8 0%, #FDDCC4 50%, #FDF6EC 100%);
+  padding: 36px 32px 28px; border-bottom: 1px solid var(--border);
+}
+.hero-eyebrow {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+  color: var(--orange); text-transform: uppercase; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.hero-eyebrow::before { content:''; display:inline-block; width:24px; height:2px; background:var(--orange); }
+.hero h1 { font-size: clamp(24px,4vw,38px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 10px; }
+.hero h1 .accent { color: var(--orange); }
+.hero p { color: var(--text-muted); font-size: 14px; max-width: 560px; line-height: 1.7; }
+
+/* ── Content ── */
+.content { max-width: 1100px; margin: 0 auto; padding: 28px 24px 0; }
+
+/* ── Tabs ── */
+.service-tabs {
+  display: flex; gap: 8px; margin-bottom: 24px;
+  background: var(--bg-muted); padding: 5px;
+  border-radius: 12px; border: 1px solid var(--border);
+}
+.tab-btn {
+  flex: 1; padding: 12px 16px; border: none; background: transparent;
+  border-radius: 8px; cursor: pointer; font-family: var(--sans);
+  font-size: 14px; font-weight: 700; color: var(--text-muted);
+  transition: all 0.25s; display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.tab-btn .tab-icon { font-size: 18px; }
+.tab-btn .tab-sub { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; opacity: 0.7; display: block; line-height: 1; }
+.tab-btn .tab-inner { text-align: left; }
+.tab-btn:hover { background: white; color: var(--text); }
+.tab-btn.active { background: white; color: var(--orange); box-shadow: var(--shadow); }
+
+/* ── Main Grid ── */
+.main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+/* ── Panel ── */
+.panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
+.panel-head { display: flex; align-items: center; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.panel-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; margin-right: 10px; }
+.panel-head h2 { font-size: 14px; font-weight: 700; margin-bottom: 1px; }
+.panel-head p { font-size: 11px; color: var(--text-muted); }
+.reset-btn {
+  border: 1px solid var(--border-str); background: white; border-radius: 6px;
+  padding: 4px 12px; font-size: 11px; font-family: var(--mono);
+  cursor: pointer; color: var(--text-muted); transition: all 0.2s; margin-left: auto;
+}
+.reset-btn:hover { background: var(--orange); color: white; border-color: var(--orange); }
+
+/* ── Slider Items ── */
+.slider-items { display: flex; flex-direction: column; gap: 12px; }
+.slider-item {
+  background: var(--bg-muted); border: 1px solid var(--border);
+  border-radius: 8px; padding: 13px; transition: border-color 0.2s;
+}
+.slider-item:hover { border-color: var(--border-str); }
+.slider-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 9px; gap: 8px; }
+.slider-meta { flex: 1; }
+.slider-name { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.slider-badge { font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; padding: 1px 6px; border-radius: 4px; font-weight: 500; }
+.slider-desc { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+.slider-value-box { text-align: right; flex-shrink: 0; }
+.slider-value { font-family: var(--mono); font-size: 16px; font-weight: 700; line-height: 1; }
+.slider-pct { font-family: var(--mono); font-size: 10px; color: var(--text-dim); }
+.slider-row { display: flex; align-items: center; gap: 10px; }
+.range-wrap { flex: 1; }
+.range-label { font-family: var(--mono); font-size: 9px; color: var(--text-dim); white-space: nowrap; }
+
+input[type=range] {
+  -webkit-appearance: none; width: 100%; height: 4px;
+  border-radius: 2px; outline: none; cursor: pointer; transition: background 0.2s;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--thumb-color, var(--orange)); border: 2px solid white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2); transition: transform 0.15s;
+}
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+input[type=range]:active::-webkit-slider-thumb { transform: scale(1.3); }
+
+/* ── Bar ── */
+.bar-section { margin-top: 16px; }
+.bar-label-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; font-family: var(--mono); }
+.breakdown-bar { height: 28px; border-radius: 6px; overflow: hidden; display: flex; background: var(--bg-muted); border: 1px solid var(--border); gap: 1px; }
+.bar-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; font-family: var(--mono); transition: width 0.4s cubic-bezier(0.34,1.2,0.64,1); overflow: hidden; white-space: nowrap; color: rgba(0,0,0,0.6); min-width: 0; }
+.legend-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--text-muted); font-family: var(--mono); }
+.legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── Cost + Profit Summary ── */
+.summary-block {
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.summary-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.summary-row:last-child { border-bottom: none; }
+.summary-row.total-cost { background: var(--bg-muted); }
+.summary-row.profit-slider-row { background: var(--green-lt); flex-direction: column; align-items: stretch; gap: 8px; }
+.summary-row.final-price { background: var(--orange-lt); }
+.summary-label { font-weight: 600; color: var(--text-muted); }
+.summary-label small { display: block; font-size: 10px; font-weight: 400; color: var(--text-dim); margin-top: 1px; }
+.summary-value { font-family: var(--mono); font-size: 18px; font-weight: 700; }
+.summary-row.total-cost .summary-value { color: var(--text); }
+.summary-row.final-price .summary-value { color: var(--orange); font-size: 26px; }
+
+.profit-slider-top { display: flex; justify-content: space-between; align-items: center; }
+.profit-label { font-size: 13px; font-weight: 700; color: var(--green-dk); display: flex; align-items: center; gap: 6px; }
+.profit-value-group { text-align: right; }
+.profit-rate { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--green); }
+.profit-amount { font-family: var(--mono); font-size: 12px; color: var(--green-dk); }
+
+/* ── Process Panel ── */
+.timeline { display: flex; flex-direction: column; }
+.tl-item { display: flex; gap: 14px; padding: 11px 0; border-bottom: 1px dashed var(--border); align-items: flex-start; transition: opacity 0.3s; }
+.tl-item:last-child { border-bottom: none; }
+.tl-item.inactive { opacity: 0.3; }
+.tl-dot-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 18px; padding-top: 3px; }
+.tl-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--dot-color, var(--border-str)); background: transparent; transition: all 0.3s; flex-shrink: 0; }
+.tl-item:not(.inactive) .tl-dot { background: var(--dot-color); box-shadow: 0 0 6px var(--dot-color); }
+.tl-line { width: 1px; flex: 1; min-height: 16px; background: linear-gradient(var(--dot-color, var(--border)), transparent); opacity: 0.2; margin-top: 3px; }
+.tl-body { flex: 1; }
+.tl-name { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+.tl-tag { font-family: var(--mono); font-size: 8px; letter-spacing: 0.08em; padding: 1px 5px; border-radius: 3px; }
+.tl-detail { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+.tl-time { font-family: var(--mono); font-size: 11px; color: var(--text-dim); flex-shrink: 0; padding-top: 3px; white-space: nowrap; }
+
+/* ── Compare ── */
+.compare-row { grid-column: 1/-1; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cmp-card { background: var(--bg-card); border-radius: var(--radius); padding: 18px 20px; border: 1px solid var(--border); box-shadow: var(--shadow); position: relative; overflow: hidden; }
+.cmp-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+.cmp-card.abc::before { background: var(--green); }
+.cmp-card.trad::before { background: var(--red); }
+.cmp-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+.cmp-card.abc .cmp-title { color: var(--green); }
+.cmp-card.trad .cmp-title { color: var(--red); }
+.cmp-price { font-family: var(--mono); font-size: 26px; font-weight: 700; margin-bottom: 4px; transition: all 0.3s; }
+.cmp-card.abc .cmp-price { color: var(--green); }
+.cmp-card.trad .cmp-price { color: var(--red); }
+.cmp-desc { font-size: 11px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px; }
+
+/* Profit grid inside compare card */
+.cmp-profit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.cmp-profit-cell {
+  background: var(--bg-muted); border-radius: 6px; padding: 8px 10px;
+  border: 1px solid var(--border);
+}
+.cmp-profit-cell-label { font-size: 10px; color: var(--text-dim); font-family: var(--mono); margin-bottom: 2px; }
+.cmp-profit-cell-val { font-family: var(--mono); font-size: 14px; font-weight: 700; }
+.cmp-verdict { margin-top: 10px; display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+.cmp-card.abc .cmp-verdict { background: var(--green-lt); color: var(--green-dk); }
+.cmp-card.trad .cmp-verdict { background: var(--red-lt); color: var(--red); }
+
+/* ── Business Insight Section ── */
+.insight-section {
+  margin-top: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.insight-header {
+  background: linear-gradient(135deg, #1A1A1A, #2D2010);
+  color: white;
+  padding: 20px 24px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.insight-header-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+.insight-header h3 { font-size: 18px; font-weight: 900; margin-bottom: 4px; letter-spacing: -0.02em; }
+.insight-header h3 span { color: #F59E0B; }
+.insight-header p { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+.insight-body { padding: 24px; }
+
+/* Profit comparison table */
+.profit-table {
+  width: 100%; border-collapse: collapse;
+  margin-bottom: 24px; font-size: 13px;
+}
+.profit-table th {
+  background: var(--bg-muted); padding: 10px 14px;
+  text-align: left; font-size: 11px; font-family: var(--mono);
+  letter-spacing: 0.08em; color: var(--text-muted);
+  border-bottom: 2px solid var(--border-str);
+}
+.profit-table th:not(:first-child) { text-align: right; }
+.profit-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.profit-table td:not(:first-child) { text-align: right; font-family: var(--mono); font-size: 13px; font-weight: 700; }
+.profit-table tr:last-child td { border-bottom: none; }
+.profit-table .row-label { font-weight: 700; }
+.profit-table .row-sub { font-size: 10px; color: var(--text-dim); font-weight: 400; display: block; }
+.profit-table .good { color: var(--green-dk); }
+.profit-table .bad { color: var(--red); }
+.profit-table .neutral { color: var(--text-muted); }
+
+/* Rate meter */
+.rate-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 700;
+}
+.rate-pill.high { background: var(--green-lt); color: var(--green-dk); }
+.rate-pill.mid  { background: var(--amber-lt); color: var(--amber); }
+.rate-pill.low  { background: var(--red-lt);   color: var(--red); }
+
+/* Strategy cards */
+.strategy-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.strategy-card {
+  border-radius: 10px; padding: 16px;
+  border: 1px solid var(--border);
+  background: var(--bg-muted);
+  position: relative;
+}
+.strategy-card::before {
+  content: attr(data-num);
+  position: absolute; top: -10px; left: 14px;
+  background: var(--orange); color: white;
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.strategy-card-title { font-size: 13px; font-weight: 900; margin-bottom: 6px; margin-top: 4px; color: var(--text); }
+.strategy-card-body { font-size: 12px; color: var(--text-muted); line-height: 1.7; }
+.strategy-card-tag {
+  display: inline-block; margin-top: 8px;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em;
+  padding: 2px 8px; border-radius: 4px; text-transform: uppercase;
+}
+
+.verdict-bar {
+  background: linear-gradient(135deg, var(--orange-lt), var(--bg-warm));
+  border: 1px solid var(--orange-md);
+  border-radius: 10px; padding: 16px 20px;
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.verdict-bar-icon { font-size: 20px; flex-shrink: 0; }
+.verdict-bar-text { font-size: 13px; line-height: 1.8; color: var(--text-muted); }
+.verdict-bar-text strong { color: var(--text); }
+
+/* ── Animations ── */
+@keyframes fadeSlide { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.anim { animation: fadeSlide 0.3s ease forwards; }
+
+@media (max-width: 720px) {
+  .main-grid, .compare-row { grid-template-columns: 1fr; }
+  .compare-row { grid-column: 1; }
+  .strategy-grid { grid-template-columns: 1fr; }
+  .hero { padding: 24px 20px; }
+  .content { padding: 20px 16px 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="topbar-label">Activity-Based Costing</div>
+    <div class="topbar-title">作業基礎定價系統</div>
+  </div>
+  <div class="topbar-badge">互動模擬版 v3.0</div>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">機車引擎維修 定價工具</div>
+  <h1>看懂成本，<br><span class="accent">看透利潤</span></h1>
+  <p>拖曳滑桿調整工序單價與目標利潤率，系統即時計算建議售價與利潤結構，並比較兩種工項的核心利潤差異。</p>
+</div>
+
+<div class="content">
+
+  <div class="service-tabs">
+    <button class="tab-btn active" data-svc="cylinder" onclick="selectService('cylinder')">
+      <span class="tab-icon">🔧</span>
+      <span class="tab-inner">換汽缸<span class="tab-sub">MODULE-SWAP</span></span>
+    </button>
+    <button class="tab-btn" data-svc="valve" onclick="selectService('valve')">
+      <span class="tab-icon">⚙️</span>
+      <span class="tab-inner">修汽門<span class="tab-sub">PRECISION-CRAFT</span></span>
+    </button>
+  </div>
+
+  <div class="main-grid">
+
+    <!-- Cost + Profit Panel -->
+    <div class="panel" id="cost-panel">
+      <div class="panel-head">
+        <div class="panel-icon" style="background:var(--orange-lt);color:var(--orange)">💰</div>
+        <div><h2>工序成本滑桿調整</h2><p>拖曳各工序費用，觀察成本結構變化</p></div>
+        <button class="reset-btn" onclick="resetSliders()">↺ 重設</button>
+      </div>
+      <div class="slider-items" id="slider-items"></div>
+      <div class="bar-section">
+        <div class="bar-label-row"><span>成本佔比分佈</span><span id="bar-total-label">總計 $0</span></div>
+        <div class="breakdown-bar" id="breakdown-bar"></div>
+        <div class="legend-row" id="legend-row"></div>
+      </div>
+
+      <!-- Summary Block -->
+      <div class="summary-block">
+        <div class="summary-row total-cost">
+          <div class="summary-label">總成本 (Cost Base)<small>各工序費用合計</small></div>
+          <div class="summary-value" id="sum-cost">$0</div>
+        </div>
+        <div class="summary-row profit-slider-row">
+          <div class="profit-slider-top">
+            <div class="profit-label">
+              <span style="width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 5px var(--green)"></span>
+              目標利潤率
+            </div>
+            <div class="profit-value-group">
+              <div class="profit-rate" id="profit-rate-display">30%</div>
+              <div class="profit-amount" id="profit-amount-display">利潤 $0</div>
+            </div>
+          </div>
+          <div class="slider-row">
+            <span class="range-label">0%</span>
+            <div class="range-wrap">
+              <input type="range" id="profit-slider"
+                min="0" max="80" step="5" value="30"
+                style="background:linear-gradient(to right,var(--green) 0%,#E8D5B8 0%);--thumb-color:var(--green)"
+                oninput="updateProfitSlider(this)">
+            </div>
+            <span class="range-label">80%</span>
+          </div>
+        </div>
+        <div class="summary-row final-price">
+          <div class="summary-label">ABC 建議售價<small>含目標利潤</small></div>
+          <div class="summary-value" id="sum-final">$0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Process Timeline -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-icon" style="background:var(--violet-lt);color:var(--violet)">📋</div>
+        <div><h2>工序流程 / 工時驅動</h2><p>亮顯工序為本服務必做項目</p></div>
+      </div>
+      <div class="timeline" id="timeline"></div>
+    </div>
+
+    <!-- Compare -->
+    <div class="compare-row">
+      <div class="cmp-card abc">
+        <div class="cmp-title">✦ 作業基礎定價法 ABC</div>
+        <div class="cmp-price" id="cmp-abc-price">$0</div>
+        <div class="cmp-desc" id="cmp-abc-desc"></div>
+        <div class="cmp-profit-grid" id="cmp-abc-profit"></div>
+        <div class="cmp-verdict">✔ <span id="cmp-abc-verdict"></span></div>
+      </div>
+      <div class="cmp-card trad">
+        <div class="cmp-title">✖ 傳統加成定價法</div>
+        <div class="cmp-price" id="cmp-trad-price">$0</div>
+        <div class="cmp-desc" id="cmp-trad-desc"></div>
+        <div class="cmp-profit-grid" id="cmp-trad-profit"></div>
+        <div class="cmp-verdict">✖ <span id="cmp-trad-verdict"></span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Business Insight Section -->
+  <div class="insight-section">
+    <div class="insight-header">
+      <div class="insight-header-icon">📊</div>
+      <div>
+        <h3>商業洞察 — <span>兩種工項的利潤本質比較</span></h3>
+        <p>跨工項利潤結構分析、定價盲點診斷與實務策略建議</p>
+      </div>
+    </div>
+    <div class="insight-body">
+
+      <!-- Comparison Table (dynamic) -->
+      <table class="profit-table" id="insight-table">
+        <thead>
+          <tr>
+            <th>指標</th>
+            <th>換汽缸（預設值）</th>
+            <th>修汽門（預設值）</th>
+            <th>關鍵差異</th>
+          </tr>
+        </thead>
+        <tbody id="insight-table-body"></tbody>
+      </table>
+
+      <!-- Strategy Cards -->
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--orange);text-transform:uppercase;margin-bottom:14px;">
+        ── 商業策略建議
+      </div>
+      <div class="strategy-grid">
+        <div class="strategy-card" data-num="1">
+          <div class="strategy-card-title">換汽缸：走「透明定價」路線</div>
+          <div class="strategy-card-body">
+            機車汽缸套件單價高，材料佔成本達 64%，利潤率天花板受進貨成本直接壓制。策略重點在<strong>批量採購壓低進價</strong>（同品牌機型、固定供應商議價）而非虛抬工時費。差異化靠「原廠件保固 1 年」與「透明工序報價單」建立信任，ABC 報價比傳統法低 $1,750 就是最有力的市場競爭工具。
+          </div>
+          <span class="strategy-card-tag" style="background:var(--blue-lt);color:var(--blue)">材料導向工項</span>
+        </div>
+        <div class="strategy-card" data-num="2">
+          <div class="strategy-card-title">修汽門：走「技術溢價」路線</div>
+          <div class="strategy-card-body">
+            材料耗件僅 $600，利潤完全由技術工序堆疊。傳統法報 $2,900，技師以時薪不到百元在處理三道精密工序。策略核心是<strong>讓工序可見</strong>——除碳前後對照照片、研磨次數記錄、氣密測試結果單。當客戶看得到三道工序，$6,900 不是貴，是合理。
+          </div>
+          <span class="strategy-card-tag" style="background:var(--violet-lt);color:var(--violet)">技術導向工項</span>
+        </div>
+        <div class="strategy-card" data-num="3">
+          <div class="strategy-card-title">組合定價：用前者帶後者</div>
+          <div class="strategy-card-body">
+            機車換汽缸是高頻、客戶容易比價的入場券工項；修汽門是低頻、客戶難以比價的技術利潤引擎。正確邏輯是：<strong>換汽缸以 ABC 競爭價搶口碑、建回流，修汽門以 ABC 正確定價保護技師勞動價值</strong>。兩者絕不能共用同一套加成公式。
+          </div>
+          <span class="strategy-card-tag" style="background:var(--orange-lt);color:var(--orange)">組合策略</span>
+        </div>
+      </div>
+
+      <div class="verdict-bar" id="insight-verdict">
+        <div class="verdict-bar-icon">💡</div>
+        <div class="verdict-bar-text" id="insight-verdict-text"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const SERVICES = {
+  cylinder: {
+    name: '換汽缸',
+    costs: [
+      { key:'batch',    name:'批次拆裝作業費', desc:'拆前導流罩、下引擎吊架、鬆汽缸頭螺絲，標準拆裝工序',
+        default:2000, min:500, max:4000, step:100, color:'#E8560A',
+        badgeColor:'var(--orange-lt)', badgeText:'#E8560A', badge:'BATCH-LEVEL', barLabel:'拆裝', isMaterial:false },
+      { key:'material', name:'汽缸總成材料費', desc:'機車專用汽缸套件（含活塞環、缸墊、O 型環），進價實報',
+        default:4500, min:1500, max:8000, step:100, color:'#94A3B8',
+        badgeColor:'var(--slate-lt)', badgeText:'var(--slate)', badge:'UNIT-LEVEL', barLabel:'材料', isMaterial:true },
+      { key:'support',  name:'基礎技術支援費', desc:'扭力規格鎖附、汽門間隙校正、熱車試跑確認',
+        default:500,  min:200, max:2000, step:100, color:'#1D6FBF',
+        badgeColor:'var(--blue-lt)', badgeText:'var(--blue)', badge:'PRODUCT-LEVEL', barLabel:'技支', isMaterial:false },
+    ],
+    // trad = (4500×1.5)+2000 = $8,750  >  ABC cost $7,000 (at 0% profit)
+    traditional: (mat) => Math.round(mat * 1.5) + 2000,
+    tradFormula: '(材料進價 × 1.5) + 固定工資 $2,000',
+    tradVerdict: '報價虛高 $1,750，比市場行情貴 → 客源流失',
+    abcVerdict: '材料實報透明，比傳統低 $1,750，搶得到單',
+    timeline: [
+      { name:'車體前段拆除',  detail:'拆前導流罩、進氣管、風扇護蓋，暴露引擎上半部',     time:'20 min', color:'#E8560A', on:true  },
+      { name:'引擎吊掛拆除',  detail:'斷油路、水路、排氣管，鬆引擎吊架螺絲下引擎',       time:'40 min', color:'#E8560A', on:true  },
+      { name:'汽缸頭拆卸',    detail:'鬆汽缸頭螺絲、移除凸輪軸機構，取下缸頭',           time:'25 min', color:'#E8560A', on:true  },
+      { name:'汽缸替換',      detail:'移除舊汽缸筒、清潔缸座面、安裝全新汽缸套件',        time:'20 min', color:'#E8560A', on:true  },
+      { name:'扭力校正回裝',  detail:'依機車廠規扭力，分次十字鎖緊缸頭，防止翹曲',       time:'20 min', color:'#1D6FBF', on:true  },
+      { name:'深度除碳',      detail:'藥水浸泡、手工刮除積碳（新缸無此需求，略過）',      time:'—',      color:'#C4B5A0', on:false },
+      { name:'研磨鉸孔',      detail:'手工研磨汽門接觸面（新缸出廠已加工完成，略過）',    time:'—',      color:'#C4B5A0', on:false },
+      { name:'氣密測漏',      detail:'煤油注入靜置驗測（新品出廠件免測，略過）',          time:'—',      color:'#C4B5A0', on:false },
+      { name:'組裝回車暖機',  detail:'復原進排氣、油水路，熱車 10 分鐘確認轉速穩定',     time:'30 min', color:'#2DB843', on:true  },
+    ],
+  },
+  valve: {
+    name: '修汽門',
+    costs: [
+      { key:'batch',    name:'批次拆裝作業費', desc:'拆前段車體、引擎吊架、取下缸頭，標準入場工序',
+        default:2000, min:500, max:4000, step:100, color:'#E8560A',
+        badgeColor:'var(--orange-lt)', badgeText:'#E8560A', badge:'BATCH-LEVEL', barLabel:'拆裝', isMaterial:false },
+      { key:'material', name:'材料耗件費', desc:'汽門油封組×4 + 金剛砂研磨膏 + 除碳藥水耗材',
+        default:600,  min:200, max:1500, step:50,  color:'#94A3B8',
+        badgeColor:'var(--slate-lt)', badgeText:'var(--slate)', badge:'UNIT-LEVEL', barLabel:'材料', isMaterial:true },
+      { key:'decarbon', name:'深度除碳工程費', desc:'缸頭藥水浸泡 2hr＋手工刮除四個汽門座積碳，高勞力密度',
+        default:1200, min:400, max:3000, step:100, color:'#D97706',
+        badgeColor:'var(--amber-lt)', badgeText:'var(--amber)', badge:'CRAFT-LABOR', barLabel:'除碳', isMaterial:false },
+      { key:'grind',    name:'手工研磨鉸孔費', desc:'金剛砂分次研磨汽門與汽門座接觸面至微米密合，職人技術',
+        default:1400, min:500, max:3500, step:100, color:'#7C3AED',
+        badgeColor:'var(--violet-lt)', badgeText:'var(--violet)', badge:'PRECISION', barLabel:'研磨', isMaterial:false },
+      { key:'test',     name:'氣密測漏驗證費', desc:'煤油注入汽門室靜置驗測，若漏氣須全部重研磨（高風險溢酬）',
+        default:800,  min:300, max:2000, step:100, color:'#E53935',
+        badgeColor:'var(--red-lt)', badgeText:'var(--red)', badge:'QC-RISK', barLabel:'驗測', isMaterial:false },
+    ],
+    // trad = (600×1.5)+2000 = $2,900  <<  ABC cost $6,000 (at 15% profit = $6,900)
+    traditional: (mat) => Math.round(mat * 1.5) + 2000,
+    tradFormula: '(材料進價 × 1.5) + 固定工資 $2,000',
+    tradVerdict: '嚴重低估技術工時，每修一台虧一台',
+    abcVerdict: '三道隱性工序全數計費，技術價值正確變現',
+    timeline: [
+      { name:'車體前段拆除',  detail:'拆前導流罩、進氣管，暴露引擎上半部',                  time:'20 min',  color:'#E8560A', on:true },
+      { name:'引擎吊掛拆除',  detail:'斷油水路、排氣管，下引擎取出缸頭',                    time:'40 min',  color:'#E8560A', on:true },
+      { name:'缸頭深度除碳',  detail:'藥水浸泡 2hr，手工刮除四個汽門座及燃燒室積碳',        time:'150 min', color:'#D97706', on:true },
+      { name:'汽門移除量測',  detail:'壓縮汽門彈簧、取出汽門，游標卡尺量測汽門桿磨損量',    time:'40 min',  color:'#94A3B8', on:true },
+      { name:'精密研磨鉸孔',  detail:'金剛砂分三道粗→中→細研磨汽門接觸面，可能反覆 5 次以上', time:'90 min', color:'#7C3AED', on:true },
+      { name:'氣密測漏驗測',  detail:'缸頭倒置注入煤油靜置 10 分鐘，漏液 → 重回研磨步驟',  time:'30 min',  color:'#E53935', on:true },
+      { name:'回裝汽門組',    detail:'上汽門油封、裝汽門彈簧座、校正汽門間隙至廠規值',      time:'50 min',  color:'#E8560A', on:true },
+      { name:'缸頭回裝鎖緊',  detail:'依廠規扭力值分三次十字鎖緊缸頭螺絲，防止缸頭翹曲',    time:'20 min',  color:'#1D6FBF', on:true },
+      { name:'組裝回車暖機',  detail:'復原車體，熱車怠速觀察排煙色澤與聲音，無異常交車',    time:'30 min',  color:'#2DB843', on:true },
+    ],
+  }
+};
+
+let current = 'cylinder';
+let values = {};
+// Per-service profit rates: cylinder starts at 0% so ABC($7500) < trad($8750)
+// valve starts at 15% so ABC($6,670) > trad($3,200)
+let profitRates = { cylinder: 0.00, valve: 0.15 };
+let profitRate = profitRates['cylinder'];
+
+function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+function fmtPct(n) { return (n*100).toFixed(1) + '%'; }
+
+function ratePill(rate) {
+  if (rate >= 0.28) return `<span class="rate-pill high">▲ ${fmtPct(rate)}</span>`;
+  if (rate >= 0.15) return `<span class="rate-pill mid">▶ ${fmtPct(rate)}</span>`;
+  return `<span class="rate-pill low">▼ ${fmtPct(rate)}</span>`;
+}
+
+function initValues(key) {
+  values[key] = {};
+  SERVICES[key].costs.forEach(c => { values[key][c.key] = c.default; });
+}
+
+function selectService(key) {
+  current = key;
+  profitRate = profitRates[key];
+  if (!values[key]) initValues(key);
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-svc="${key}"]`).classList.add('active');
+  render();
+}
+
+function resetSliders() {
+  initValues(current);
+  render();
+}
+
+function updateProfitSlider(input) {
+  profitRate = parseInt(input.value) / 100;
+  profitRates[current] = profitRate;
+  const filled = ((parseInt(input.value) - 0) / (80 - 0) * 100).toFixed(1);
+  input.style.background = `linear-gradient(to right,var(--green) ${filled}%,#E8D5B8 ${filled}%)`;
+  const s = SERVICES[current];
+  const vals = values[current];
+  const cost = s.costs.reduce((a,c) => a + vals[c.key], 0);
+  const matVal = vals['material'];
+  updateSummary(s, vals, cost, s.traditional(matVal));
+}
+
+function render() {
+  const s = SERVICES[current];
+  const vals = values[current];
+  const cost = s.costs.reduce((a,c) => a + vals[c.key], 0);
+  const matVal = vals['material'];
+  const tradPrice = s.traditional(matVal);
+
+  // Sliders
+  const container = document.getElementById('slider-items');
+  container.innerHTML = '';
+  s.costs.forEach(item => {
+    const v = vals[item.key];
+    const pct = cost > 0 ? (v/cost*100).toFixed(1) : '0.0';
+    const filled = ((v - item.min)/(item.max - item.min)*100).toFixed(1);
+    const el = document.createElement('div');
+    el.className = 'slider-item anim';
+    el.innerHTML = `
+      <div class="slider-top">
+        <div class="slider-meta">
+          <div class="slider-name">
+            <span style="width:8px;height:8px;border-radius:50%;background:${item.color};flex-shrink:0;display:inline-block"></span>
+            ${item.name}
+            <span class="slider-badge" style="background:${item.badgeColor};color:${item.badgeText}">${item.badge}</span>
+          </div>
+          <div class="slider-desc">${item.desc}</div>
+        </div>
+        <div class="slider-value-box">
+          <div class="slider-value" id="val-${item.key}" style="color:${item.color}">${fmt(v)}</div>
+          <div class="slider-pct" id="pct-${item.key}">${pct}%</div>
+        </div>
+      </div>
+      <div class="slider-row">
+        <span class="range-label">${fmt(item.min)}</span>
+        <div class="range-wrap">
+          <input type="range" min="${item.min}" max="${item.max}" step="${item.step}" value="${v}"
+            style="--thumb-color:${item.color};background:linear-gradient(to right,${item.color} ${filled}%,#E8D5B8 ${filled}%)"
+            oninput="updateSlider('${item.key}', this)">
+        </div>
+        <span class="range-label">${fmt(item.max)}</span>
+      </div>`;
+    container.appendChild(el);
+  });
+
+  // Reset profit slider display
+  const ps = document.getElementById('profit-slider');
+  const pf = ((profitRate*100 - 0)/(80-0)*100).toFixed(1);
+  ps.value = Math.round(profitRate*100);
+  ps.style.background = `linear-gradient(to right,var(--green) ${pf}%,#E8D5B8 ${pf}%)`;
+
+  updateSummary(s, vals, cost, tradPrice);
+}
+
+function updateSlider(key, input) {
+  values[current][key] = parseInt(input.value);
+  const s = SERVICES[current];
+  const vals = values[current];
+  const cost = s.costs.reduce((a,c) => a + vals[c.key], 0);
+  const item = s.costs.find(c => c.key === key);
+  const filled = ((parseInt(input.value)-item.min)/(item.max-item.min)*100).toFixed(1);
+  input.style.background = `linear-gradient(to right,${item.color} ${filled}%,#E8D5B8 ${filled}%)`;
+
+  const valEl = document.getElementById(`val-${key}`);
+  const pctEl = document.getElementById(`pct-${key}`);
+  if (valEl) valEl.textContent = fmt(vals[key]);
+
+  s.costs.forEach(c => {
+    const p = document.getElementById(`pct-${c.key}`);
+    if (p) p.textContent = cost > 0 ? (vals[c.key]/cost*100).toFixed(1)+'%' : '0%';
+  });
+
+  const matVal = vals['material'];
+  updateSummary(s, vals, cost, s.traditional(matVal));
+}
+
+function updateSummary(s, vals, cost, tradPrice) {
+  // Bar
+  const bar = document.getElementById('breakdown-bar');
+  bar.innerHTML = s.costs.map(c => {
+    const pct = cost > 0 ? (vals[c.key]/cost*100).toFixed(1) : 0;
+    return `<div class="bar-seg" style="width:${pct}%;background:${c.color}">${pct > 8 ? c.barLabel : ''}</div>`;
+  }).join('');
+  document.getElementById('legend-row').innerHTML = s.costs.map(c =>
+    `<div class="legend-item"><div class="legend-dot" style="background:${c.color}"></div>${c.barLabel} ${fmt(vals[c.key])}</div>`
+  ).join('');
+  document.getElementById('bar-total-label').textContent = `總計 ${fmt(cost)}`;
+
+  // Summary rows
+  const profitAmt = Math.round(cost * profitRate);
+  const finalPrice = cost + profitAmt;
+  document.getElementById('sum-cost').textContent = fmt(cost);
+  document.getElementById('profit-rate-display').textContent = Math.round(profitRate*100)+'%';
+  document.getElementById('profit-amount-display').textContent = `利潤 ${fmt(profitAmt)}`;
+  document.getElementById('sum-final').textContent = fmt(finalPrice);
+
+  // ABC profit metrics
+  const abcProfitRate = profitRate;
+  const abcProfitAmt = profitAmt;
+
+  // Traditional profit (true cost is still `cost`, trad just uses different pricing)
+  const tradProfitAmt = tradPrice - cost;
+  const tradProfitRate = tradProfitAmt / tradPrice;
+
+  // Compare cards
+  document.getElementById('cmp-abc-price').textContent = fmt(finalPrice);
+  document.getElementById('cmp-abc-desc').textContent = `依工序逐項計費 + ${Math.round(profitRate*100)}% 目標利潤`;
+  document.getElementById('cmp-abc-profit').innerHTML = `
+    <div class="cmp-profit-cell">
+      <div class="cmp-profit-cell-label">利潤金額</div>
+      <div class="cmp-profit-cell-val" style="color:var(--green-dk)">${fmt(abcProfitAmt)}</div>
+    </div>
+    <div class="cmp-profit-cell">
+      <div class="cmp-profit-cell-label">利潤率</div>
+      <div class="cmp-profit-cell-val" style="color:var(--green-dk)">${fmtPct(abcProfitRate)}</div>
+    </div>
+    <div class="cmp-profit-cell">
+      <div class="cmp-profit-cell-label">成本基礎</div>
+      <div class="cmp-profit-cell-val">${fmt(cost)}</div>
+    </div>
+    <div class="cmp-profit-cell">
+      <div class="cmp-profit-cell-label">售價</div>
+      <div class="cmp-profit-cell-val" style="color:var(--orange)">${fmt(finalPrice)}</div>
+    </div>`;
+  document.getElementById('cmp-abc-verdict').textContent = s.abcVerdict;
+
+  document.getElementById('cmp-trad-price').textContent = fmt(tradPrice);
+  document.getElementById('cmp-trad-desc').textContent = `(材料 ${fmt(vals['material'])} × 1.5) + 固定工資 $2,000`;
+  const tradProfitColor = tradProfitAmt >= 0 ? 'var(--amber)' : 'var(--red)';
+  const tradRateColor = tradProfitRate >= 0.15 ? 'var(--amber)' : 'var(--red)';
+  document.getElementById('cmp-trad-profit').innerHTML = `
+    <div class="cmp-profit-cell">
+      <div class="cmp-profit-cell-label">帳面利潤</div>
+      <div class="cmp-profit-cell-val" style="color:${tradProfitColor}">${fmt(tradProfitAmt)}</div>
+    </div>
+    <div class="cmp-profit-cell">
+      <div class="cmp-profit-cell-label">帳面利潤率</div>
+      <div class="cmp-profit-cell-val" style="color:${tradRateColor}">${fmtPct(tradProfitRate > 0 ? tradProfitRate : 0)}</div>
+    </div>
+    <div class="cmp-profit-cell">
+      <div class="cmp-profit-cell-label">真實成本</div>
+      <div class="cmp-profit-cell-val">${fmt(cost)}</div>
+    </div>
+    <div class="cmp-profit-cell">
+      <div class="cmp-profit-cell-label">定價偏差</div>
+      <div class="cmp-profit-cell-val" style="color:${tradPrice > finalPrice ? 'var(--red)' : 'var(--amber)'}">
+        ${tradPrice > finalPrice ? '▲ 高估' : '▼ 低估'} ${fmt(Math.abs(tradPrice - finalPrice))}
+      </div>
+    </div>`;
+  document.getElementById('cmp-trad-verdict').textContent = s.tradVerdict;
+
+  // Timeline
+  const tl = document.getElementById('timeline');
+  tl.innerHTML = s.timeline.map((step, i) => `
+    <div class="tl-item ${step.on ? '' : 'inactive'}" style="--dot-color:${step.color}">
+      <div class="tl-dot-wrap">
+        <div class="tl-dot"></div>
+        ${i < s.timeline.length-1 ? '<div class="tl-line"></div>' : ''}
+      </div>
+      <div class="tl-body">
+        <div class="tl-name">${step.name}
+          <span class="tl-tag" style="background:${step.on ? `color-mix(in srgb,${step.color} 15%,transparent)` : 'var(--bg-muted)'};color:${step.on ? step.color : 'var(--text-dim)'}">
+            ${step.on ? '執行' : '略過'}
+          </span>
+        </div>
+        <div class="tl-detail">${step.detail}</div>
+      </div>
+      <div class="tl-time">${step.time}</div>
+    </div>`).join('');
+
+  // Insight table (always use default values for cross-comparison)
+  const cy = SERVICES.cylinder; const cyV = {}; cy.costs.forEach(c => cyV[c.key] = c.default);
+  const va = SERVICES.valve;    const vaV = {}; va.costs.forEach(c => vaV[c.key] = c.default);
+  const cyCost = cy.costs.reduce((a,c) => a + cyV[c.key], 0);  // 7000
+  const vaCost = va.costs.reduce((a,c) => a + vaV[c.key], 0);  // 6000
+  const cyMatPct = cyV['material'] / cyCost;
+  const vaMatPct = vaV['material'] / vaCost;
+  const cyTrad = cy.traditional(cyV['material']);  // (4500×1.5)+2000 = 8750
+  const vaTrad = va.traditional(vaV['material']);  // (600×1.5)+2000 = 2900
+  const cyAbcPrice = Math.round(cyCost * (1 + profitRates['cylinder'])); // 7000×1.0 = 7000
+  const vaAbcPrice = Math.round(vaCost * (1 + profitRates['valve']));   // 6000×1.15 = 6900
+  const cyAbcProfit = cyAbcPrice - cyCost;
+  const vaAbcProfit = vaAbcPrice - vaCost;
+  const cyTradProfit = cyTrad - cyCost;   // 8750-7000 = +1750 (虛高)
+  const vaTradProfit = vaTrad - vaCost;   // 2900-6000 = -3100 (虧損)
+
+  document.getElementById('insight-table-body').innerHTML = `
+    <tr>
+      <td><span class="row-label">總成本基礎</span><span class="row-sub">各工序費用合計（預設值）</span></td>
+      <td class="neutral">${fmt(cyCost)}</td>
+      <td class="neutral">${fmt(vaCost)}</td>
+      <td><span class="rate-pill mid">成本相近，結構截然不同</span></td>
+    </tr>
+    <tr>
+      <td><span class="row-label">材料佔總成本</span><span class="row-sub">越高 → 利潤越受進貨價波動影響</span></td>
+      <td class="bad">${fmtPct(cyMatPct)}（高）</td>
+      <td class="good">${fmtPct(vaMatPct)}（低）</td>
+      <td><span class="rate-pill high">修汽門技術槓桿遠高於換汽缸</span></td>
+    </tr>
+    <tr>
+      <td><span class="row-label">ABC 建議售價</span><span class="row-sub">換缸 0% / 修門 15% 利潤率</span></td>
+      <td class="neutral">${fmt(cyAbcPrice)}</td>
+      <td class="neutral">${fmt(vaAbcPrice)}</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><span class="row-label">ABC 利潤金額</span><span class="row-sub">售價 - 成本基礎</span></td>
+      <td class="neutral">${fmt(cyAbcProfit)}（成本保本）</td>
+      <td class="good">${fmt(vaAbcProfit)}</td>
+      <td>${ratePill(profitRates['valve'])}</td>
+    </tr>
+    <tr>
+      <td><span class="row-label">傳統法售價</span><span class="row-sub">(材料進價×1.5) + 工資$2,000</span></td>
+      <td class="bad">${fmt(cyTrad)} ▲ 高估 $1,750</td>
+      <td class="bad">${fmt(vaTrad)} ▼ 低估 $3,700</td>
+      <td><span class="rate-pill low">兩種工項都失真</span></td>
+    </tr>
+    <tr>
+      <td><span class="row-label">傳統法帳面利潤</span><span class="row-sub">傳統售價 - 真實成本</span></td>
+      <td class="bad">${fmt(cyTradProfit)}（虛高 → 接不到單）</td>
+      <td class="bad">${fmt(vaTradProfit)}（每修一台虧 $3,100）</td>
+      <td><span class="rate-pill low">修汽門必然虧損</span></td>
+    </tr>
+    <tr>
+      <td><span class="row-label">提升利潤的核心槓桿</span><span class="row-sub">策略方向截然不同</span></td>
+      <td><span class="rate-pill mid">壓低機車零件進貨成本</span></td>
+      <td><span class="rate-pill high">提高技術加工費定價</span></td>
+      <td>不可混用同一套公式</td>
+    </tr>`;
+
+  // Verdict text
+  const verdictTexts = {
+    cylinder: `<strong>換汽缸的利潤天花板由機車零件進貨成本決定，而非技師技術。</strong>預設狀態下 ABC 報 ${fmt(cyAbcPrice)}，傳統法報 ${fmt(cyTrad)}——後者比市場行情貴 ${fmt(cyTradProfit)}，結果是客戶直接去比價便宜的店。材料佔成本 ${fmtPct(cyMatPct)}，進貨價每降 10%，等同於多出 ${fmt(Math.round(cyCost*cyMatPct*0.1))} 的利潤空間。<strong>這個工項的策略不是提高工資，而是議好零件供應商合約。</strong>`,
+    valve: `<strong>修汽門是傳統定價法的重災區。</strong>材料僅 $600，但傳統法只報 ${fmt(vaTrad)}，而真實成本是 ${fmt(vaCost)}——每修一台虧損 ${fmt(Math.abs(vaTradProfit))}，做越多虧越多。ABC 定價含 ${Math.round(profitRates['valve']*100)}% 利潤後報 ${fmt(vaAbcPrice)}，差距高達 ${fmt(vaAbcPrice - vaTrad)}。材料佔成本僅 ${fmtPct(vaMatPct)}，意味著<strong>這個工項的利潤完全掌握在技師的定價膽識手中</strong>，而不是被進貨成本綁死。工序透明化是解鎖這塊利潤的唯一鑰匙。`
+  };
+  document.getElementById('insight-verdict-text').innerHTML = verdictTexts[current];
+}
+
+// Init
+initValues('cylinder');
+initValues('valve');
+render();
+</script>
+</body>
+</html>
