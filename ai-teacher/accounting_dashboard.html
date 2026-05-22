@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>會計借貸法則儀表板 · Rock 會計家教</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E8520A;
+    --orange-light: #FF6B2B;
+    --orange-pale: #FFF0E8;
+    --cream: #FFF8F0;
+    --brown: #2C1A0E;
+    --brown-mid: #5C3A1E;
+    --brown-light: #8B6347;
+    --green: #1A7A4A;
+    --green-bg: #E8F5EE;
+    --red: #C0392B;
+    --red-bg: #FDECEA;
+    --blue: #1A4A7A;
+    --blue-bg: #E8F0F8;
+    --purple: #6B1A8A;
+    --purple-bg: #F5EAF8;
+    --yellow: #F0A500;
+    --yellow-bg: #FFF8E0;
+    --border: #E8D5C4;
+    --shadow: rgba(44,26,14,0.10);
+    --header-h: 52px;
+    --eq-h: 72px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--cream);
+    color: var(--brown);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--brown);
+    height: var(--header-h);
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  }
+
+  .logo {
+    font-size: 1.05rem;
+    font-weight: 900;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .logo b { color: var(--orange); }
+
+  .header-sub {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.6);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── EQUATION BAR ── */
+  .eq-bar {
+    background: white;
+    border-bottom: 3px solid var(--orange);
+    height: var(--eq-h);
+    position: sticky;
+    top: var(--header-h);
+    z-index: 190;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0 0.75rem;
+    box-shadow: 0 3px 12px var(--shadow);
+    overflow: hidden;
+  }
+
+  .eq-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .eq-lbl {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--brown-light);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .eq-val {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.85rem, 3.5vw, 1.15rem);
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.2s;
+  }
+  .ev-a { color: var(--blue); background: var(--blue-bg); }
+  .ev-l { color: var(--purple); background: var(--purple-bg); }
+  .ev-e { color: var(--green); background: var(--green-bg); }
+
+  .eq-op {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--orange);
+    line-height: 1;
+    flex-shrink: 0;
+    padding-bottom: 2px;
+  }
+
+  .eq-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    transition: all 0.25s;
+  }
+  .eb-ok  { background: var(--green-bg); color: var(--green); }
+  .eb-bad { background: var(--red-bg);   color: var(--red); }
+
+  @keyframes pop {
+    0%   { transform: scale(1); }
+    45%  { transform: scale(1.18); }
+    100% { transform: scale(1); }
+  }
+  .popping { animation: pop 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+
+  /* ── MAIN ── */
+  main {
+    padding: 1.25rem 0.9rem 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* ── SECTION TITLE ── */
+  .sec-title {
+    font-size: 1.05rem;
+    font-weight: 900;
+    color: var(--brown);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 0.9rem;
+  }
+  .sec-title::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 1.1rem;
+    background: var(--orange);
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* ── RULE CARDS — horizontal scroll ── */
+  .rule-scroll {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .rule-scroll::-webkit-scrollbar { display: none; }
+
+  .rule-card {
+    flex: 0 0 140px;
+    border-radius: 14px;
+    padding: 1rem 0.85rem;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+  }
+  .rule-card::after {
+    content: '';
+    position: absolute;
+    top: -25px; right: -25px;
+    width: 80px; height: 80px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+  }
+  .rc-a { background: linear-gradient(135deg,#1A4A7A,#2E6DB8); }
+  .rc-l { background: linear-gradient(135deg,#6B1A8A,#9B2EBB); }
+  .rc-e { background: linear-gradient(135deg,#1A6A3A,#2E9A5A); }
+  .rc-r { background: linear-gradient(135deg,#A07A00,#D4A800); }
+  .rc-x { background: linear-gradient(135deg,#8A1A1A,#C0392B); }
+
+  .rule-card h3 { font-size: 1rem; font-weight: 900; margin-bottom: 5px; }
+
+  .rc-badge {
+    font-size: 0.65rem;
+    background: rgba(255,255,255,0.22);
+    border-radius: 20px;
+    padding: 2px 8px;
+    margin-bottom: 0.6rem;
+    display: inline-block;
+  }
+
+  .rc-rows {
+    display: flex;
+    justify-content: space-around;
+  }
+  .rc-col { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .rc-col .lbl { font-size: 0.62rem; opacity: 0.82; }
+  .rc-col .arr { font-size: 1.1rem; line-height: 1.2; }
+  .rc-col .side { font-size: 0.72rem; font-weight: 700; }
+
+  /* ── TRANSACTION BUTTONS ── */
+  .tx-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .tx-btn {
+    width: 100%;
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.93rem;
+    font-weight: 500;
+    color: var(--brown);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.18s, background 0.18s, transform 0.15s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tx-btn:active { transform: scale(0.98); }
+
+  .tx-btn.active {
+    border-color: var(--orange);
+    background: var(--orange);
+    color: white;
+    box-shadow: 0 4px 16px rgba(232,82,10,0.3);
+  }
+
+  .tx-arrow {
+    font-size: 1rem;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+  .tx-btn.active .tx-arrow { opacity: 1; }
+
+  .tx-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.9rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .reset-btn {
+    background: none;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 0.45rem 0.9rem;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--brown-light);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .reset-btn:active { border-color: var(--orange); color: var(--orange); }
+
+  /* ── VOUCHER ── */
+  #voucher-wrap { display: none; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .voucher {
+    background: white;
+    border-radius: 16px;
+    border: 2px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 4px 20px var(--shadow);
+    animation: slideUp 0.35s ease-out;
+  }
+
+  .voucher-head {
+    background: var(--orange);
+    padding: 0.85rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .voucher-head h2 { font-size: 1rem; font-weight: 900; color: white; }
+  .voucher-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.85);
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .voucher-body { padding: 1rem; }
+
+  .v-summary {
+    font-size: 0.88rem;
+    color: var(--brown-mid);
+    padding: 0.65rem 0.85rem;
+    background: var(--cream);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+  .v-summary strong { color: var(--brown); }
+
+  /* Voucher as card rows instead of table (no overflow issues on mobile) */
+  .entry-card {
+    border-radius: 10px;
+    padding: 0.75rem 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .ec-debit  { background: #EAF6F0; border-left: 4px solid var(--green); }
+  .ec-credit { background: #FDECEA; border-left: 4px solid var(--red); margin-left: 1.5rem; }
+
+  .ec-left { display: flex; flex-direction: column; gap: 2px; }
+  .ec-side {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .ec-debit .ec-side  { color: var(--green); }
+  .ec-credit .ec-side { color: var(--red); }
+  .ec-account { font-size: 0.95rem; font-weight: 700; color: var(--brown); }
+
+  .ec-amount {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .ec-debit  .ec-amount { color: var(--green); }
+  .ec-credit .ec-amount { color: var(--red); }
+
+  .v-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.65rem 0.9rem;
+    background: var(--orange-pale);
+    border-radius: 8px;
+    margin-top: 0.25rem;
+    border: 1.5px solid var(--orange);
+  }
+  .v-total-lbl { font-size: 0.82rem; font-weight: 700; color: var(--orange); }
+  .v-total-val { font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700; color: var(--orange); }
+
+  .v-explain {
+    margin-top: 0.85rem;
+    padding: 0.75rem 0.9rem;
+    background: var(--yellow-bg);
+    border-radius: 8px;
+    border-left: 4px solid var(--yellow);
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--brown);
+  }
+  .v-explain strong { color: var(--brown-mid); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    font-size: 0.75rem;
+    color: var(--brown-light);
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo"><b>Rock</b> 會計家教</div>
+  <span class="header-sub">借貸法則儀表板</span>
+</header>
+
+<!-- EQUATION BAR -->
+<div class="eq-bar">
+  <div class="eq-col">
+    <span class="eq-lbl">資產</span>
+    <span class="eq-val ev-a" id="val-a">$0</span>
+  </div>
+  <span class="eq-op">=</span>
+  <div class="eq-col">
+    <span class="eq-lbl">負債</span>
+    <span class="eq-val ev-l" id="val-l">$0</span>
+  </div>
+  <span class="eq-op">+</span>
+  <div class="eq-col">
+    <span class="eq-lbl">業主權益</span>
+    <span class="eq-val ev-e" id="val-e">$0</span>
+  </div>
+  <span class="eq-badge eb-ok" id="eq-badge">✓ 平衡</span>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- RULE CARDS -->
+  <section>
+    <div class="sec-title">借貸核心規則</div>
+    <div class="rule-scroll">
+      <div class="rule-card rc-a">
+        <h3>資產</h3>
+        <div class="rc-badge">正常餘額：借方</div>
+        <div class="rc-rows">
+          <div class="rc-col"><span class="lbl">增加</span><span class="arr">⬆</span><span class="side">借方</span></div>
+          <div class="rc-col"><span class="lbl">減少</span><span class="arr">⬇</span><span class="side">貸方</span></div>
+        </div>
+      </div>
+      <div class="rule-card rc-l">
+        <h3>負債</h3>
+        <div class="rc-badge">正常餘額：貸方</div>
+        <div class="rc-rows">
+          <div class="rc-col"><span class="lbl">增加</span><span class="arr">⬆</span><span class="side">貸方</span></div>
+          <div class="rc-col"><span class="lbl">減少</span><span class="arr">⬇</span><span class="side">借方</span></div>
+        </div>
+      </div>
+      <div class="rule-card rc-e">
+        <h3>業主權益</h3>
+        <div class="rc-badge">正常餘額：貸方</div>
+        <div class="rc-rows">
+          <div class="rc-col"><span class="lbl">增加</span><span class="arr">⬆</span><span class="side">貸方</span></div>
+          <div class="rc-col"><span class="lbl">減少</span><span class="arr">⬇</span><span class="side">借方</span></div>
+        </div>
+      </div>
+      <div class="rule-card rc-r">
+        <h3>收益</h3>
+        <div class="rc-badge">正常餘額：貸方</div>
+        <div class="rc-rows">
+          <div class="rc-col"><span class="lbl">增加</span><span class="arr">⬆</span><span class="side">貸方</span></div>
+          <div class="rc-col"><span class="lbl">減少</span><span class="arr">⬇</span><span class="side">借方</span></div>
+        </div>
+      </div>
+      <div class="rule-card rc-x">
+        <h3>費損</h3>
+        <div class="rc-badge">正常餘額：借方</div>
+        <div class="rc-rows">
+          <div class="rc-col"><span class="lbl">增加</span><span class="arr">⬆</span><span class="side">借方</span></div>
+          <div class="rc-col"><span class="lbl">減少</span><span class="arr">⬇</span><span class="side">貸方</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSACTIONS -->
+  <section>
+    <div class="tx-controls">
+      <div class="sec-title" style="margin-bottom:0">交易模擬器</div>
+      <button class="reset-btn" onclick="resetAll()">↺ 重設</button>
+    </div>
+    <div class="tx-list" id="tx-list"></div>
+  </section>
+
+  <!-- VOUCHER -->
+  <div id="voucher-wrap"></div>
+
+</main>
+
+<footer>© 2025 Rock 會計家教 · 蕭啟漢老師</footer>
+
+<script>
+  const TXS = [
+    {
+      id:'t1', description:'業主投入現金 $100,000 成立公司',
+      debit:  {account:'現金',     type:'資產',     change:'增加', amount:100000},
+      credit: {account:'股本',     type:'業主權益', change:'增加', amount:100000},
+      explanation:'現金（資產）增加 → 記借方；股本（業主權益）增加 → 記貸方。'
+    },
+    {
+      id:'t2', description:'向銀行借款 $50,000',
+      debit:  {account:'現金',     type:'資產', change:'增加', amount:50000},
+      credit: {account:'銀行借款', type:'負債', change:'增加', amount:50000},
+      explanation:'現金（資產）增加 → 記借方；銀行借款（負債）增加 → 記貸方。'
+    },
+    {
+      id:'t3', description:'支付辦公室租金 $5,000',
+      debit:  {account:'租金費用', type:'費損', change:'增加', amount:5000},
+      credit: {account:'現金',     type:'資產', change:'減少', amount:5000},
+      explanation:'租金費用（費損）增加 → 記借方；現金（資產）減少 → 記貸方。'
+    },
+    {
+      id:'t4', description:'提供服務並收取現金 $20,000',
+      debit:  {account:'現金',     type:'資產', change:'增加', amount:20000},
+      credit: {account:'服務收入', type:'收益', change:'增加', amount:20000},
+      explanation:'現金（資產）增加 → 記借方；服務收入（收益）增加 → 記貸方。'
+    },
+    {
+      id:'t5', description:'購買設備 $30,000（賒購）',
+      debit:  {account:'設備',     type:'資產', change:'增加', amount:30000},
+      credit: {account:'應付帳款', type:'負債', change:'增加', amount:30000},
+      explanation:'設備（資產）增加 → 記借方；應付帳款（負債）增加 → 記貸方。'
+    },
+    {
+      id:'t6', description:'償還應付帳款 $10,000',
+      debit:  {account:'應付帳款', type:'負債', change:'減少', amount:10000},
+      credit: {account:'現金',     type:'資產', change:'減少', amount:10000},
+      explanation:'應付帳款（負債）減少 → 記借方；現金（資產）減少 → 記貸方。'
+    }
+  ];
+
+  let A=0, L=0, E=0, vNum=1, activeBtn=null;
+
+  function fmt(n){ return '$'+Math.abs(n).toLocaleString(); }
+
+  function pop(id){
+    const el=document.getElementById(id);
+    el.classList.remove('popping');
+    void el.offsetWidth;
+    el.classList.add('popping');
+    el.addEventListener('animationend',()=>el.classList.remove('popping'),{once:true});
+  }
+
+  function updateEq(){
+    document.getElementById('val-a').textContent=fmt(A); pop('val-a');
+    document.getElementById('val-l').textContent=fmt(L); pop('val-l');
+    document.getElementById('val-e').textContent=fmt(E); pop('val-e');
+    const badge=document.getElementById('eq-badge');
+    if(A===L+E){ badge.textContent='✓ 平衡'; badge.className='eq-badge eb-ok'; }
+    else        { badge.textContent='✗ 不平衡'; badge.className='eq-badge eb-bad'; }
+  }
+
+  function applyTx(tx){
+    const delta=(type,change,amt)=>{
+      const d=change==='增加'?amt:-amt;
+      if(type==='資產')     A+=d;
+      else if(type==='負債') L+=d;
+      else if(type==='業主權益') E+=d;
+      else if(type==='收益') E+=amt;
+      else if(type==='費損') E-=amt;
+    };
+    delta(tx.debit.type,  tx.debit.change,  tx.debit.amount||0);
+    delta(tx.credit.type, tx.credit.change, tx.credit.amount||0);
+    updateEq();
+  }
+
+  function renderVoucher(tx){
+    const wrap=document.getElementById('voucher-wrap');
+    const today=new Date().toLocaleDateString('zh-TW');
+    const num=vNum.toString().padStart(4,'0');
+    vNum++;
+    wrap.style.display='block';
+    wrap.innerHTML=`
+      <div class="voucher">
+        <div class="voucher-head">
+          <h2>📄 傳票</h2>
+          <div class="voucher-meta">
+            <span>日期：${today}</span>
+            <span>NO. ${num}</span>
+          </div>
+        </div>
+        <div class="voucher-body">
+          <div class="v-summary"><strong>摘要：</strong>${tx.description}</div>
+          <div class="entry-card ec-debit">
+            <div class="ec-left">
+              <span class="ec-side">借方 Debit</span>
+              <span class="ec-account">${tx.debit.account}</span>
+            </div>
+            <span class="ec-amount">${fmt(tx.debit.amount||0)}</span>
+          </div>
+          <div class="entry-card ec-credit">
+            <div class="ec-left">
+              <span class="ec-side">貸方 Credit</span>
+              <span class="ec-account">${tx.credit.account}</span>
+            </div>
+            <span class="ec-amount">${fmt(tx.credit.amount||0)}</span>
+          </div>
+          <div class="v-total">
+            <span class="v-total-lbl">借貸合計</span>
+            <span class="v-total-val">${fmt(tx.debit.amount||0)} / ${fmt(tx.credit.amount||0)}</span>
+          </div>
+          <div class="v-explain"><strong>說明：</strong>${tx.explanation}</div>
+        </div>
+      </div>`;
+    wrap.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  function resetAll(){
+    A=0;L=0;E=0; updateEq();
+    if(activeBtn){activeBtn.classList.remove('active');activeBtn=null;}
+    document.getElementById('voucher-wrap').style.display='none';
+    vNum=1;
+  }
+
+  // Render buttons
+  const list=document.getElementById('tx-list');
+  TXS.forEach(tx=>{
+    const btn=document.createElement('button');
+    btn.className='tx-btn';
+    btn.innerHTML=`<span>${tx.description}</span><span class="tx-arrow">→</span>`;
+    btn.onclick=()=>{
+      if(activeBtn) activeBtn.classList.remove('active');
+      btn.classList.add('active');
+      activeBtn=btn;
+      applyTx(tx);
+      renderVoucher(tx);
+    };
+    list.appendChild(btn);
+  });
+</script>
+</body>
+</html>
