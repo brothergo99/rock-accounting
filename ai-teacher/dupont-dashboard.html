@@ -474,21 +474,21 @@
     <div class="drivers">
       <div class="driver-item">
         <div class="driver-header">
-          <span class="lbl-npm">淨利率貢獻</span>
+          <span class="lbl-npm">淨利率 <span style="font-weight:400;font-size:0.72rem;color:var(--ink3)">（基準 5%）</span></span>
           <span id="contrib-npm" style="color:#8860cc;font-family:'Space Mono',monospace">—</span>
         </div>
         <div class="driver-bar-bg"><div class="driver-bar-fill fill-npm" id="bar-npm" style="width:33%"></div></div>
       </div>
       <div class="driver-item">
         <div class="driver-header">
-          <span class="lbl-at">週轉率貢獻</span>
+          <span class="lbl-at">總資產週轉率 <span style="font-weight:400;font-size:0.72rem;color:var(--ink3)">（基準 1.0x）</span></span>
           <span id="contrib-at" style="color:#a07800;font-family:'Space Mono',monospace">—</span>
         </div>
         <div class="driver-bar-bg"><div class="driver-bar-fill fill-at" id="bar-at" style="width:33%"></div></div>
       </div>
       <div class="driver-item">
         <div class="driver-header">
-          <span class="lbl-em">槓桿貢獻</span>
+          <span class="lbl-em">財務槓桿 <span style="font-weight:400;font-size:0.72rem;color:var(--ink3)">（基準 1.5x）</span></span>
           <span id="contrib-em" style="color:#0070a0;font-family:'Space Mono',monospace">—</span>
         </div>
         <div class="driver-bar-bg"><div class="driver-bar-fill fill-em" id="bar-em" style="width:33%"></div></div>
@@ -616,23 +616,40 @@
        <span style="color:#555">=</span>
        <span style="color:var(--orange-lt);font-weight:700">${roe.toFixed(2)}%</span>`;
 
-    // Log contributions (geometric decomposition)
-    const lnNpm = Math.log(npm / 100);  // NPM as decimal -> contribution via log
-    const lnAt  = Math.log(at);
-    const lnEm  = Math.log(em);
-    const total = Math.abs(lnNpm) + Math.abs(lnAt) + Math.abs(lnEm) || 1;
-    const pNpm  = (Math.abs(lnNpm) / total * 100).toFixed(1);
-    const pAt   = (Math.abs(lnAt)  / total * 100).toFixed(1);
-    const pEm   = (Math.abs(lnEm)  / total * 100).toFixed(1);
+    // ── 正確的杜邦貢獻邏輯 ────────────────────────────────
+    // ROE = NPM(%) × AT × EM / 100
+    // 三個因子直接相乘，各因子的「乘數大小」就是貢獻度。
+    // 以三個因子的數值（統一正規化後）顯示比例條，
+    // 讓學生直觀看到哪個因子「倍數最大」。
+    //
+    // 各因子正規化基準（業界常見中位數）：
+    //   NPM 基準：5%  → npm/5
+    //   AT  基準：1.0 → at/1.0
+    //   EM  基準：1.5 → em/1.5
+    // 數值 > 1 代表高於平均，越高代表對 ROE 貢獻越突出。
+
+    const normNpm = (npm / 5);
+    const normAt  = (at  / 1.0);
+    const normEm  = (em  / 1.5);
+    const normSum = normNpm + normAt + normEm || 1;
+
+    const pNpm = (normNpm / normSum * 100).toFixed(1);
+    const pAt  = (normAt  / normSum * 100).toFixed(1);
+    const pEm  = (normEm  / normSum * 100).toFixed(1);
 
     document.getElementById('bar-npm').style.width = pNpm + '%';
     document.getElementById('bar-at').style.width  = pAt  + '%';
     document.getElementById('bar-em').style.width  = pEm  + '%';
-    document.getElementById('contrib-npm').textContent = pNpm + '%';
-    document.getElementById('contrib-at').textContent  = pAt  + '%';
-    document.getElementById('contrib-em').textContent  = pEm  + '%';
 
-    // Risk tag
+    // 顯示「與基準的倍數」，比顯示佔比更有教學意義
+    const multNpm = normNpm.toFixed(2);
+    const multAt  = normAt.toFixed(2);
+    const multEm  = normEm.toFixed(2);
+    document.getElementById('contrib-npm').textContent = `×${multNpm} 基準`;
+    document.getElementById('contrib-at').textContent  = `×${multAt} 基準`;
+    document.getElementById('contrib-em').textContent  = `×${multEm} 基準`;
+
+    // Risk tag（仍以 EM 判斷，這是正確的財務槓桿風險指標）
     const riskTag = document.getElementById('risk-tag');
     if (em <= 2.0) {
       riskTag.className = 'risk-zone risk-low';
@@ -645,16 +662,42 @@
       riskTag.textContent = '🔴 高槓桿！盈利波動可能侵蝕淨值';
     }
 
-    // Insight
-    const driver = pNpm >= pAt && pNpm >= pEm ? 'npm'
-                 : pAt  >= pNpm && pAt >= pEm ? 'at' : 'em';
+    // ── 洞見文字：找出哪個因子的「相對基準倍數」最突出 ──
+    // 這才是杜邦分析的核心：不是比絕對值，而是看哪個因子「特別高」
+    const driver = normNpm >= normAt && normNpm >= normEm ? 'npm'
+                 : normAt  >= normNpm && normAt >= normEm ? 'at' : 'em';
 
-    const insightMap = {
-      npm: `這家公司的 ROE 主要由 <strong>淨利率（${npm}%）</strong> 所驅動。代表它擁有較強的定價能力或成本優勢，每賣一元產品就能留住更多利潤。典型例子：精品品牌、藥廠、SaaS 軟體公司。`,
-      at:  `這家公司的 ROE 主要靠 <strong>總資產週轉率（${at.toFixed(1)}x）</strong> 拉動。代表它以高效率的資產運用快速創造營收，典型「薄利多銷」策略。常見於量販零售、物流、餐飲連鎖業。`,
-      em:  `這家公司的 ROE 有很大一部分來自 <strong>財務槓桿（EM ${em.toFixed(1)}x）</strong>。借錢放大了股東報酬率，但同時也承擔更高的倒債風險。注意：若景氣反轉，高槓桿公司首當其衝。`,
-    };
-    document.getElementById('insight-box').innerHTML = insightMap[driver];
+    // 評語：各因子高於/接近/低於基準
+    function levelText(norm) {
+      if (norm >= 2.0) return '遠高於業界平均';
+      if (norm >= 1.2) return '高於業界平均';
+      if (norm >= 0.8) return '接近業界平均';
+      return '低於業界平均';
+    }
+
+    const npmLevel = levelText(normNpm);
+    const atLevel  = levelText(normAt);
+    const emLevel  = levelText(normEm);
+
+    const driverDesc = {
+      npm: `這家公司的 ROE 主要由<strong style="color:#8860cc">淨利率（${npm}%）</strong>驅動（${npmLevel}）。
+            代表它能從每一元營收中留住較多利潤，優勢來自定價能力、成本控制或品牌溢價。`,
+      at:  `這家公司的 ROE 主要由<strong style="color:#c8960a">總資產週轉率（${at.toFixed(1)}x）</strong>驅動（${atLevel}）。
+            代表它以高效率的資產運用快速創造營收，採「薄利多銷」策略，靠量取勝。`,
+      em:  `這家公司的 ROE 主要由<strong style="color:#0888b0">財務槓桿（EM ${em.toFixed(1)}x）</strong>驅動（${emLevel}）。
+            代表它透過舉債放大了股東報酬率，但須注意：槓桿一旦過高，景氣反轉時風險也會等比放大。`,
+    }[driver];
+
+    const summaryRow =
+      `<div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px;font-size:0.78rem;font-family:'Space Mono',monospace;">` +
+      `<span>淨利率 <strong style="color:#8860cc">${npm}% → ${npmLevel}</strong></span>` +
+      `<span>週轉率 <strong style="color:#c8960a">${at.toFixed(1)}x → ${atLevel}</strong></span>` +
+      `<span>槓桿 <strong style="color:#0888b0">${em.toFixed(1)}x → ${emLevel}</strong></span>` +
+      `</div>`;
+
+    document.getElementById('insight-box').innerHTML =
+      summaryRow +
+      `<span style="font-size:0.85rem;line-height:1.7;">${driverDesc}</span>`;
   }
 
   sNpm.addEventListener('input', calcROE);
