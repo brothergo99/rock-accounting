@@ -212,6 +212,8 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
 .ft-link{font-size:11px;color:rgba(255,255,255,.6);font-family:'DM Mono',monospace;text-decoration:none;transition:color .2s}
 .ft-link:hover{color:var(--orange3)}
 
+@media(max-width:640px){.ai-tools-grid{grid-template-columns:1fr!important}}
+
 @media(max-width:768px){
   nav,section,.remo-section,.cta,footer{padding-left:24px;padding-right:24px}
   .hero{padding:48px 24px 0}
@@ -621,21 +623,59 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
 <!-- YT -->
 <section class="yt-section">
   <div class="sec-label">免費學習資源</div>
-  <div class="sec-title">直播錄影，<br>隨時都能學</div>
-  <p class="sec-desc">直播錄影剪輯後上傳 YouTube，全部免費。</p>
-  <div style="display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:16px">
-    <a class="yt-banner" href="https://www.youtube.com/@Brothergo99" target="_blank" style="margin:0">
-      <div class="yt-icon-wrap"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg></div>
-      <div class="yt-info">
-        <h3>YouTube 直播錄影</h3>
-        <p>直播後剪輯上傳，26部影片免費公開，一分鐘財報 · 商業案例 · AI應用。</p>
-        <div class="yt-chips">
-          <span class="yt-chip">直播錄影</span><span class="yt-chip">一分鐘財報</span>
-          <span class="yt-chip">商業案例</span><span class="yt-chip">AI應用</span>
+  <div class="sec-title">影片 + AI 工具，<br>隨時都能學</div>
+  <p class="sec-desc">YouTube 錄影免費公開，兩款 AI 互動教學工具直接上手練習，不需要任何基礎。</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+
+    <!-- AI 工具卡 1：財報儀表板 -->
+    <a href="https://brothergo99.github.io/rock-accounting/ai-teacher/accounting_dashboard.html" target="_blank" style="background:linear-gradient(135deg,#1A0A00,#2E1200);border-radius:12px;padding:28px;display:flex;flex-direction:column;gap:14px;text-decoration:none;transition:.2s;border:1.5px solid rgba(245,129,42,.3)" onmouseover="this.style.transform='translateY(-2px)';this.style.borderColor='var(--orange)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(245,129,42,.3)'">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:48px;height:48px;background:linear-gradient(135deg,var(--orange),var(--brown));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">📊</div>
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--orange3);text-transform:uppercase;margin-bottom:3px">AI 互動教學工具</div>
+          <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#fff">會計方程式分析</div>
         </div>
       </div>
+      <p style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.7;margin:0">透過互動練習掌握借貸記帳邏輯，AI 即時回饋，讓會計方程式從死背變成真正看懂。</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <span style="background:rgba(245,129,42,.2);color:var(--orange3);font-family:'DM Mono',monospace;font-size:10px;padding:3px 9px;border-radius:4px">輕鬆學會借貸法則</span>
+      </div>
+      <div style="display:inline-flex;align-items:center;gap:6px;color:var(--orange2);font-size:12px;font-weight:700;font-family:'DM Mono',monospace;margin-top:auto">立即試用 →</div>
     </a>
+
+    <!-- AI 工具卡 2：損益平衡分析 -->
+    <a href="https://brothergo99.github.io/rock-accounting/ai-teacher/breakeven.html" target="_blank" style="background:linear-gradient(135deg,#1A0A00,#2E1200);border-radius:12px;padding:28px;display:flex;flex-direction:column;gap:14px;text-decoration:none;transition:.2s;border:1.5px solid rgba(245,129,42,.3)" onmouseover="this.style.transform='translateY(-2px)';this.style.borderColor='var(--orange)'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(245,129,42,.3)'">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:48px;height:48px;background:linear-gradient(135deg,var(--orange),var(--brown));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">⚖️</div>
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--orange3);text-transform:uppercase;margin-bottom:3px">AI 互動教學工具</div>
+          <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#fff">損益平衡點分析</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.7;margin:0">輸入固定成本、變動成本與售價，AI 計算損益平衡點並給出商業建議，適合創業者與接班人。</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <span style="background:rgba(245,129,42,.2);color:var(--orange3);font-family:'DM Mono',monospace;font-size:10px;padding:3px 9px;border-radius:4px">固定成本</span>
+        <span style="background:rgba(245,129,42,.2);color:var(--orange3);font-family:'DM Mono',monospace;font-size:10px;padding:3px 9px;border-radius:4px">變動成本</span>
+        <span style="background:rgba(245,129,42,.2);color:var(--orange3);font-family:'DM Mono',monospace;font-size:10px;padding:3px 9px;border-radius:4px">AI 建議</span>
+      </div>
+      <div style="display:inline-flex;align-items:center;gap:6px;color:var(--orange2);font-size:12px;font-weight:700;font-family:'DM Mono',monospace;margin-top:auto">立即試用 →</div>
+    </a>
+
   </div>
+
+  <!-- YouTube 卡（維持原樣） -->
+  <a class="yt-banner" href="https://www.youtube.com/@Brothergo99" target="_blank">
+    <div class="yt-icon-wrap"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg></div>
+    <div class="yt-info">
+      <h3>YouTube 直播錄影</h3>
+      <p>直播後剪輯上傳，26部影片免費公開，一分鐘財報 · 商業案例 · AI應用。</p>
+      <div class="yt-chips">
+        <span class="yt-chip">直播錄影</span><span class="yt-chip">一分鐘財報</span>
+        <span class="yt-chip">商業案例</span><span class="yt-chip">AI應用</span>
+      </div>
+    </div>
+  </a>
+
 </section>
 
 <!-- CTA -->
