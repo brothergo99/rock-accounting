@@ -274,12 +274,17 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
 .wc-btn.yt{color:#cc0000;background:rgba(204,0,0,.08)}
 .wc-btn.yt:hover{background:rgba(204,0,0,.15)}
 .wc-btn.soon{color:var(--muted);background:rgba(0,0,0,.05);pointer-events:none;opacity:.7}
+.wc-btn.yt-pending{color:var(--muted);background:rgba(0,0,0,.05);pointer-events:none;opacity:.7}
+.wc-new{border-color:var(--orange)!important;box-shadow:0 0 0 2px rgba(245,129,42,.18),0 4px 16px rgba(245,129,42,.13)!important}
+.wc-new-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.1em;color:#fff;background:var(--orange);border-radius:4px;padding:2px 7px;margin-bottom:4px;text-transform:uppercase}
 @media(max-width:768px){
   .weekly-section{padding-left:24px;padding-right:24px}
     }
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .hero-inner>*{animation:fadeUp .6s ease both}
 .eyebrow{animation-delay:.1s}h1{animation-delay:.2s}.hero-desc{animation-delay:.3s}.hero-btns{animation-delay:.4s}
+
+
 </style>
 </head>
 <body>
@@ -394,6 +399,16 @@ footer{background:var(--brown);color:rgba(255,255,255,.8);padding:24px 48px;disp
 
   <div class="weekly-archive-title">· 往期回顧 ·</div>
   <div class="weekly-grid">
+
+    <div class="wc wc-new">
+      <div class="wc-new-badge">✦ NEW · 最新一期</div>
+      <div class="wc-date">2026 / 05 / 24</div>
+      <div class="wc-title">迪士尼商業模式 — 飛輪效應 × 體驗獲利引擎 × 財報分析技巧</div>
+      <div class="wc-links">
+        <a class="wc-btn slide" href="https://brothergo99.github.io/rock-accounting-students/goodbook/0524_%E8%BF%AA%E5%A3%AB%E5%B0%BC%E5%95%86%E6%A5%AD%E6%A8%A1%E5%BC%8F_%E8%A9%A6%E8%AE%80.html" target="_blank">📄 複習筆記</a>
+        <span class="wc-btn yt-pending">▶ YT 上傳中</span>
+      </div>
+    </div>
 
     <div class="wc wc-0510">
     <div class="wc-date">2026 / 05 / 10</div>
@@ -782,4 +797,6 @@ document.addEventListener('DOMContentLoaded', function(){
     </button>
   </div>
 </div>
+
+
 </body></html>
